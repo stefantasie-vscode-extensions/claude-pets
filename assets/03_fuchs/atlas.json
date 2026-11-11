@@ -1,0 +1,3312 @@
+{
+ "species": {
+  "id": "fuchs",
+  "label": "Fuchs",
+  "item": "Ei",
+  "toy": "Ball",
+  "rope": "Seil",
+  "sound": "kläffen",
+  "gait": "walk"
+ },
+ "frameSize": 24,
+ "scale": 2,
+ "poses": {
+  "sit": "Frontansicht sitzend",
+  "stand": "Seitenansicht stehend (nach rechts)",
+  "lie": "Seitenansicht liegend",
+  "belly": "auf dem Rücken"
+ },
+ "anchor": {
+  "facing": "right",
+  "groundRow": 22,
+  "note": "Unterste Fußzeile ist Pixelreihe 22 (0-basiert). Nach links laufen = horizontal spiegeln."
+ },
+ "animations": {
+  "sitzen": {
+   "label": "sitzen",
+   "frames": [
+    "sitzen_1",
+    "sitzen_2",
+    "sitzen_3",
+    "sitzen_4",
+    "sitzen_5",
+    "sitzen_6",
+    "sitzen_7",
+    "sitzen_8"
+   ],
+   "fps": 6,
+   "loop": true,
+   "group": "Leerlauf",
+   "note": "Atmen + Wedeln. Blinzeln über Augen-Varianten.",
+   "pose": [
+    "sit",
+    "sit"
+   ],
+   "eyes": {
+    "half": [
+     "sitzen_1_half",
+     "sitzen_2_half",
+     "sitzen_3_half",
+     "sitzen_4_half",
+     "sitzen_5_half",
+     "sitzen_6_half",
+     "sitzen_7_half",
+     "sitzen_8_half"
+    ],
+    "closed": [
+     "sitzen_1_closed",
+     "sitzen_2_closed",
+     "sitzen_3_closed",
+     "sitzen_4_closed",
+     "sitzen_5_closed",
+     "sitzen_6_closed",
+     "sitzen_7_closed",
+     "sitzen_8_closed"
+    ]
+   }
+  },
+  "blinzeln_sitzen": {
+   "label": "blinzeln (sitzen)",
+   "frames": [
+    "blinzeln_sitzen_1",
+    "blinzeln_sitzen_2",
+    "blinzeln_sitzen_3"
+   ],
+   "fps": 12,
+   "loop": false,
+   "group": "Leerlauf",
+   "note": "Zufällig alle 3–6 s, auf jeden Leerlauf-Frame anwendbar.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "stehen": {
+   "label": "stehen",
+   "frames": [
+    "stehen_1",
+    "stehen_2",
+    "stehen_3",
+    "stehen_4",
+    "stehen_5",
+    "stehen_6",
+    "stehen_7",
+    "stehen_8"
+   ],
+   "fps": 6,
+   "loop": true,
+   "group": "Leerlauf",
+   "note": "Pause zwischen zwei Laufwegen auf der Promptbox.",
+   "pose": [
+    "stand",
+    "stand"
+   ],
+   "eyes": {
+    "half": [
+     "stehen_1_half",
+     "stehen_2_half",
+     "stehen_3_half",
+     "stehen_4_half",
+     "stehen_5_half",
+     "stehen_6_half",
+     "stehen_7_half",
+     "stehen_8_half"
+    ],
+    "closed": [
+     "stehen_1_closed",
+     "stehen_2_closed",
+     "stehen_3_closed",
+     "stehen_4_closed",
+     "stehen_5_closed",
+     "stehen_6_closed",
+     "stehen_7_closed",
+     "stehen_8_closed"
+    ]
+   }
+  },
+  "liegen": {
+   "label": "liegen",
+   "frames": [
+    "liegen_1",
+    "liegen_2",
+    "liegen_3",
+    "liegen_4",
+    "liegen_5",
+    "liegen_6",
+    "liegen_7",
+    "liegen_8"
+   ],
+   "fps": 5,
+   "loop": true,
+   "group": "Leerlauf",
+   "note": "Nichts los seit einer Weile. Atmet, Rute zuckt ab und zu.",
+   "pose": [
+    "lie",
+    "lie"
+   ],
+   "eyes": {
+    "half": [
+     "liegen_1_half",
+     "liegen_2_half",
+     "liegen_3_half",
+     "liegen_4_half",
+     "liegen_5_half",
+     "liegen_6_half",
+     "liegen_7_half",
+     "liegen_8_half"
+    ],
+    "closed": [
+     "liegen_1_closed",
+     "liegen_2_closed",
+     "liegen_3_closed",
+     "liegen_4_closed",
+     "liegen_5_closed",
+     "liegen_6_closed",
+     "liegen_7_closed",
+     "liegen_8_closed"
+    ]
+   }
+  },
+  "schlafen": {
+   "label": "schlafen",
+   "frames": [
+    "schlafen_1",
+    "schlafen_2",
+    "schlafen_3",
+    "schlafen_4",
+    "schlafen_5",
+    "schlafen_6",
+    "schlafen_7",
+    "schlafen_8"
+   ],
+   "fps": 4,
+   "loop": true,
+   "group": "Leerlauf",
+   "note": "Langsames Atmen, Z steigen auf.",
+   "pose": [
+    "lie",
+    "lie"
+   ]
+  },
+  "gehen": {
+   "label": "gehen",
+   "frames": [
+    "gehen_1",
+    "gehen_2",
+    "gehen_3",
+    "gehen_4",
+    "gehen_5",
+    "gehen_6",
+    "gehen_7",
+    "gehen_8"
+   ],
+   "fps": 10,
+   "loop": true,
+   "group": "Bewegung",
+   "note": "Läuft frei auf der Promptbox hin und her (gespiegelt nach links).",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "rennen": {
+   "label": "rennen",
+   "frames": [
+    "rennen_1",
+    "rennen_2",
+    "rennen_3",
+    "rennen_4",
+    "rennen_5",
+    "rennen_6"
+   ],
+   "fps": 12,
+   "loop": true,
+   "group": "Bewegung",
+   "note": "Zufällige Toberunde oder Bash-Befehl läuft.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "springen": {
+   "label": "springen",
+   "frames": [
+    "springen_1",
+    "springen_2",
+    "springen_3",
+    "springen_4",
+    "springen_5",
+    "springen_6",
+    "springen_7"
+   ],
+   "fps": 12,
+   "loop": false,
+   "group": "Bewegung",
+   "note": "SubagentStart (zusammen mit Verbeugen) oder einfach aus Übermut.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "hinlegen": {
+   "label": "hinlegen",
+   "frames": [
+    "hinlegen_1",
+    "hinlegen_2",
+    "hinlegen_3",
+    "hinlegen_4",
+    "hinlegen_5"
+   ],
+   "fps": 10,
+   "loop": false,
+   "group": "Übergänge",
+   "note": "Rückwärts abgespielt = aufstehen aus dem Liegen.",
+   "pose": [
+    "stand",
+    "lie"
+   ]
+  },
+  "einschlafen": {
+   "label": "einschlafen",
+   "frames": [
+    "einschlafen_1",
+    "einschlafen_2",
+    "einschlafen_3",
+    "einschlafen_4",
+    "einschlafen_5"
+   ],
+   "fps": 5,
+   "loop": false,
+   "group": "Übergänge",
+   "note": "Übergang Liegen → Schlafen.",
+   "pose": [
+    "lie",
+    "lie"
+   ]
+  },
+  "aufwachen": {
+   "label": "aufwachen",
+   "frames": [
+    "aufwachen_1",
+    "aufwachen_2",
+    "aufwachen_3",
+    "aufwachen_4",
+    "aufwachen_5"
+   ],
+   "fps": 6,
+   "loop": false,
+   "group": "Übergänge",
+   "note": "SessionStart oder du tippst, während er schläft.",
+   "pose": [
+    "lie",
+    "lie"
+   ]
+  },
+  "strecken": {
+   "label": "strecken",
+   "frames": [
+    "strecken_1",
+    "strecken_2",
+    "strecken_3",
+    "strecken_4",
+    "strecken_5",
+    "strecken_6",
+    "strecken_7",
+    "strecken_8"
+   ],
+   "fps": 8,
+   "loop": false,
+   "group": "Übergänge",
+   "note": "Nach dem Aufwachen, bevor er losläuft.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "umdrehen": {
+   "label": "umdrehen",
+   "frames": [
+    "umdrehen_1",
+    "umdrehen_2",
+    "umdrehen_3",
+    "umdrehen_4",
+    "umdrehen_5",
+    "umdrehen_6"
+   ],
+   "fps": 10,
+   "loop": false,
+   "group": "Übergänge",
+   "note": "Sitzen (vorne) → Stehen (Seite). Rückwärts = hinsetzen.",
+   "pose": [
+    "sit",
+    "stand"
+   ]
+  },
+  "verbeugen": {
+   "label": "verbeugen",
+   "frames": [
+    "verbeugen_1",
+    "verbeugen_2",
+    "verbeugen_3",
+    "verbeugen_4"
+   ],
+   "fps": 8,
+   "loop": true,
+   "group": "Spielen",
+   "note": "Spielaufforderung. SubagentStart: Claude schickt einen Helfer los.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "ball_lauern": {
+   "label": "ball lauern",
+   "frames": [
+    "ball_lauern_1",
+    "ball_lauern_2",
+    "ball_lauern_3",
+    "ball_lauern_4"
+   ],
+   "fps": 8,
+   "loop": true,
+   "group": "Spielen",
+   "note": "Nur bei Interaktion: Ball-Button gedrückt, wartet auf den Wurf.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "ball_fangen": {
+   "label": "ball fangen",
+   "frames": [
+    "ball_fangen_1",
+    "ball_fangen_2",
+    "ball_fangen_3",
+    "ball_fangen_4",
+    "ball_fangen_5",
+    "ball_fangen_6"
+   ],
+   "fps": 12,
+   "loop": false,
+   "group": "Spielen",
+   "note": "Nur bei Interaktion: fängt den geworfenen Ball.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "mit_ball_gehen": {
+   "label": "mit ball gehen",
+   "frames": [
+    "mit_ball_gehen_1",
+    "mit_ball_gehen_2",
+    "mit_ball_gehen_3",
+    "mit_ball_gehen_4",
+    "mit_ball_gehen_5",
+    "mit_ball_gehen_6",
+    "mit_ball_gehen_7",
+    "mit_ball_gehen_8"
+   ],
+   "fps": 10,
+   "loop": true,
+   "group": "Spielen",
+   "note": "Nur bei Interaktion: bringt den Ball zurück.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "mit_ball_sitzen": {
+   "label": "mit ball sitzen",
+   "frames": [
+    "mit_ball_sitzen_1",
+    "mit_ball_sitzen_2",
+    "mit_ball_sitzen_3",
+    "mit_ball_sitzen_4",
+    "mit_ball_sitzen_5",
+    "mit_ball_sitzen_6",
+    "mit_ball_sitzen_7",
+    "mit_ball_sitzen_8"
+   ],
+   "fps": 6,
+   "loop": true,
+   "group": "Spielen",
+   "note": "Nur bei Interaktion: sitzt mit Ball und wartet auf den nächsten Wurf.",
+   "pose": [
+    "sit",
+    "sit"
+   ],
+   "eyes": {
+    "half": [
+     "mit_ball_sitzen_1_half",
+     "mit_ball_sitzen_2_half",
+     "mit_ball_sitzen_3_half",
+     "mit_ball_sitzen_4_half",
+     "mit_ball_sitzen_5_half",
+     "mit_ball_sitzen_6_half",
+     "mit_ball_sitzen_7_half",
+     "mit_ball_sitzen_8_half"
+    ],
+    "closed": [
+     "mit_ball_sitzen_1_closed",
+     "mit_ball_sitzen_2_closed",
+     "mit_ball_sitzen_3_closed",
+     "mit_ball_sitzen_4_closed",
+     "mit_ball_sitzen_5_closed",
+     "mit_ball_sitzen_6_closed",
+     "mit_ball_sitzen_7_closed",
+     "mit_ball_sitzen_8_closed"
+    ]
+   }
+  },
+  "streicheln": {
+   "label": "streicheln",
+   "frames": [
+    "streicheln_1",
+    "streicheln_2",
+    "streicheln_3",
+    "streicheln_4",
+    "streicheln_5",
+    "streicheln_6"
+   ],
+   "fps": 8,
+   "loop": true,
+   "group": "Interaktion",
+   "note": "Klick/Hover auf das Tier.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "fressen": {
+   "label": "fressen",
+   "frames": [
+    "fressen_1",
+    "fressen_2",
+    "fressen_3",
+    "fressen_4",
+    "fressen_5",
+    "fressen_6"
+   ],
+   "fps": 6,
+   "loop": true,
+   "group": "Interaktion",
+   "note": "Füttern-Button: Napf erscheint.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "leckerli_fangen": {
+   "label": "leckerli fangen",
+   "frames": [
+    "leckerli_fangen_1",
+    "leckerli_fangen_2",
+    "leckerli_fangen_3",
+    "leckerli_fangen_4",
+    "leckerli_fangen_5",
+    "leckerli_fangen_6",
+    "leckerli_fangen_7"
+   ],
+   "fps": 10,
+   "loop": false,
+   "group": "Interaktion",
+   "note": "Leckerli-Button: Keks wird zugeworfen.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "zuschauen": {
+   "label": "zuschauen",
+   "frames": [
+    "zuschauen_1",
+    "zuschauen_2",
+    "zuschauen_3",
+    "zuschauen_4",
+    "zuschauen_5",
+    "zuschauen_6"
+   ],
+   "fps": 6,
+   "loop": true,
+   "group": "Claude",
+   "note": "Du tippst im Prompt-Feld: Kopf folgt dem Text.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "aufmerksam": {
+   "label": "aufmerksam",
+   "frames": [
+    "aufmerksam_1",
+    "aufmerksam_2",
+    "aufmerksam_3",
+    "aufmerksam_4"
+   ],
+   "fps": 8,
+   "loop": false,
+   "group": "Claude",
+   "note": "Prompt abgeschickt.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "nachdenken": {
+   "label": "nachdenken",
+   "frames": [
+    "nachdenken_1",
+    "nachdenken_2",
+    "nachdenken_3",
+    "nachdenken_4",
+    "nachdenken_5",
+    "nachdenken_6"
+   ],
+   "fps": 4,
+   "loop": true,
+   "group": "Claude",
+   "note": "Claude denkt / arbeitet.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "schnueffeln": {
+   "label": "schnüffeln",
+   "frames": [
+    "schnueffeln_1",
+    "schnueffeln_2",
+    "schnueffeln_3",
+    "schnueffeln_4",
+    "schnueffeln_5",
+    "schnueffeln_6",
+    "schnueffeln_7",
+    "schnueffeln_8"
+   ],
+   "fps": 8,
+   "loop": true,
+   "group": "Claude",
+   "note": "Read / Grep / Glob / Suche: läuft langsam mit Nase am Boden.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "buddeln": {
+   "label": "buddeln",
+   "frames": [
+    "buddeln_1",
+    "buddeln_2",
+    "buddeln_3",
+    "buddeln_4",
+    "buddeln_5",
+    "buddeln_6"
+   ],
+   "fps": 10,
+   "loop": true,
+   "group": "Claude",
+   "note": "Edit / Write: buddelt im Code.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "bellen": {
+   "label": "kläffen",
+   "frames": [
+    "bellen_1",
+    "bellen_2",
+    "bellen_3",
+    "bellen_4"
+   ],
+   "fps": 8,
+   "loop": true,
+   "group": "Claude",
+   "note": "PermissionRequest / Notification: Claude braucht dich.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "freuen": {
+   "label": "freuen",
+   "frames": [
+    "freuen_1",
+    "freuen_2",
+    "freuen_3",
+    "freuen_4",
+    "freuen_5",
+    "freuen_6",
+    "freuen_7",
+    "freuen_8"
+   ],
+   "fps": 12,
+   "loop": false,
+   "group": "Claude",
+   "note": "Stop: Claude ist fertig.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "traurig": {
+   "label": "traurig",
+   "frames": [
+    "traurig_1",
+    "traurig_2",
+    "traurig_3",
+    "traurig_4"
+   ],
+   "fps": 4,
+   "loop": false,
+   "group": "Claude",
+   "note": "PostToolUseFailure / StopFailure: etwas ist schiefgegangen.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "gaehnen": {
+   "label": "gähnen",
+   "frames": [
+    "gaehnen_1",
+    "gaehnen_2",
+    "gaehnen_3",
+    "gaehnen_4",
+    "gaehnen_5",
+    "gaehnen_6",
+    "gaehnen_7",
+    "gaehnen_8"
+   ],
+   "fps": 8,
+   "loop": false,
+   "group": "Claude",
+   "note": "PreCompact / lange nichts los.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "lauschen": {
+   "label": "lauschen",
+   "frames": [
+    "lauschen_1",
+    "lauschen_2",
+    "lauschen_3",
+    "lauschen_4"
+   ],
+   "fps": 5,
+   "loop": true,
+   "group": "Claude",
+   "note": "WebSearch / WebFetch.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "fragend": {
+   "label": "fragend",
+   "frames": [
+    "fragend_1",
+    "fragend_2",
+    "fragend_3",
+    "fragend_4"
+   ],
+   "fps": 4,
+   "loop": true,
+   "group": "Claude",
+   "note": "AskUserQuestion / Rückfrage an dich.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "knochen_vergraben": {
+   "label": "ei vergraben",
+   "frames": [
+    "knochen_vergraben_1",
+    "knochen_vergraben_2",
+    "knochen_vergraben_3",
+    "knochen_vergraben_4",
+    "knochen_vergraben_5",
+    "knochen_vergraben_6",
+    "knochen_vergraben_7",
+    "knochen_vergraben_8",
+    "knochen_vergraben_9",
+    "knochen_vergraben_10",
+    "knochen_vergraben_11"
+   ],
+   "fps": 8,
+   "loop": false,
+   "group": "Neu",
+   "note": "TaskCreated: neue Aufgabe angelegt.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "knochen_ausgraben": {
+   "label": "ei ausgraben",
+   "frames": [
+    "knochen_ausgraben_1",
+    "knochen_ausgraben_2",
+    "knochen_ausgraben_3",
+    "knochen_ausgraben_4",
+    "knochen_ausgraben_5",
+    "knochen_ausgraben_6",
+    "knochen_ausgraben_7",
+    "knochen_ausgraben_8"
+   ],
+   "fps": 8,
+   "loop": false,
+   "group": "Neu",
+   "note": "TaskCompleted: Aufgabe erledigt.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "knochen_bringen": {
+   "label": "ei bringen",
+   "frames": [
+    "knochen_bringen_1",
+    "knochen_bringen_2",
+    "knochen_bringen_3",
+    "knochen_bringen_4",
+    "knochen_bringen_5",
+    "knochen_bringen_6",
+    "knochen_bringen_7",
+    "knochen_bringen_8"
+   ],
+   "fps": 10,
+   "loop": true,
+   "group": "Neu",
+   "note": "SubagentStop: Subagent ist zurück – läuft mit dem Knochen her.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "knochen_ablegen": {
+   "label": "ei ablegen",
+   "frames": [
+    "knochen_ablegen_1",
+    "knochen_ablegen_2",
+    "knochen_ablegen_3",
+    "knochen_ablegen_4",
+    "knochen_ablegen_5",
+    "knochen_ablegen_6",
+    "knochen_ablegen_7"
+   ],
+   "fps": 8,
+   "loop": false,
+   "group": "Neu",
+   "note": "Nach „Ei bringen“: legt ihn vor dir ab.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "im_kreis_drehen": {
+   "label": "im kreis drehen",
+   "frames": [
+    "im_kreis_drehen_1",
+    "im_kreis_drehen_2",
+    "im_kreis_drehen_3",
+    "im_kreis_drehen_4",
+    "im_kreis_drehen_5",
+    "im_kreis_drehen_6",
+    "im_kreis_drehen_7",
+    "im_kreis_drehen_8",
+    "im_kreis_drehen_9"
+   ],
+   "fps": 10,
+   "loop": false,
+   "group": "Neu",
+   "note": "PreModelSwitch / PostModelSwitch: Modell wird gewechselt.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "schuetteln": {
+   "label": "schütteln",
+   "frames": [
+    "schuetteln_1",
+    "schuetteln_2",
+    "schuetteln_3",
+    "schuetteln_4",
+    "schuetteln_5",
+    "schuetteln_6",
+    "schuetteln_7",
+    "schuetteln_8"
+   ],
+   "fps": 12,
+   "loop": false,
+   "group": "Neu",
+   "note": "PostCompact: nach dem Komprimieren wieder wach.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "erschrecken": {
+   "label": "erschrecken",
+   "frames": [
+    "erschrecken_1",
+    "erschrecken_2",
+    "erschrecken_3",
+    "erschrecken_4",
+    "erschrecken_5",
+    "erschrecken_6"
+   ],
+   "fps": 10,
+   "loop": false,
+   "group": "Neu",
+   "note": "PermissionDenied: Auto-Modus hat etwas abgelehnt.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "ohren_anlegen": {
+   "label": "ohren anlegen",
+   "frames": [
+    "ohren_anlegen_1",
+    "ohren_anlegen_2",
+    "ohren_anlegen_3",
+    "ohren_anlegen_4"
+   ],
+   "fps": 6,
+   "loop": false,
+   "group": "Neu",
+   "note": "Du brichst mit Escape ab.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "pfoetchen_geben": {
+   "label": "pfötchen geben",
+   "frames": [
+    "pfoetchen_geben_1",
+    "pfoetchen_geben_2",
+    "pfoetchen_geben_3",
+    "pfoetchen_geben_4",
+    "pfoetchen_geben_5",
+    "pfoetchen_geben_6",
+    "pfoetchen_geben_7"
+   ],
+   "fps": 8,
+   "loop": false,
+   "group": "Neu",
+   "note": "UserPromptExpansion: Slash-Befehl = Trick.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "ungeduldig": {
+   "label": "ungeduldig",
+   "frames": [
+    "ungeduldig_1",
+    "ungeduldig_2",
+    "ungeduldig_3",
+    "ungeduldig_4"
+   ],
+   "fps": 6,
+   "loop": true,
+   "group": "Neu",
+   "note": "Lange Bash-Befehle, z. B. npm install.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "gespannt": {
+   "label": "gespannt",
+   "frames": [
+    "gespannt_1",
+    "gespannt_2",
+    "gespannt_3",
+    "gespannt_4"
+   ],
+   "fps": 4,
+   "loop": true,
+   "group": "Neu",
+   "note": "Tests laufen.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "mitlesen": {
+   "label": "mitlesen",
+   "frames": [
+    "mitlesen_1",
+    "mitlesen_2",
+    "mitlesen_3",
+    "mitlesen_4",
+    "mitlesen_5",
+    "mitlesen_6"
+   ],
+   "fps": 5,
+   "loop": true,
+   "group": "Neu",
+   "note": "MessageDisplay: Claude schreibt die Antwort.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "nicken": {
+   "label": "nicken",
+   "frames": [
+    "nicken_1",
+    "nicken_2",
+    "nicken_3",
+    "nicken_4",
+    "nicken_5"
+   ],
+   "fps": 6,
+   "loop": false,
+   "group": "Neu",
+   "note": "InstructionsLoaded: CLAUDE.md gelesen – Hausregeln verstanden.",
+   "pose": [
+    "sit",
+    "sit"
+   ]
+  },
+  "zuschuetten": {
+   "label": "zuschütten",
+   "frames": [
+    "zuschuetten_1",
+    "zuschuetten_2",
+    "zuschuetten_3",
+    "zuschuetten_4"
+   ],
+   "fps": 6,
+   "loop": false,
+   "group": "Neu",
+   "note": "WorktreeRemove: Loch wieder zuschütten.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  },
+  "auf_den_ruecken_rollen": {
+   "label": "auf den rücken rollen",
+   "frames": [
+    "auf_den_ruecken_rollen_1",
+    "auf_den_ruecken_rollen_2",
+    "auf_den_ruecken_rollen_3",
+    "auf_den_ruecken_rollen_4"
+   ],
+   "fps": 8,
+   "loop": false,
+   "group": "Interaktion",
+   "note": "Maus kreist über dem liegenden Hund: er dreht sich auf den Rücken. Rückwärts = wieder hinlegen.",
+   "pose": [
+    "lie",
+    "belly"
+   ]
+  },
+  "bauch_kraulen": {
+   "label": "bauch kraulen",
+   "frames": [
+    "bauch_kraulen_1",
+    "bauch_kraulen_2",
+    "bauch_kraulen_3",
+    "bauch_kraulen_4",
+    "bauch_kraulen_5",
+    "bauch_kraulen_6"
+   ],
+   "fps": 8,
+   "loop": true,
+   "group": "Interaktion",
+   "note": "Maus über dem Bauch hin und her bewegen. Strampelt vor Freude.",
+   "pose": [
+    "belly",
+    "belly"
+   ]
+  },
+  "zerrspiel": {
+   "label": "zerrspiel",
+   "frames": [
+    "zerrspiel_1",
+    "zerrspiel_2",
+    "zerrspiel_3",
+    "zerrspiel_4",
+    "zerrspiel_5",
+    "zerrspiel_6"
+   ],
+   "fps": 8,
+   "loop": true,
+   "group": "Interaktion",
+   "note": "Seil anklicken und festhalten, mit der Maus ziehen.",
+   "pose": [
+    "stand",
+    "stand"
+   ]
+  }
+ },
+ "frames": {
+  "sitzen_1": {
+   "x": 0,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_2": {
+   "x": 24,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_3": {
+   "x": 48,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_4": {
+   "x": 72,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_5": {
+   "x": 96,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_6": {
+   "x": 120,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_7": {
+   "x": 144,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_8": {
+   "x": 168,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "blinzeln_sitzen_1": {
+   "x": 192,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "blinzeln_sitzen_2": {
+   "x": 216,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "blinzeln_sitzen_3": {
+   "x": 240,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_1": {
+   "x": 264,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_2": {
+   "x": 288,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_3": {
+   "x": 312,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_4": {
+   "x": 336,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_5": {
+   "x": 360,
+   "y": 0,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_6": {
+   "x": 0,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_7": {
+   "x": 24,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_8": {
+   "x": 48,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_1": {
+   "x": 72,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_2": {
+   "x": 96,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_3": {
+   "x": 120,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_4": {
+   "x": 144,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_5": {
+   "x": 168,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_6": {
+   "x": 192,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_7": {
+   "x": 216,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_8": {
+   "x": 240,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "schlafen_1": {
+   "x": 264,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "schlafen_2": {
+   "x": 288,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "schlafen_3": {
+   "x": 312,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "schlafen_4": {
+   "x": 336,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "schlafen_5": {
+   "x": 360,
+   "y": 24,
+   "w": 24,
+   "h": 24
+  },
+  "schlafen_6": {
+   "x": 0,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "schlafen_7": {
+   "x": 24,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "schlafen_8": {
+   "x": 48,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "gehen_1": {
+   "x": 72,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "gehen_2": {
+   "x": 96,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "gehen_3": {
+   "x": 120,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "gehen_4": {
+   "x": 144,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "gehen_5": {
+   "x": 168,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "gehen_6": {
+   "x": 192,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "gehen_7": {
+   "x": 216,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "gehen_8": {
+   "x": 240,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "rennen_1": {
+   "x": 264,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "rennen_2": {
+   "x": 288,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "rennen_3": {
+   "x": 312,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "rennen_4": {
+   "x": 336,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "rennen_5": {
+   "x": 360,
+   "y": 48,
+   "w": 24,
+   "h": 24
+  },
+  "rennen_6": {
+   "x": 0,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "springen_1": {
+   "x": 24,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "springen_2": {
+   "x": 48,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "springen_3": {
+   "x": 72,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "springen_4": {
+   "x": 96,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "springen_5": {
+   "x": 120,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "springen_6": {
+   "x": 144,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "springen_7": {
+   "x": 168,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "hinlegen_1": {
+   "x": 192,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "hinlegen_2": {
+   "x": 216,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "hinlegen_3": {
+   "x": 240,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "hinlegen_4": {
+   "x": 264,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "hinlegen_5": {
+   "x": 288,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "einschlafen_1": {
+   "x": 312,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "einschlafen_2": {
+   "x": 336,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "einschlafen_3": {
+   "x": 360,
+   "y": 72,
+   "w": 24,
+   "h": 24
+  },
+  "einschlafen_4": {
+   "x": 0,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "einschlafen_5": {
+   "x": 24,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "aufwachen_1": {
+   "x": 48,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "aufwachen_2": {
+   "x": 72,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "aufwachen_3": {
+   "x": 96,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "aufwachen_4": {
+   "x": 120,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "aufwachen_5": {
+   "x": 144,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "strecken_1": {
+   "x": 168,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "strecken_2": {
+   "x": 192,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "strecken_3": {
+   "x": 216,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "strecken_4": {
+   "x": 240,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "strecken_5": {
+   "x": 264,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "strecken_6": {
+   "x": 288,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "strecken_7": {
+   "x": 312,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "strecken_8": {
+   "x": 336,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "umdrehen_1": {
+   "x": 360,
+   "y": 96,
+   "w": 24,
+   "h": 24
+  },
+  "umdrehen_2": {
+   "x": 0,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "umdrehen_3": {
+   "x": 24,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "umdrehen_4": {
+   "x": 48,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "umdrehen_5": {
+   "x": 72,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "umdrehen_6": {
+   "x": 96,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "verbeugen_1": {
+   "x": 120,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "verbeugen_2": {
+   "x": 144,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "verbeugen_3": {
+   "x": 168,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "verbeugen_4": {
+   "x": 192,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "ball_lauern_1": {
+   "x": 216,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "ball_lauern_2": {
+   "x": 240,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "ball_lauern_3": {
+   "x": 264,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "ball_lauern_4": {
+   "x": 288,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "ball_fangen_1": {
+   "x": 312,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "ball_fangen_2": {
+   "x": 336,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "ball_fangen_3": {
+   "x": 360,
+   "y": 120,
+   "w": 24,
+   "h": 24
+  },
+  "ball_fangen_4": {
+   "x": 0,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "ball_fangen_5": {
+   "x": 24,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "ball_fangen_6": {
+   "x": 48,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_gehen_1": {
+   "x": 72,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_gehen_2": {
+   "x": 96,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_gehen_3": {
+   "x": 120,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_gehen_4": {
+   "x": 144,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_gehen_5": {
+   "x": 168,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_gehen_6": {
+   "x": 192,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_gehen_7": {
+   "x": 216,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_gehen_8": {
+   "x": 240,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_1": {
+   "x": 264,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_2": {
+   "x": 288,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_3": {
+   "x": 312,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_4": {
+   "x": 336,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_5": {
+   "x": 360,
+   "y": 144,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_6": {
+   "x": 0,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_7": {
+   "x": 24,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_8": {
+   "x": 48,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "streicheln_1": {
+   "x": 72,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "streicheln_2": {
+   "x": 96,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "streicheln_3": {
+   "x": 120,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "streicheln_4": {
+   "x": 144,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "streicheln_5": {
+   "x": 168,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "streicheln_6": {
+   "x": 192,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "fressen_1": {
+   "x": 216,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "fressen_2": {
+   "x": 240,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "fressen_3": {
+   "x": 264,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "fressen_4": {
+   "x": 288,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "fressen_5": {
+   "x": 312,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "fressen_6": {
+   "x": 336,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "leckerli_fangen_1": {
+   "x": 360,
+   "y": 168,
+   "w": 24,
+   "h": 24
+  },
+  "leckerli_fangen_2": {
+   "x": 0,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "leckerli_fangen_3": {
+   "x": 24,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "leckerli_fangen_4": {
+   "x": 48,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "leckerli_fangen_5": {
+   "x": 72,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "leckerli_fangen_6": {
+   "x": 96,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "leckerli_fangen_7": {
+   "x": 120,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "zuschauen_1": {
+   "x": 144,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "zuschauen_2": {
+   "x": 168,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "zuschauen_3": {
+   "x": 192,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "zuschauen_4": {
+   "x": 216,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "zuschauen_5": {
+   "x": 240,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "zuschauen_6": {
+   "x": 264,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "aufmerksam_1": {
+   "x": 288,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "aufmerksam_2": {
+   "x": 312,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "aufmerksam_3": {
+   "x": 336,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "aufmerksam_4": {
+   "x": 360,
+   "y": 192,
+   "w": 24,
+   "h": 24
+  },
+  "nachdenken_1": {
+   "x": 0,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "nachdenken_2": {
+   "x": 24,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "nachdenken_3": {
+   "x": 48,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "nachdenken_4": {
+   "x": 72,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "nachdenken_5": {
+   "x": 96,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "nachdenken_6": {
+   "x": 120,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "schnueffeln_1": {
+   "x": 144,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "schnueffeln_2": {
+   "x": 168,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "schnueffeln_3": {
+   "x": 192,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "schnueffeln_4": {
+   "x": 216,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "schnueffeln_5": {
+   "x": 240,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "schnueffeln_6": {
+   "x": 264,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "schnueffeln_7": {
+   "x": 288,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "schnueffeln_8": {
+   "x": 312,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "buddeln_1": {
+   "x": 336,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "buddeln_2": {
+   "x": 360,
+   "y": 216,
+   "w": 24,
+   "h": 24
+  },
+  "buddeln_3": {
+   "x": 0,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "buddeln_4": {
+   "x": 24,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "buddeln_5": {
+   "x": 48,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "buddeln_6": {
+   "x": 72,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "bellen_1": {
+   "x": 96,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "bellen_2": {
+   "x": 120,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "bellen_3": {
+   "x": 144,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "bellen_4": {
+   "x": 168,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "freuen_1": {
+   "x": 192,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "freuen_2": {
+   "x": 216,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "freuen_3": {
+   "x": 240,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "freuen_4": {
+   "x": 264,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "freuen_5": {
+   "x": 288,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "freuen_6": {
+   "x": 312,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "freuen_7": {
+   "x": 336,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "freuen_8": {
+   "x": 360,
+   "y": 240,
+   "w": 24,
+   "h": 24
+  },
+  "traurig_1": {
+   "x": 0,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "traurig_2": {
+   "x": 24,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "traurig_3": {
+   "x": 48,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "traurig_4": {
+   "x": 72,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "gaehnen_1": {
+   "x": 96,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "gaehnen_2": {
+   "x": 120,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "gaehnen_3": {
+   "x": 144,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "gaehnen_4": {
+   "x": 168,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "gaehnen_5": {
+   "x": 192,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "gaehnen_6": {
+   "x": 216,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "gaehnen_7": {
+   "x": 240,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "gaehnen_8": {
+   "x": 264,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "lauschen_1": {
+   "x": 288,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "lauschen_2": {
+   "x": 312,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "lauschen_3": {
+   "x": 336,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "lauschen_4": {
+   "x": 360,
+   "y": 264,
+   "w": 24,
+   "h": 24
+  },
+  "fragend_1": {
+   "x": 0,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "fragend_2": {
+   "x": 24,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "fragend_3": {
+   "x": 48,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "fragend_4": {
+   "x": 72,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_vergraben_1": {
+   "x": 96,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_vergraben_2": {
+   "x": 120,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_vergraben_3": {
+   "x": 144,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_vergraben_4": {
+   "x": 168,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_vergraben_5": {
+   "x": 192,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_vergraben_6": {
+   "x": 216,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_vergraben_7": {
+   "x": 240,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_vergraben_8": {
+   "x": 264,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_vergraben_9": {
+   "x": 288,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_vergraben_10": {
+   "x": 312,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_vergraben_11": {
+   "x": 336,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_ausgraben_1": {
+   "x": 360,
+   "y": 288,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_ausgraben_2": {
+   "x": 0,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_ausgraben_3": {
+   "x": 24,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_ausgraben_4": {
+   "x": 48,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_ausgraben_5": {
+   "x": 72,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_ausgraben_6": {
+   "x": 96,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_ausgraben_7": {
+   "x": 120,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_ausgraben_8": {
+   "x": 144,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_bringen_1": {
+   "x": 168,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_bringen_2": {
+   "x": 192,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_bringen_3": {
+   "x": 216,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_bringen_4": {
+   "x": 240,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_bringen_5": {
+   "x": 264,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_bringen_6": {
+   "x": 288,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_bringen_7": {
+   "x": 312,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_bringen_8": {
+   "x": 336,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_ablegen_1": {
+   "x": 360,
+   "y": 312,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_ablegen_2": {
+   "x": 0,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_ablegen_3": {
+   "x": 24,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_ablegen_4": {
+   "x": 48,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_ablegen_5": {
+   "x": 72,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_ablegen_6": {
+   "x": 96,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "knochen_ablegen_7": {
+   "x": 120,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "im_kreis_drehen_1": {
+   "x": 144,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "im_kreis_drehen_2": {
+   "x": 168,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "im_kreis_drehen_3": {
+   "x": 192,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "im_kreis_drehen_4": {
+   "x": 216,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "im_kreis_drehen_5": {
+   "x": 240,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "im_kreis_drehen_6": {
+   "x": 264,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "im_kreis_drehen_7": {
+   "x": 288,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "im_kreis_drehen_8": {
+   "x": 312,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "im_kreis_drehen_9": {
+   "x": 336,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "schuetteln_1": {
+   "x": 360,
+   "y": 336,
+   "w": 24,
+   "h": 24
+  },
+  "schuetteln_2": {
+   "x": 0,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "schuetteln_3": {
+   "x": 24,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "schuetteln_4": {
+   "x": 48,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "schuetteln_5": {
+   "x": 72,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "schuetteln_6": {
+   "x": 96,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "schuetteln_7": {
+   "x": 120,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "schuetteln_8": {
+   "x": 144,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "erschrecken_1": {
+   "x": 168,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "erschrecken_2": {
+   "x": 192,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "erschrecken_3": {
+   "x": 216,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "erschrecken_4": {
+   "x": 240,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "erschrecken_5": {
+   "x": 264,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "erschrecken_6": {
+   "x": 288,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "ohren_anlegen_1": {
+   "x": 312,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "ohren_anlegen_2": {
+   "x": 336,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "ohren_anlegen_3": {
+   "x": 360,
+   "y": 360,
+   "w": 24,
+   "h": 24
+  },
+  "ohren_anlegen_4": {
+   "x": 0,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "pfoetchen_geben_1": {
+   "x": 24,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "pfoetchen_geben_2": {
+   "x": 48,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "pfoetchen_geben_3": {
+   "x": 72,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "pfoetchen_geben_4": {
+   "x": 96,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "pfoetchen_geben_5": {
+   "x": 120,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "pfoetchen_geben_6": {
+   "x": 144,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "pfoetchen_geben_7": {
+   "x": 168,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "ungeduldig_1": {
+   "x": 192,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "ungeduldig_2": {
+   "x": 216,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "ungeduldig_3": {
+   "x": 240,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "ungeduldig_4": {
+   "x": 264,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "gespannt_1": {
+   "x": 288,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "gespannt_2": {
+   "x": 312,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "gespannt_3": {
+   "x": 336,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "gespannt_4": {
+   "x": 360,
+   "y": 384,
+   "w": 24,
+   "h": 24
+  },
+  "mitlesen_1": {
+   "x": 0,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "mitlesen_2": {
+   "x": 24,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "mitlesen_3": {
+   "x": 48,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "mitlesen_4": {
+   "x": 72,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "mitlesen_5": {
+   "x": 96,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "mitlesen_6": {
+   "x": 120,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "nicken_1": {
+   "x": 144,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "nicken_2": {
+   "x": 168,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "nicken_3": {
+   "x": 192,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "nicken_4": {
+   "x": 216,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "nicken_5": {
+   "x": 240,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "zuschuetten_1": {
+   "x": 264,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "zuschuetten_2": {
+   "x": 288,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "zuschuetten_3": {
+   "x": 312,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "zuschuetten_4": {
+   "x": 336,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "auf_den_ruecken_rollen_1": {
+   "x": 360,
+   "y": 408,
+   "w": 24,
+   "h": 24
+  },
+  "auf_den_ruecken_rollen_2": {
+   "x": 0,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "auf_den_ruecken_rollen_3": {
+   "x": 24,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "auf_den_ruecken_rollen_4": {
+   "x": 48,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "bauch_kraulen_1": {
+   "x": 72,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "bauch_kraulen_2": {
+   "x": 96,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "bauch_kraulen_3": {
+   "x": 120,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "bauch_kraulen_4": {
+   "x": 144,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "bauch_kraulen_5": {
+   "x": 168,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "bauch_kraulen_6": {
+   "x": 192,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "zerrspiel_1": {
+   "x": 216,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "zerrspiel_2": {
+   "x": 240,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "zerrspiel_3": {
+   "x": 264,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "zerrspiel_4": {
+   "x": 288,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "zerrspiel_5": {
+   "x": 312,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "zerrspiel_6": {
+   "x": 336,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_1_half": {
+   "x": 360,
+   "y": 432,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_2_half": {
+   "x": 0,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_3_half": {
+   "x": 24,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_4_half": {
+   "x": 48,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_5_half": {
+   "x": 72,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_6_half": {
+   "x": 96,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_7_half": {
+   "x": 120,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_8_half": {
+   "x": 144,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_1_closed": {
+   "x": 168,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_2_closed": {
+   "x": 192,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_3_closed": {
+   "x": 216,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_4_closed": {
+   "x": 240,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_5_closed": {
+   "x": 264,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_6_closed": {
+   "x": 288,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_7_closed": {
+   "x": 312,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "sitzen_8_closed": {
+   "x": 336,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_1_half": {
+   "x": 360,
+   "y": 456,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_2_half": {
+   "x": 0,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_3_half": {
+   "x": 24,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_4_half": {
+   "x": 48,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_5_half": {
+   "x": 72,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_6_half": {
+   "x": 96,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_7_half": {
+   "x": 120,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_8_half": {
+   "x": 144,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_1_closed": {
+   "x": 168,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_2_closed": {
+   "x": 192,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_3_closed": {
+   "x": 216,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_4_closed": {
+   "x": 240,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_5_closed": {
+   "x": 264,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_6_closed": {
+   "x": 288,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_7_closed": {
+   "x": 312,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "stehen_8_closed": {
+   "x": 336,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_1_half": {
+   "x": 360,
+   "y": 480,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_2_half": {
+   "x": 0,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_3_half": {
+   "x": 24,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_4_half": {
+   "x": 48,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_5_half": {
+   "x": 72,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_6_half": {
+   "x": 96,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_7_half": {
+   "x": 120,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_8_half": {
+   "x": 144,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_1_closed": {
+   "x": 168,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_2_closed": {
+   "x": 192,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_3_closed": {
+   "x": 216,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_4_closed": {
+   "x": 240,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_5_closed": {
+   "x": 264,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_6_closed": {
+   "x": 288,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_7_closed": {
+   "x": 312,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "liegen_8_closed": {
+   "x": 336,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_1_half": {
+   "x": 360,
+   "y": 504,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_2_half": {
+   "x": 0,
+   "y": 528,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_3_half": {
+   "x": 24,
+   "y": 528,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_4_half": {
+   "x": 48,
+   "y": 528,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_5_half": {
+   "x": 72,
+   "y": 528,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_6_half": {
+   "x": 96,
+   "y": 528,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_7_half": {
+   "x": 120,
+   "y": 528,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_8_half": {
+   "x": 144,
+   "y": 528,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_1_closed": {
+   "x": 168,
+   "y": 528,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_2_closed": {
+   "x": 192,
+   "y": 528,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_3_closed": {
+   "x": 216,
+   "y": 528,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_4_closed": {
+   "x": 240,
+   "y": 528,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_5_closed": {
+   "x": 264,
+   "y": 528,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_6_closed": {
+   "x": 288,
+   "y": 528,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_7_closed": {
+   "x": 312,
+   "y": 528,
+   "w": 24,
+   "h": 24
+  },
+  "mit_ball_sitzen_8_closed": {
+   "x": 336,
+   "y": 528,
+   "w": 24,
+   "h": 24
+  }
+ },
+ "objects": {
+  "toy": {
+   "x": 0,
+   "y": 0,
+   "w": 4,
+   "h": 4
+  },
+  "treat": {
+   "x": 5,
+   "y": 0,
+   "w": 4,
+   "h": 4
+  },
+  "item": {
+   "x": 10,
+   "y": 0,
+   "w": 4,
+   "h": 4
+  },
+  "bowl_full": {
+   "x": 15,
+   "y": 0,
+   "w": 7,
+   "h": 3
+  },
+  "bowl_empty": {
+   "x": 23,
+   "y": 0,
+   "w": 7,
+   "h": 3
+  },
+  "heart": {
+   "x": 31,
+   "y": 0,
+   "w": 5,
+   "h": 4
+  },
+  "heart_small": {
+   "x": 37,
+   "y": 0,
+   "w": 3,
+   "h": 3
+  },
+  "rope_icon": {
+   "x": 41,
+   "y": 0,
+   "w": 6,
+   "h": 2
+  },
+  "rope_colors": [
+   "#f0be3c",
+   "#784828"
+  ]
+ }
+}
