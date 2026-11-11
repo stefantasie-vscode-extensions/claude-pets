@@ -1,0 +1,220 @@
+{
+  "name": "claude-pets",
+  "displayName": "Claude Pets",
+  "publisher": "kleywalker",
+  "version": "0.1.0",
+  "description": "Ein Pixel-Haustier auf der Claude-Code-Promptbox, das auf Claude reagiert.",
+  "icon": "assets/icon.png",
+  "license": "MIT",
+  "author": "Stefan Kley",
+  "repository": {
+    "type": "git",
+    "url": "git@git.kleywalker.de:vscode/claude-pets.git"
+  },
+  "engines": {
+    "vscode": "^1.90.0"
+  },
+  "categories": [
+    "Other"
+  ],
+  "keywords": [
+    "claude",
+    "claude code",
+    "pet",
+    "pixel",
+    "haustier"
+  ],
+  "activationEvents": [
+    "onStartupFinished"
+  ],
+  "main": "./dist/extension.js",
+  "extensionDependencies": [],
+  "contributes": {
+    "commands": [
+      {
+        "command": "claudePets.enable",
+        "title": "Aktivieren",
+        "category": "Claude Pets"
+      },
+      {
+        "command": "claudePets.disable",
+        "title": "Deaktivieren",
+        "category": "Claude Pets"
+      },
+      {
+        "command": "claudePets.reapply",
+        "title": "Neu anwenden",
+        "category": "Claude Pets"
+      },
+      {
+        "command": "claudePets.chooseSpecies",
+        "title": "Tier wählen …",
+        "category": "Claude Pets"
+      },
+      {
+        "command": "claudePets.installHooks",
+        "title": "Hooks installieren",
+        "category": "Claude Pets"
+      },
+      {
+        "command": "claudePets.removeHooks",
+        "title": "Hooks entfernen",
+        "category": "Claude Pets"
+      },
+      {
+        "command": "claudePets.diagnose",
+        "title": "Diagnose",
+        "category": "Claude Pets"
+      }
+    ],
+    "configuration": {
+      "title": "Claude Pets",
+      "properties": {
+        "claudePets.enabled": {
+          "type": "boolean",
+          "default": true,
+          "order": 0,
+          "markdownDescription": "Haustier anzeigen. Ausschalten entfernt die Injektion aus Claude Code und die Hooks."
+        },
+        "claudePets.species": {
+          "type": "string",
+          "default": "hund",
+          "order": 1,
+          "enum": [
+            "hund",
+            "katze",
+            "fuchs",
+            "waschbaer",
+            "panda",
+            "affe",
+            "hase",
+            "frosch",
+            "roboter",
+            "krabbe",
+            "eichhoernchen",
+            "schildkroete",
+            "zufall"
+          ],
+          "enumItemLabels": [
+            "Hund",
+            "Katze",
+            "Fuchs",
+            "Waschbär",
+            "Panda",
+            "Affe",
+            "Hase",
+            "Frosch",
+            "Roboter",
+            "Krabbe",
+            "Eichhörnchen",
+            "Schildkröte",
+            "Zufall"
+          ],
+          "enumDescriptions": [
+            "Hund",
+            "Katze",
+            "Fuchs",
+            "Waschbär",
+            "Panda",
+            "Affe",
+            "Hase",
+            "Frosch",
+            "Roboter",
+            "Krabbe",
+            "Eichhörnchen",
+            "Schildkröte",
+            "Bei jedem Start ein zufälliges Tier"
+          ],
+          "description": "Welches Tier auf der Promptbox sitzt."
+        },
+        "claudePets.scale": {
+          "type": "number",
+          "default": 2,
+          "minimum": 1,
+          "maximum": 4,
+          "order": 2,
+          "description": "Pixelgröße: Ein Grafikpixel entspricht so vielen CSS-Pixeln (1–4)."
+        },
+        "claudePets.showButtons": {
+          "type": "boolean",
+          "default": true,
+          "order": 3,
+          "description": "Beim Darüberfahren eine Leiste mit Napf, Leckerli, Spielzeug und Seil zeigen."
+        },
+        "claudePets.hooks.enabled": {
+          "type": "boolean",
+          "default": true,
+          "order": 4,
+          "markdownDescription": "Claude-Code-Hooks in `~/.claude/settings.json` einrichten, damit das Tier auf Claude reagiert. Ausschalten entfernt die Hooks."
+        },
+        "claudePets.idle.wander": {
+          "type": "boolean",
+          "default": true,
+          "order": 5,
+          "description": "Im Leerlauf frei auf der Promptbox herumlaufen."
+        },
+        "claudePets.idle.sleepAfterMinutes": {
+          "type": "number",
+          "default": 4,
+          "minimum": 1,
+          "maximum": 120,
+          "order": 6,
+          "description": "Nach so vielen Minuten ohne Aktivität schläft das Tier ein."
+        },
+        "claudePets.opacityOnHover": {
+          "type": "number",
+          "default": 0.35,
+          "minimum": 0,
+          "maximum": 1,
+          "order": 7,
+          "description": "Deckkraft, wenn die Maus bei fokussierter Promptbox ruhig über dem Tier steht (damit Text dahinter lesbar bleibt)."
+        },
+        "claudePets.reduceMotion": {
+          "type": "string",
+          "default": "auto",
+          "enum": [
+            "auto",
+            "on",
+            "off"
+          ],
+          "enumDescriptions": [
+            "Folgt der Systemeinstellung „Bewegung reduzieren“",
+            "Kein freies Herumlaufen und keine Zufallsaktionen",
+            "Volle Bewegung"
+          ],
+          "order": 8,
+          "description": "Bewegung reduzieren. Reaktionen auf Ereignisse bleiben erhalten."
+        },
+        "claudePets.patchCsp": {
+          "type": "boolean",
+          "default": true,
+          "order": 9,
+          "markdownDescription": "Die Content-Security-Policy von Claude Code um `connect-src http://127.0.0.1:*` erweitern, damit Hook-Ereignisse das Tier erreichen. Aus = reiner DOM-Modus ohne Hook-Reaktionen."
+        },
+        "claudePets.debug": {
+          "type": "boolean",
+          "default": false,
+          "order": 10,
+          "description": "Ausführliches Logging im Ausgabekanal „Claude Pets“ (und in ~/.claude-pets/debug.log)."
+        }
+      }
+    }
+  },
+  "scripts": {
+    "build": "node scripts/build.mjs",
+    "typecheck": "tsc --noEmit -p .",
+    "test": "vitest run",
+    "package": "vsce package --no-dependencies",
+    "install-local": "code --install-extension claude-pets-0.1.0.vsix --force",
+    "vscode:prepublish": "npm run build",
+    "vscode:uninstall": "node ./dist/uninstall.js"
+  },
+  "devDependencies": {
+    "@types/node": "^22.20.5",
+    "@types/vscode": "1.90.0",
+    "@vscode/vsce": "^4.1.0",
+    "esbuild": "^0.28.2",
+    "typescript": "^5.9.3",
+    "vitest": "^5.1.0"
+  }
+}

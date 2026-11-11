@@ -1,0 +1,8 @@
+# Nur dist/, assets/icon.png, README, CHANGELOG, LICENSE und package.json gehören ins Paket.
+**
+!dist/**
+!assets/icon.png
+!README.md
+!CHANGELOG.md
+!LICENSE
+!package.json
