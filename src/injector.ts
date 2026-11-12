@@ -41,6 +41,14 @@ export function currentBlock(content: string): string | null {
   return m ? m[0] : null;
 }
 
+/**
+ * The block without its embedded configuration: everything that only a webview reload can
+ * change (version, script, assets). Configuration alone is also pushed live over the bridge.
+ */
+export function blockPayload(block: string): string {
+  return block.replace(/var __CLAUDE_PETS_CONFIG__ = [^\n]*;\n/, '');
+}
+
 /** Strip any old block and append `block` (idempotent: applying twice gives the same text). */
 export function appendBlock(content: string, block: string): string {
   return stripBlock(content) + '\n' + block + '\n';
