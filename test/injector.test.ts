@@ -6,6 +6,7 @@ import {
   BACKUP_SUFFIX,
   appendBlock,
   applyBlockToFile,
+  blockPayload,
   applyInjection,
   blockVersion,
   buildCssBlock,
@@ -87,6 +88,15 @@ describe('injector (strings)', () => {
     const evil = buildJsBlock('0.1.0', '', { ...config, species: '*/</script>' });
     expect(evil).not.toContain('*/</script>');
     expect(() => validateJsBlock(evil)).not.toThrow();
+  });
+
+  it('separates the reload-relevant payload from the live configuration', () => {
+    const a = buildJsBlock('0.1.0', 'console.log(1)', config);
+    const b = buildJsBlock('0.1.0', 'console.log(1)', { ...config, species: 'katze', scale: 3 });
+    expect(blockPayload(a)).toBe(blockPayload(b));
+    expect(blockPayload(a)).not.toContain('__CLAUDE_PETS_CONFIG__');
+    expect(blockPayload(buildJsBlock('0.1.1', 'console.log(1)', config))).not.toBe(blockPayload(a));
+    expect(blockPayload(buildJsBlock('0.1.0', 'console.log(2)', config))).not.toBe(blockPayload(a));
   });
 
   it('builds a css block with markers', () => {

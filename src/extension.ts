@@ -13,7 +13,7 @@ import {
   installHooks,
   uninstallHooks,
 } from './hooksInstaller';
-import { applyInjection, buildCssBlock, buildJsBlock, currentBlock, injectionStatus, removeInjection } from './injector';
+import { applyInjection, blockPayload, buildCssBlock, buildJsBlock, currentBlock, injectionStatus, removeInjection } from './injector';
 import { cleanupOrphans, loadOrCreateToken, petsHome, removeInstance, writeInstance } from './instances';
 import { hookEventNames } from './shared/triggers';
 import { SPECIES_IDS, SPECIES_LABELS, bridgePorts, type PetConfig, type PetEvent, type ReduceMotion } from './shared/types';
@@ -284,6 +284,8 @@ class Controller {
       const res = applyInjection({ jsPath: files.webviewJs, cssPath: files.webviewCss }, jsBlock, cssBlock);
       const written = res.js === 'written' || res.css === 'written';
       const outcome: ApplyOutcome = !written ? 'unchanged' : before ? 'written-update' : 'written-new';
+      // New code, assets or styles need a webview reload; settings alone arrive live.
+      const codeChanged = !before || blockPayload(before) !== blockPayload(jsBlock) || res.css === 'written';
       this.lastPatch = { at: new Date(), outcome, detail: reason };
       if (written) this.log(`Claude Code ${files.version} gepatcht (${reason}).`);
 
@@ -292,7 +294,7 @@ class Controller {
 
       if (outcome === 'written-new') {
         void this.offerReload('Claude Pets ist bereit. Fenster neu laden, damit das Haustier erscheint.');
-      } else if (outcome === 'written-update' && (this.bridge?.clientCount ?? 0) === 0) {
+      } else if (outcome === 'written-update' && (codeChanged || (this.bridge?.clientCount ?? 0) === 0)) {
         void this.offerReload('Claude Pets wurde aktualisiert. Fenster neu laden, um die Änderungen anzuwenden.');
       } else if (outcome === 'written-update') {
         vscode.window.setStatusBarMessage('Claude Pets: Einstellungen übernommen', 3000);
