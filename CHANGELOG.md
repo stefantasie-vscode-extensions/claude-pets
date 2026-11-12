@@ -1,5 +1,15 @@
 # Changelog
 
+## 0.1.1 – 2026-11-12
+
+- Neue Grafik für den Roboter: ein schwebender Roboter mit Visier und Düsenflamme
+  (Paket 2; `atlas.json` und `objects.png` sind unverändert).
+- Nach einem Update mit neuem Code oder neuen Grafiken bietet Claude Pets jetzt immer an,
+  das Fenster neu zu laden – auch wenn das Tier gerade mit der Bridge verbunden ist. Reine
+  Einstellungsänderungen kommen weiterhin ohne Neuladen an.
+- Das Bridge-Token wird zwischen allen VS-Code-Fenstern atomar geteilt
+  (`~/.claude-pets/token`).
+
 ## 0.1.0 – 2026-11-12
 
 Erste Version.

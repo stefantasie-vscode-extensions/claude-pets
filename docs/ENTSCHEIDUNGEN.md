@@ -193,6 +193,25 @@ Wichtige Befunde zur Struktur:
   `~/.claude/settings.json.claude-pets.bak` bleibt absichtlich als Sicherheitsnetz liegen.
 - VS Code führt `vscode:uninstall` erst beim nächsten Start nach der Deinstallation aus.
 
+### Roboter (Paket 2, Version 0.1.1)
+
+- `assets/09_roboter/atlas.png` stammt aus `claude-pets-paket-2.zip`; alle 363 Frames sind
+  neu gezeichnet (schwebender Roboter mit Düsenflamme), `atlas.json` und `objects.png` sind
+  byteidentisch geblieben. Das Icon aus Paket 2 ist das ursprüngliche und wurde nicht
+  übernommen (siehe „Icon“).
+- In 98 Frames reicht die Flamme bis in Reihe 23, also eine Reihe unter die Fußlinie: Sie
+  setzt sichtbar auf dem Rand der Box auf. Das ist Teil der Grafik und bleibt so. Die
+  Klickfläche endet weiterhin bei Reihe 22, Klicks in die Box sind nicht betroffen.
+- Da `v0.1.0` bereits veröffentlicht war, erscheint die Änderung als Version 0.1.1 statt
+  eines nachträglich verschobenen Tags.
+
+### Neuladen nach Updates
+
+- Einstellungen werden live über die Bridge übertragen; Code, Grafiken und Stylesheet stecken
+  dagegen im eingeschleusten Block und wirken erst nach dem Neuladen des Webviews.
+  `blockPayload()` vergleicht deshalb den Block ohne die eingebettete Konfiguration: Ändert
+  sich dieser Teil (oder das CSS), wird immer ein Neuladen angeboten.
+
 ### Werkzeuge
 
 - TypeScript 5.9 statt 7.x (der native Compiler ist noch neu; 5.9 ist für `--noEmit` mit
