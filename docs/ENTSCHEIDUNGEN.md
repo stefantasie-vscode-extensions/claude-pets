@@ -126,6 +126,11 @@ Wichtige Befunde zur Struktur:
   Tool-Name, Bash-Befehl für die Tag-Erkennung, Statusfelder aus `tool_response` ohne
   Inhalte). Prompts, Dateiinhalte und Tool-Ausgaben verlassen den Hook-Prozess nicht. Der
   Host filtert danach wie gefordert auf Event, Tool, Bash-Tag, Erfolg, Notification-Typ.
+- **Token:** Maßgeblich ist `~/.claude-pets/token` (Rechte 0600); `globalState` spiegelt es
+  nur. Grund: Bei der Erstinstallation aktivierten sich zwei offene Fenster gleichzeitig,
+  `globalState` ist zwischen Fenstern nicht atomar, und beide erzeugten verschiedene Tokens –
+  eines davon passte nicht zum eingebetteten. Die Datei wird per `link()` angelegt (atomar,
+  scheitert, wenn sie existiert), sodass genau ein Token gewinnt.
 - Die Bridge prüft zusätzlich den `Host`-Header (Schutz vor DNS-Rebinding) und beantwortet
   CORS-Preflights inklusive `Access-Control-Allow-Private-Network`.
 - Erfolg von `PostToolUse`: Laut Doku landet ein Bash-Befehl mit Exit-Code ≠ 0 als

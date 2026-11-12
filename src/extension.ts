@@ -1,6 +1,5 @@
 // Claude Pets – extension host: patch Claude Code's webview, run the bridge, manage hooks.
 import { execFile } from 'node:child_process';
-import * as crypto from 'node:crypto';
 import * as fs from 'node:fs';
 import * as path from 'node:path';
 import * as vscode from 'vscode';
@@ -15,7 +14,7 @@ import {
   uninstallHooks,
 } from './hooksInstaller';
 import { applyInjection, buildCssBlock, buildJsBlock, currentBlock, injectionStatus, removeInjection } from './injector';
-import { cleanupOrphans, petsHome, removeInstance, writeInstance } from './instances';
+import { cleanupOrphans, loadOrCreateToken, petsHome, removeInstance, writeInstance } from './instances';
 import { hookEventNames } from './shared/triggers';
 import { SPECIES_IDS, SPECIES_LABELS, bridgePorts, type PetConfig, type PetEvent, type ReduceMotion } from './shared/types';
 
@@ -116,11 +115,10 @@ class Controller {
   // ----- lifecycle -----------------------------------------------------------------
 
   async start(): Promise<void> {
-    this.token = this.ctx.globalState.get<string>(TOKEN_KEY) ?? '';
-    if (!/^[a-f0-9]{48}$/.test(this.token)) {
-      this.token = crypto.randomBytes(24).toString('hex');
-      await this.ctx.globalState.update(TOKEN_KEY, this.token);
-    }
+    // ~/.claude-pets/token is the cross-window source of truth (globalState is not atomic
+    // between windows that activate at the same time); globalState mirrors it.
+    this.token = loadOrCreateToken(this.ctx.globalState.get<string>(TOKEN_KEY));
+    if (this.ctx.globalState.get<string>(TOKEN_KEY) !== this.token) await this.ctx.globalState.update(TOKEN_KEY, this.token);
 
     this.registerCommands();
     this.updateStatusBar();
