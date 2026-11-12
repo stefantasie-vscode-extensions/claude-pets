@@ -1,4 +1,5 @@
 // Registry of running VS Code windows (one bridge each) in ~/.claude-pets/instances/<pid>.json.
+import * as crypto from 'node:crypto';
 import * as fs from 'node:fs';
 import * as os from 'node:os';
 import * as path from 'node:path';
@@ -97,4 +98,48 @@ export function instancesForCwd(instances: InstanceInfo[], cwd: string | undefin
     }),
   );
   return matching.length > 0 ? matching : instances;
+}
+
+const TOKEN_RE = /^[a-f0-9]{48}$/;
+
+function readToken(file: string): string | null {
+  try {
+    const t = fs.readFileSync(file, 'utf8').trim();
+    return TOKEN_RE.test(t) ? t : null;
+  } catch {
+    return null;
+  }
+}
+
+/**
+ * The bridge token shared by all VS Code windows. Several windows may activate at the same
+ * moment; the file is created via link() (atomic, fails if it exists), so exactly one token
+ * wins and every window ends up with the same value.
+ */
+export function loadOrCreateToken(preferred?: string, home?: string): string {
+  const dir = petsHome(home);
+  const file = path.join(dir, 'token');
+  const existing = readToken(file);
+  if (existing) return existing;
+  fs.mkdirSync(dir, { recursive: true, mode: 0o700 });
+  const candidate = preferred && TOKEN_RE.test(preferred) ? preferred : crypto.randomBytes(24).toString('hex');
+  const tmp = path.join(dir, `.token-${process.pid}-${Date.now()}`);
+  fs.writeFileSync(tmp, candidate, { mode: 0o600 });
+  try {
+    fs.linkSync(tmp, file);
+    return candidate;
+  } catch (err) {
+    if ((err as NodeJS.ErrnoException).code !== 'EEXIST') throw err;
+    const winner = readToken(file);
+    if (winner) return winner;
+    // A broken token file: replace it.
+    fs.renameSync(tmp, file);
+    return candidate;
+  } finally {
+    try {
+      fs.unlinkSync(tmp);
+    } catch {
+      /* already moved or removed */
+    }
+  }
 }
