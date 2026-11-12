@@ -11,8 +11,8 @@ Krabbe, Eichhörnchen und Schildkröte. Jedes hat dieselben 49 Animationen, inha
 ## Installation
 
 1. Die Extension [Claude Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) muss installiert sein.
-2. `claude-pets-0.1.0.vsix` installieren:
-   `code --install-extension claude-pets-0.1.0.vsix --force`
+2. `claude-pets-0.1.1.vsix` installieren:
+   `code --install-extension claude-pets-0.1.1.vsix --force`
 3. Beim ersten Start richtet Claude Pets alles ein und meldet
    „Claude Pets ist bereit. Fenster neu laden, damit das Haustier erscheint.“ → **Neu laden**.
 

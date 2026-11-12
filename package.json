@@ -2,7 +2,7 @@
   "name": "claude-pets",
   "displayName": "Claude Pets",
   "publisher": "kleywalker",
-  "version": "0.1.0",
+  "version": "0.1.1",
   "description": "Ein Pixel-Haustier auf der Claude-Code-Promptbox, das auf Claude reagiert.",
   "icon": "assets/icon.png",
   "license": "MIT",
@@ -216,7 +216,7 @@
     "typecheck": "tsc --noEmit -p .",
     "test": "vitest run",
     "package": "vsce package --no-dependencies",
-    "install-local": "code --install-extension claude-pets-0.1.0.vsix --force",
+    "install-local": "code --install-extension claude-pets-0.1.1.vsix --force",
     "vscode:prepublish": "npm run build",
     "vscode:uninstall": "node ./dist/uninstall.js"
   },
