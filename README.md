@@ -112,8 +112,8 @@ In der Statusleiste zeigt „🐾 Hund“ das aktuelle Tier; ein Klick öffnet d
   entfernt dann in allen installierten Claude-Code-Versionen die Änderungen, die Hooks und
   `~/.claude-pets`. Es bleibt nur die Sicherung `~/.claude/settings.json.claude-pets.bak`.
 
-Weitere Hintergründe: [docs/ENTSCHEIDUNGEN.md](docs/ENTSCHEIDUNGEN.md),
-manuelle Prüfliste: [docs/TESTPLAN.md](docs/TESTPLAN.md).
+Weitere Hintergründe: [docs/ENTSCHEIDUNGEN.md](https://git.kleywalker.de/vscode/claude-pets/src/branch/main/docs/ENTSCHEIDUNGEN.md),
+manuelle Prüfliste: [docs/TESTPLAN.md](https://git.kleywalker.de/vscode/claude-pets/src/branch/main/docs/TESTPLAN.md).
 
 ## Lizenz
 
