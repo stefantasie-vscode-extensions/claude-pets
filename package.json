@@ -74,7 +74,8 @@
           "type": "boolean",
           "default": true,
           "order": 0,
-          "markdownDescription": "Haustier anzeigen. Ausschalten entfernt die Injektion aus Claude Code und die Hooks."
+          "markdownDescription": "Haustier anzeigen. Ausschalten entfernt die Injektion aus Claude Code und die Hooks.",
+          "scope": "application"
         },
         "claudePets.species": {
           "type": "string",
@@ -125,7 +126,8 @@
             "Schildkröte",
             "Bei jedem Start ein zufälliges Tier"
           ],
-          "description": "Welches Tier auf der Promptbox sitzt."
+          "description": "Welches Tier auf der Promptbox sitzt.",
+          "scope": "application"
         },
         "claudePets.scale": {
           "type": "number",
@@ -133,25 +135,29 @@
           "minimum": 1,
           "maximum": 4,
           "order": 2,
-          "description": "Pixelgröße: Ein Grafikpixel entspricht so vielen CSS-Pixeln (1–4)."
+          "description": "Pixelgröße: Ein Grafikpixel entspricht so vielen CSS-Pixeln (1–4).",
+          "scope": "application"
         },
         "claudePets.showButtons": {
           "type": "boolean",
           "default": true,
           "order": 3,
-          "description": "Beim Darüberfahren eine Leiste mit Napf, Leckerli, Spielzeug und Seil zeigen."
+          "description": "Beim Darüberfahren eine Leiste mit Napf, Leckerli, Spielzeug und Seil zeigen.",
+          "scope": "application"
         },
         "claudePets.hooks.enabled": {
           "type": "boolean",
           "default": true,
           "order": 4,
-          "markdownDescription": "Claude-Code-Hooks in `~/.claude/settings.json` einrichten, damit das Tier auf Claude reagiert. Ausschalten entfernt die Hooks."
+          "markdownDescription": "Claude-Code-Hooks in `~/.claude/settings.json` einrichten, damit das Tier auf Claude reagiert. Ausschalten entfernt die Hooks.",
+          "scope": "application"
         },
         "claudePets.idle.wander": {
           "type": "boolean",
           "default": true,
           "order": 5,
-          "description": "Im Leerlauf frei auf der Promptbox herumlaufen."
+          "description": "Im Leerlauf frei auf der Promptbox herumlaufen.",
+          "scope": "application"
         },
         "claudePets.idle.sleepAfterMinutes": {
           "type": "number",
@@ -159,7 +165,8 @@
           "minimum": 1,
           "maximum": 120,
           "order": 6,
-          "description": "Nach so vielen Minuten ohne Aktivität schläft das Tier ein."
+          "description": "Nach so vielen Minuten ohne Aktivität schläft das Tier ein.",
+          "scope": "application"
         },
         "claudePets.opacityOnHover": {
           "type": "number",
@@ -167,7 +174,8 @@
           "minimum": 0,
           "maximum": 1,
           "order": 7,
-          "description": "Deckkraft, wenn die Maus bei fokussierter Promptbox ruhig über dem Tier steht (damit Text dahinter lesbar bleibt)."
+          "description": "Deckkraft, wenn die Maus bei fokussierter Promptbox ruhig über dem Tier steht (damit Text dahinter lesbar bleibt).",
+          "scope": "application"
         },
         "claudePets.reduceMotion": {
           "type": "string",
@@ -183,19 +191,22 @@
             "Volle Bewegung"
           ],
           "order": 8,
-          "description": "Bewegung reduzieren. Reaktionen auf Ereignisse bleiben erhalten."
+          "description": "Bewegung reduzieren. Reaktionen auf Ereignisse bleiben erhalten.",
+          "scope": "application"
         },
         "claudePets.patchCsp": {
           "type": "boolean",
           "default": true,
           "order": 9,
-          "markdownDescription": "Die Content-Security-Policy von Claude Code um `connect-src http://127.0.0.1:*` erweitern, damit Hook-Ereignisse das Tier erreichen. Aus = reiner DOM-Modus ohne Hook-Reaktionen."
+          "markdownDescription": "Die Content-Security-Policy von Claude Code um `connect-src http://127.0.0.1:*` erweitern, damit Hook-Ereignisse das Tier erreichen. Aus = reiner DOM-Modus ohne Hook-Reaktionen.",
+          "scope": "application"
         },
         "claudePets.debug": {
           "type": "boolean",
           "default": false,
           "order": 10,
-          "description": "Ausführliches Logging im Ausgabekanal „Claude Pets“ (und in ~/.claude-pets/debug.log)."
+          "description": "Ausführliches Logging im Ausgabekanal „Claude Pets“ (und in ~/.claude-pets/debug.log).",
+          "scope": "application"
         }
       }
     }
