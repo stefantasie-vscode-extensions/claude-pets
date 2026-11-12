@@ -1,0 +1,198 @@
+/* Claude Pets – overlay on top of Claude Code's prompt box. Everything is scoped to our own
+   ids/classes (prefix cp-) so Claude's UI is never restyled. */
+
+#claude-pets-root {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 0;
+  height: 0;
+  overflow: visible;
+  pointer-events: none;
+  z-index: 2147483000;
+  contain: style;
+}
+
+#claude-pets-root .cp-call-strip {
+  position: absolute;
+  left: 0;
+  right: 0;
+  top: -8px;
+  height: 8px;
+  pointer-events: auto;
+}
+
+#claude-pets-root .cp-pet {
+  position: absolute;
+  pointer-events: none;
+  transition: opacity 0.15s ease;
+}
+
+#claude-pets-root .cp-sprite {
+  display: block;
+  width: 100%;
+  height: 100%;
+  image-rendering: pixelated;
+}
+
+#claude-pets-root .cp-hit {
+  position: absolute;
+  pointer-events: auto;
+  cursor: grab;
+}
+
+#claude-pets-root .cp-obj {
+  position: absolute;
+  pointer-events: none;
+  image-rendering: pixelated;
+}
+
+#claude-pets-root.cp-occluded .cp-pet,
+#claude-pets-root.cp-occluded .cp-toolbar,
+#claude-pets-root.cp-occluded .cp-obj {
+  opacity: 0 !important;
+}
+
+#claude-pets-root.cp-occluded .cp-hit,
+#claude-pets-root.cp-occluded .cp-call-strip,
+#claude-pets-root.cp-occluded .cp-toolbar {
+  pointer-events: none !important;
+}
+
+#claude-pets-root .cp-toolbar {
+  position: absolute;
+  display: none;
+  gap: 2px;
+  padding: 2px;
+  border-radius: 6px;
+  background: var(--vscode-editorWidget-background, #252526);
+  border: 1px solid var(--vscode-editorWidget-border, var(--vscode-widget-border, #454545));
+  box-shadow: 0 2px 8px var(--vscode-widget-shadow, rgba(0, 0, 0, 0.36));
+  pointer-events: auto;
+  white-space: nowrap;
+}
+
+#claude-pets-root .cp-toolbar.cp-visible {
+  display: flex;
+}
+
+#claude-pets-root .cp-btn {
+  display: inline-flex;
+  align-items: center;
+  justify-content: center;
+  min-width: 24px;
+  height: 24px;
+  margin: 0;
+  padding: 2px;
+  border: 0;
+  border-radius: 4px;
+  background: transparent;
+  cursor: pointer;
+}
+
+#claude-pets-root .cp-btn:hover {
+  background: var(--vscode-toolbar-hoverBackground, rgba(90, 93, 94, 0.31));
+}
+
+#claude-pets-root .cp-btn .cp-obj {
+  position: static;
+}
+
+.cp-cursor-obj {
+  position: fixed;
+  z-index: 2147483001;
+  pointer-events: none;
+  image-rendering: pixelated;
+}
+
+.cp-rope-line {
+  position: fixed;
+  left: 0;
+  top: 0;
+  width: 100vw;
+  height: 100vh;
+  z-index: 2147482999;
+  pointer-events: none;
+  image-rendering: pixelated;
+}
+
+.cp-fade {
+  animation: cp-fade-out 0.8s ease forwards;
+}
+
+@keyframes cp-fade-out {
+  from {
+    opacity: 1;
+  }
+  to {
+    opacity: 0;
+  }
+}
+
+.cp-menu {
+  position: fixed;
+  z-index: 2147483002;
+  min-width: 170px;
+  padding: 4px 0;
+  border-radius: 5px;
+  color: var(--vscode-menu-foreground, #cccccc);
+  background: var(--vscode-menu-background, #252526);
+  border: 1px solid var(--vscode-menu-border, var(--vscode-widget-border, #454545));
+  box-shadow: 0 2px 8px var(--vscode-widget-shadow, rgba(0, 0, 0, 0.36));
+  font-family: var(--vscode-font-family, system-ui, sans-serif);
+  font-size: var(--vscode-font-size, 13px);
+  line-height: 1.4;
+  user-select: none;
+  pointer-events: auto;
+}
+
+.cp-menu-item {
+  position: relative;
+  display: flex;
+  align-items: center;
+  padding: 3px 26px 3px 26px;
+  margin: 0 4px;
+  border-radius: 3px;
+  cursor: default;
+  white-space: nowrap;
+}
+
+.cp-menu-item:hover {
+  color: var(--vscode-menu-selectionForeground, #ffffff);
+  background: var(--vscode-menu-selectionBackground, #04395e);
+}
+
+.cp-menu-item.cp-checked::before {
+  content: '✓';
+  position: absolute;
+  left: 9px;
+}
+
+.cp-menu-item.cp-has-sub::after {
+  content: '›';
+  position: absolute;
+  right: 10px;
+}
+
+.cp-menu-sep {
+  height: 1px;
+  margin: 4px 10px;
+  background: var(--vscode-menu-separatorBackground, #454545);
+}
+
+.cp-submenu {
+  position: absolute;
+  display: none;
+  top: -5px;
+  left: calc(100% + 4px);
+  color: var(--vscode-menu-foreground, #cccccc);
+}
+
+.cp-submenu.cp-left {
+  left: auto;
+  right: calc(100% + 4px);
+}
+
+.cp-submenu.cp-open {
+  display: block;
+}
