@@ -1,7 +1,7 @@
 {
-  "_info": "Zuordnung Ereignis -> Animation. Animationen werden über die kanonischen IDs aus atlas.json angesprochen (bei allen Tieren gleich). 'then' = danach automatisch, 'while' = Schleife bis zum nächsten Ereignis.",
+  "_info": "Event -> animation mapping. Animations are addressed by the canonical ids from atlas.json (identical for all pets). 'then' = follows automatically, 'while' = loops until the next event.",
   "priorities": {
-    "_info": "Höhere Zahl unterbricht niedrigere. Gleiche Priorität: neuere gewinnt. Einmal-Animationen laufen zu Ende, außer eine höhere Priorität kommt.",
+    "_info": "A higher number interrupts a lower one. Equal priority: the newer one wins. One-shot animations play to the end unless a higher priority arrives.",
     "interaction": 90,
     "attention": 80,
     "error": 70,
@@ -54,7 +54,7 @@
     },
     "MessageDisplay":      {"while": "mitlesen", "priority": "reading"},
     "SubagentStart":       {"play": ["verbeugen", "springen"], "then": "nachdenken", "priority": "ambient"},
-    "SubagentStop":        {"play": ["knochen_bringen", "knochen_ablegen"], "then": "nachdenken", "priority": "ambient", "note": "knochen_bringen ist eine Laufschleife: 1,5 s laufen lassen, dabei Position bewegen."},
+    "SubagentStop":        {"play": ["knochen_bringen", "knochen_ablegen"], "then": "nachdenken", "priority": "ambient", "note": "knochen_bringen is a walking loop: let it run for 1.5 s while moving."},
     "TaskCreated":         {"play": ["knochen_vergraben"], "then": "nachdenken", "priority": "ambient"},
     "TaskCompleted":       {"play": ["knochen_ausgraben"], "then": "nachdenken", "priority": "ambient"},
     "Stop":                {"play": ["freuen"], "then": "idle", "priority": "done"},
@@ -72,17 +72,17 @@
     "SessionEnd":          {"play": ["hinlegen", "einschlafen"], "then": "schlafen", "priority": "done"}
   },
   "dom": {
-    "_info": "Ereignisse, die das eingeschleuste Script direkt in der Claude-Oberfläche erkennt.",
+    "_info": "Events the injected script detects directly in the Claude UI.",
     "typing":          {"while": "zuschauen", "stopAfterMs": 1500, "priority": "reading"},
     "escapeInterrupt": {"play": ["ohren_anlegen"], "then": "idle", "priority": "error"},
-    "claudeBusy":      {"while": "nachdenken", "priority": "thinking", "note": "Fallback, falls keine Hooks ankommen: Spinner/Stop-Button sichtbar."},
-    "permissionDialog":{"while": "bellen", "priority": "attention", "note": "Fallback: Freigabe-Dialog sichtbar."}
+    "claudeBusy":      {"while": "nachdenken", "priority": "thinking", "note": "Fallback in case no hooks arrive: spinner/stop button visible."},
+    "permissionDialog":{"while": "bellen", "priority": "attention", "note": "Fallback: permission dialog visible."}
   },
   "idle": {
-    "_info": "Leerlauf-Verhalten, wenn nichts los ist.",
+    "_info": "Idle behaviour when nothing is going on.",
     "base": "sitzen",
     "blink": {"everyMs": [3000, 6000], "sequence": ["half", "closed", "half"], "frameMs": 80, "appliesTo": ["sitzen", "stehen", "liegen", "mit_ball_sitzen"]},
-    "wander": {"chancePerSecond": 0.08, "sequence": ["umdrehen", "gehen", "stehen", "umdrehen:reverse"], "speedPxPerFrame": 1, "note": "Läuft auf der Oberkante der Promptbox zu zufälliger Stelle."},
+    "wander": {"chancePerSecond": 0.08, "sequence": ["umdrehen", "gehen", "stehen", "umdrehen:reverse"], "speedPxPerFrame": 1, "note": "Walks along the top edge of the prompt box to a random spot."},
     "randomActions": {"chancePerSecond": 0.02, "pick": ["verbeugen", "springen", "schuetteln", "gaehnen", "schnueffeln", "rennen"]},
     "lieDownAfterMs": 90000,
     "sleepAfterMs": 240000,
@@ -91,25 +91,25 @@
     "wakeUp": ["aufwachen", "hinlegen:reverse", "umdrehen:reverse"]
   },
   "interactions": {
-    "hoverMove":      {"while": "streicheln", "note": "Maus bewegt sich über dem Tier (mind. 3 Richtungswechsel in 1 s)."},
+    "hoverMove":      {"while": "streicheln", "note": "Mouse moves over the pet (at least 3 direction changes within 1 s)."},
     "click":          {"play": ["erschrecken:2-3", "freuen"], "then": "idle"},
-    "feedButton":     {"action": "spawnBowl", "sequence": ["umdrehen", "gehen", "fressen"], "fresstDauerMs": 4000},
+    "feedButton":     {"action": "spawnBowl", "sequence": ["umdrehen", "gehen", "fressen"], "eatDurationMs": 4000},
     "treatButton":    {"action": "throwTreat", "sequence": ["leckerli_fangen"]},
-    "toyDragThrow":   {"action": "throwToy", "sequence": ["umdrehen", "ball_lauern", "rennen", "ball_fangen", "mit_ball_gehen", "umdrehen:reverse", "mit_ball_sitzen"], "note": "Spielzeug nur bei Interaktion zeigen."},
+    "toyDragThrow":   {"action": "throwToy", "sequence": ["umdrehen", "ball_lauern", "rennen", "ball_fangen", "mit_ball_gehen", "umdrehen:reverse", "mit_ball_sitzen"], "note": "Only show the toy during the interaction."},
     "ropeButton":     {"action": "holdRope", "while": "zerrspiel"},
     "circleOverLying":{"play": ["auf_den_ruecken_rollen"], "while": "bauch_kraulen", "end": ["auf_den_ruecken_rollen:reverse"]},
     "callDoubleClick":{"action": "walkTo", "sequence": ["umdrehen", "gehen", "umdrehen:reverse"]},
     "contextMenu": {
-      "Sitz": ["umdrehen:reverse", "sitzen"],
-      "Platz": ["umdrehen", "hinlegen", "liegen"],
-      "Pfötchen": ["pfoetchen_geben"],
-      "Drehen": ["im_kreis_drehen", "umdrehen:reverse"],
-      "Schlafen": ["umdrehen", "hinlegen", "einschlafen", "schlafen"],
-      "Tier wechseln …": "openSpeciesPicker"
+      "Sit": ["umdrehen:reverse", "sitzen"],
+      "Lie down": ["umdrehen", "hinlegen", "liegen"],
+      "Give paw": ["pfoetchen_geben"],
+      "Spin": ["im_kreis_drehen", "umdrehen:reverse"],
+      "Sleep": ["umdrehen", "hinlegen", "einschlafen", "schlafen"],
+      "Change pet …": "openSpeciesPicker"
     }
   },
   "notation": {
-    "name:reverse": "Animation rückwärts abspielen (z. B. hinlegen:reverse = aufstehen, umdrehen:reverse = von Seite zu Frontansicht).",
-    "name:2-3": "Nur Frames 2 bis 3 (1-basiert) abspielen."
+    "name:reverse": "Play the animation backwards (e.g. hinlegen:reverse = get up, umdrehen:reverse = from side view to front view).",
+    "name:2-3": "Play only frames 2 to 3 (1-based)."
   }
 }
