@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.3 – 2026-11-13
+
+- Notice at the top of the README: Claude Pets is coming to the Visual Studio Marketplace soon.
+- The official "Support me on Ko-fi" button replaces the custom badge.
+
 ## 0.2.2 – 2026-11-13
 
 - The Ko-fi badge is now Ko-fi blue instead of red.
