@@ -2,7 +2,7 @@
   "name": "claude-pets",
   "displayName": "Claude Pets",
   "publisher": "stefantasie",
-  "version": "0.2.2",
+  "version": "0.2.3",
   "description": "A pixel pet that lives on the Claude Code prompt box and reacts to what Claude is doing. Free and open source.",
   "icon": "assets/icon.png",
   "license": "MIT",
@@ -230,7 +230,7 @@
     "typecheck": "tsc --noEmit -p .",
     "test": "vitest run",
     "package": "vsce package --no-dependencies",
-    "install-local": "code --install-extension claude-pets-0.2.2.vsix --force",
+    "install-local": "code --install-extension claude-pets-0.2.3.vsix --force",
     "vscode:prepublish": "npm run build",
     "vscode:uninstall": "node ./dist/uninstall.js",
     "make-banner": "node scripts/make-banner.mjs"

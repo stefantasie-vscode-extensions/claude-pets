@@ -4,7 +4,7 @@
 > Marketplace yet, but it will be published there very soon. Until then you can build and install
 > it yourself (see [Installation](#installation)). Thank you for your patience!
 
-[![Support Claude Pets on Ko-fi – become a member](https://img.shields.io/badge/Support_Claude_Pets-Become_a_member_on_Ko--fi-29ABE0?logo=kofi&logoColor=white)](https://ko-fi.com/stefantasie/tiers)
+<a href="https://ko-fi.com/stefantasie/tiers"><img src="media/support-me-on-ko-fi.png" alt="Support me on Ko-fi" width="223" height="30"></a>
 
 ![Twelve pixel pets on the Claude Code prompt box](media/banner.gif)
 
@@ -25,7 +25,7 @@ hides a fish instead of a bone, the frog snaps a fly, the robot hovers on a litt
 ## Installation
 
 1. Install the [Claude Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) extension.
-2. Install Claude Pets: `code --install-extension claude-pets-0.2.2.vsix`
+2. Install Claude Pets: `code --install-extension claude-pets-0.2.3.vsix`
 3. On first start Claude Pets sets everything up and shows
    *"Claude Pets is ready. Reload the window to let your pet appear."* → **Reload Window**.
 
