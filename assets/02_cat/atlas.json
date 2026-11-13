@@ -1,29 +1,29 @@
 {
  "species": {
-  "id": "waschbaer",
-  "label": "Waschbär",
-  "item": "Apfel",
-  "toy": "Ball",
-  "rope": "Seil",
-  "sound": "keckern",
+  "id": "cat",
+  "label": "Cat",
+  "item": "Fish",
+  "toy": "Yarn ball",
+  "rope": "Feather wand",
+  "sound": "meow",
   "gait": "walk"
  },
  "frameSize": 24,
  "scale": 2,
  "poses": {
-  "sit": "Frontansicht sitzend",
-  "stand": "Seitenansicht stehend (nach rechts)",
-  "lie": "Seitenansicht liegend",
-  "belly": "auf dem Rücken"
+  "sit": "Front view, sitting",
+  "stand": "Side view, standing (facing right)",
+  "lie": "Side view, lying",
+  "belly": "On its back"
  },
  "anchor": {
   "facing": "right",
   "groundRow": 22,
-  "note": "Unterste Fußzeile ist Pixelreihe 22 (0-basiert). Nach links laufen = horizontal spiegeln."
+  "note": "The lowest row of the feet is pixel row 22 (0-based). Walking left = mirror horizontally."
  },
  "animations": {
   "sitzen": {
-   "label": "sitzen",
+   "label": "sit",
    "frames": [
     "sitzen_1",
     "sitzen_2",
@@ -36,8 +36,8 @@
    ],
    "fps": 6,
    "loop": true,
-   "group": "Leerlauf",
-   "note": "Atmen + Wedeln. Blinzeln über Augen-Varianten.",
+   "group": "Idle",
+   "note": "Idle loop: breathing and tail wag. Blinking via the eye variants.",
    "pose": [
     "sit",
     "sit"
@@ -66,7 +66,7 @@
    }
   },
   "blinzeln_sitzen": {
-   "label": "blinzeln (sitzen)",
+   "label": "blink (sitting)",
    "frames": [
     "blinzeln_sitzen_1",
     "blinzeln_sitzen_2",
@@ -74,15 +74,15 @@
    ],
    "fps": 12,
    "loop": false,
-   "group": "Leerlauf",
-   "note": "Zufällig alle 3–6 s, auf jeden Leerlauf-Frame anwendbar.",
+   "group": "Idle",
+   "note": "Reference only: blinking happens at runtime with the eye variants, every 3–6 s.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "stehen": {
-   "label": "stehen",
+   "label": "stand",
    "frames": [
     "stehen_1",
     "stehen_2",
@@ -95,8 +95,8 @@
    ],
    "fps": 6,
    "loop": true,
-   "group": "Leerlauf",
-   "note": "Pause zwischen zwei Laufwegen auf der Promptbox.",
+   "group": "Idle",
+   "note": "Pause between two walks on the prompt box.",
    "pose": [
     "stand",
     "stand"
@@ -125,7 +125,7 @@
    }
   },
   "liegen": {
-   "label": "liegen",
+   "label": "lie",
    "frames": [
     "liegen_1",
     "liegen_2",
@@ -138,8 +138,8 @@
    ],
    "fps": 5,
    "loop": true,
-   "group": "Leerlauf",
-   "note": "Nichts los seit einer Weile. Atmet, Rute zuckt ab und zu.",
+   "group": "Idle",
+   "note": "Nothing going on for a while. Breathing, the tail twitches now and then.",
    "pose": [
     "lie",
     "lie"
@@ -168,7 +168,7 @@
    }
   },
   "schlafen": {
-   "label": "schlafen",
+   "label": "sleep",
    "frames": [
     "schlafen_1",
     "schlafen_2",
@@ -181,15 +181,15 @@
    ],
    "fps": 4,
    "loop": true,
-   "group": "Leerlauf",
-   "note": "Langsames Atmen, Z steigen auf.",
+   "group": "Idle",
+   "note": "Slow breathing, Zs rise.",
    "pose": [
     "lie",
     "lie"
    ]
   },
   "gehen": {
-   "label": "gehen",
+   "label": "walk",
    "frames": [
     "gehen_1",
     "gehen_2",
@@ -202,15 +202,15 @@
    ],
    "fps": 10,
    "loop": true,
-   "group": "Bewegung",
-   "note": "Läuft frei auf der Promptbox hin und her (gespiegelt nach links).",
+   "group": "Movement",
+   "note": "Walks freely along the prompt box (mirrored when walking left).",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "rennen": {
-   "label": "rennen",
+   "label": "run",
    "frames": [
     "rennen_1",
     "rennen_2",
@@ -221,15 +221,15 @@
    ],
    "fps": 12,
    "loop": true,
-   "group": "Bewegung",
-   "note": "Zufällige Toberunde oder Bash-Befehl läuft.",
+   "group": "Movement",
+   "note": "Random zoomies, or a Bash command is running.",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "springen": {
-   "label": "springen",
+   "label": "jump",
    "frames": [
     "springen_1",
     "springen_2",
@@ -241,15 +241,15 @@
    ],
    "fps": 12,
    "loop": false,
-   "group": "Bewegung",
-   "note": "SubagentStart (zusammen mit Verbeugen) oder einfach aus Übermut.",
+   "group": "Movement",
+   "note": "SubagentStart (together with the play bow) or just for fun.",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "hinlegen": {
-   "label": "hinlegen",
+   "label": "lie down",
    "frames": [
     "hinlegen_1",
     "hinlegen_2",
@@ -259,15 +259,15 @@
    ],
    "fps": 10,
    "loop": false,
-   "group": "Übergänge",
-   "note": "Rückwärts abgespielt = aufstehen aus dem Liegen.",
+   "group": "Transitions",
+   "note": "Played backwards: get up from lying.",
    "pose": [
     "stand",
     "lie"
    ]
   },
   "einschlafen": {
-   "label": "einschlafen",
+   "label": "fall asleep",
    "frames": [
     "einschlafen_1",
     "einschlafen_2",
@@ -277,15 +277,15 @@
    ],
    "fps": 5,
    "loop": false,
-   "group": "Übergänge",
-   "note": "Übergang Liegen → Schlafen.",
+   "group": "Transitions",
+   "note": "Transition lying → sleeping.",
    "pose": [
     "lie",
     "lie"
    ]
   },
   "aufwachen": {
-   "label": "aufwachen",
+   "label": "wake up",
    "frames": [
     "aufwachen_1",
     "aufwachen_2",
@@ -295,15 +295,15 @@
    ],
    "fps": 6,
    "loop": false,
-   "group": "Übergänge",
-   "note": "SessionStart oder du tippst, während er schläft.",
+   "group": "Transitions",
+   "note": "SessionStart, or you type while it sleeps.",
    "pose": [
     "lie",
     "lie"
    ]
   },
   "strecken": {
-   "label": "strecken",
+   "label": "stretch",
    "frames": [
     "strecken_1",
     "strecken_2",
@@ -316,15 +316,15 @@
    ],
    "fps": 8,
    "loop": false,
-   "group": "Übergänge",
-   "note": "Nach dem Aufwachen, bevor er losläuft.",
+   "group": "Transitions",
+   "note": "After waking up, before walking off.",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "umdrehen": {
-   "label": "umdrehen",
+   "label": "turn",
    "frames": [
     "umdrehen_1",
     "umdrehen_2",
@@ -335,15 +335,15 @@
    ],
    "fps": 10,
    "loop": false,
-   "group": "Übergänge",
-   "note": "Sitzen (vorne) → Stehen (Seite). Rückwärts = hinsetzen.",
+   "group": "Transitions",
+   "note": "Sitting (front view) → standing (side view). Backwards: sit down.",
    "pose": [
     "sit",
     "stand"
    ]
   },
   "verbeugen": {
-   "label": "verbeugen",
+   "label": "play bow",
    "frames": [
     "verbeugen_1",
     "verbeugen_2",
@@ -352,15 +352,15 @@
    ],
    "fps": 8,
    "loop": true,
-   "group": "Spielen",
-   "note": "Spielaufforderung. SubagentStart: Claude schickt einen Helfer los.",
+   "group": "Play",
+   "note": "Invitation to play. SubagentStart: Claude sends out a helper.",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "ball_lauern": {
-   "label": "ball lauern",
+   "label": "stalk yarn ball",
    "frames": [
     "ball_lauern_1",
     "ball_lauern_2",
@@ -369,15 +369,15 @@
    ],
    "fps": 8,
    "loop": true,
-   "group": "Spielen",
-   "note": "Nur bei Interaktion: Ball-Button gedrückt, wartet auf den Wurf.",
+   "group": "Play",
+   "note": "Interaction only: waiting for the yarn ball to be thrown.",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "ball_fangen": {
-   "label": "ball fangen",
+   "label": "catch yarn ball",
    "frames": [
     "ball_fangen_1",
     "ball_fangen_2",
@@ -388,15 +388,15 @@
    ],
    "fps": 12,
    "loop": false,
-   "group": "Spielen",
-   "note": "Nur bei Interaktion: fängt den geworfenen Ball.",
+   "group": "Play",
+   "note": "Interaction only: catches the thrown yarn ball.",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "mit_ball_gehen": {
-   "label": "mit ball gehen",
+   "label": "walk with yarn ball",
    "frames": [
     "mit_ball_gehen_1",
     "mit_ball_gehen_2",
@@ -409,15 +409,15 @@
    ],
    "fps": 10,
    "loop": true,
-   "group": "Spielen",
-   "note": "Nur bei Interaktion: bringt den Ball zurück.",
+   "group": "Play",
+   "note": "Interaction only: brings the yarn ball back.",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "mit_ball_sitzen": {
-   "label": "mit ball sitzen",
+   "label": "sit with yarn ball",
    "frames": [
     "mit_ball_sitzen_1",
     "mit_ball_sitzen_2",
@@ -430,8 +430,8 @@
    ],
    "fps": 6,
    "loop": true,
-   "group": "Spielen",
-   "note": "Nur bei Interaktion: sitzt mit Ball und wartet auf den nächsten Wurf.",
+   "group": "Play",
+   "note": "Interaction only: sits with the yarn ball and waits for the next throw.",
    "pose": [
     "sit",
     "sit"
@@ -460,7 +460,7 @@
    }
   },
   "streicheln": {
-   "label": "streicheln",
+   "label": "petting",
    "frames": [
     "streicheln_1",
     "streicheln_2",
@@ -471,15 +471,15 @@
    ],
    "fps": 8,
    "loop": true,
-   "group": "Interaktion",
-   "note": "Klick/Hover auf das Tier.",
+   "group": "Interaction",
+   "note": "The mouse strokes over the pet: hearts rise.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "fressen": {
-   "label": "fressen",
+   "label": "eat",
    "frames": [
     "fressen_1",
     "fressen_2",
@@ -490,15 +490,15 @@
    ],
    "fps": 6,
    "loop": true,
-   "group": "Interaktion",
-   "note": "Füttern-Button: Napf erscheint.",
+   "group": "Interaction",
+   "note": "Bowl button: the bowl appears.",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "leckerli_fangen": {
-   "label": "beere fangen",
+   "label": "catch treat",
    "frames": [
     "leckerli_fangen_1",
     "leckerli_fangen_2",
@@ -510,15 +510,15 @@
    ],
    "fps": 10,
    "loop": false,
-   "group": "Interaktion",
-   "note": "Leckerli-Button: Keks wird zugeworfen.",
+   "group": "Interaction",
+   "note": "Treat button: a treat is tossed.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "zuschauen": {
-   "label": "zuschauen",
+   "label": "watch",
    "frames": [
     "zuschauen_1",
     "zuschauen_2",
@@ -530,14 +530,14 @@
    "fps": 6,
    "loop": true,
    "group": "Claude",
-   "note": "Du tippst im Prompt-Feld: Kopf folgt dem Text.",
+   "note": "You type in the prompt field: the head follows the text.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "aufmerksam": {
-   "label": "aufmerksam",
+   "label": "attentive",
    "frames": [
     "aufmerksam_1",
     "aufmerksam_2",
@@ -547,14 +547,14 @@
    "fps": 8,
    "loop": false,
    "group": "Claude",
-   "note": "Prompt abgeschickt.",
+   "note": "Prompt sent.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "nachdenken": {
-   "label": "nachdenken",
+   "label": "think",
    "frames": [
     "nachdenken_1",
     "nachdenken_2",
@@ -566,14 +566,14 @@
    "fps": 4,
    "loop": true,
    "group": "Claude",
-   "note": "Claude denkt / arbeitet.",
+   "note": "Claude is thinking / working.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "schnueffeln": {
-   "label": "schnüffeln",
+   "label": "sniff",
    "frames": [
     "schnueffeln_1",
     "schnueffeln_2",
@@ -587,14 +587,14 @@
    "fps": 8,
    "loop": true,
    "group": "Claude",
-   "note": "Read / Grep / Glob / Suche: läuft langsam mit Nase am Boden.",
+   "note": "Read / Grep / Glob / search: walks slowly with the nose to the ground.",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "buddeln": {
-   "label": "buddeln",
+   "label": "dig",
    "frames": [
     "buddeln_1",
     "buddeln_2",
@@ -606,14 +606,14 @@
    "fps": 10,
    "loop": true,
    "group": "Claude",
-   "note": "Edit / Write: buddelt im Code.",
+   "note": "Edit / Write: digs in the code.",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "bellen": {
-   "label": "keckern",
+   "label": "meow",
    "frames": [
     "bellen_1",
     "bellen_2",
@@ -623,14 +623,14 @@
    "fps": 8,
    "loop": true,
    "group": "Claude",
-   "note": "PermissionRequest / Notification: Claude braucht dich.",
+   "note": "PermissionRequest / Notification: Claude needs you.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "freuen": {
-   "label": "freuen",
+   "label": "happy",
    "frames": [
     "freuen_1",
     "freuen_2",
@@ -644,14 +644,14 @@
    "fps": 12,
    "loop": false,
    "group": "Claude",
-   "note": "Stop: Claude ist fertig.",
+   "note": "Stop: Claude is done.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "traurig": {
-   "label": "traurig",
+   "label": "sad",
    "frames": [
     "traurig_1",
     "traurig_2",
@@ -661,14 +661,14 @@
    "fps": 4,
    "loop": false,
    "group": "Claude",
-   "note": "PostToolUseFailure / StopFailure: etwas ist schiefgegangen.",
+   "note": "PostToolUseFailure / StopFailure: something went wrong.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "gaehnen": {
-   "label": "gähnen",
+   "label": "yawn",
    "frames": [
     "gaehnen_1",
     "gaehnen_2",
@@ -682,14 +682,14 @@
    "fps": 8,
    "loop": false,
    "group": "Claude",
-   "note": "PreCompact / lange nichts los.",
+   "note": "PreCompact / nothing going on for a long time.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "lauschen": {
-   "label": "lauschen",
+   "label": "listen",
    "frames": [
     "lauschen_1",
     "lauschen_2",
@@ -706,7 +706,7 @@
    ]
   },
   "fragend": {
-   "label": "fragend",
+   "label": "puzzled",
    "frames": [
     "fragend_1",
     "fragend_2",
@@ -716,14 +716,14 @@
    "fps": 4,
    "loop": true,
    "group": "Claude",
-   "note": "AskUserQuestion / Rückfrage an dich.",
+   "note": "AskUserQuestion / a question for you.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "knochen_vergraben": {
-   "label": "apfel verstecken",
+   "label": "bury fish",
    "frames": [
     "knochen_vergraben_1",
     "knochen_vergraben_2",
@@ -739,15 +739,15 @@
    ],
    "fps": 8,
    "loop": false,
-   "group": "Neu",
-   "note": "TaskCreated: neue Aufgabe angelegt.",
+   "group": "New",
+   "note": "TaskCreated: a new task was created.",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "knochen_ausgraben": {
-   "label": "apfel hervorholen",
+   "label": "dig up fish",
    "frames": [
     "knochen_ausgraben_1",
     "knochen_ausgraben_2",
@@ -760,15 +760,15 @@
    ],
    "fps": 8,
    "loop": false,
-   "group": "Neu",
-   "note": "TaskCompleted: Aufgabe erledigt.",
+   "group": "New",
+   "note": "TaskCompleted: a task is done.",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "knochen_bringen": {
-   "label": "apfel bringen",
+   "label": "bring fish",
    "frames": [
     "knochen_bringen_1",
     "knochen_bringen_2",
@@ -781,15 +781,15 @@
    ],
    "fps": 10,
    "loop": true,
-   "group": "Neu",
-   "note": "SubagentStop: Subagent ist zurück – läuft mit dem Knochen her.",
+   "group": "New",
+   "note": "SubagentStop: the subagent is back – walks over with the fish.",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "knochen_ablegen": {
-   "label": "apfel ablegen",
+   "label": "drop fish",
    "frames": [
     "knochen_ablegen_1",
     "knochen_ablegen_2",
@@ -801,15 +801,15 @@
    ],
    "fps": 8,
    "loop": false,
-   "group": "Neu",
-   "note": "Nach „Apfel bringen“: legt ihn vor dir ab.",
+   "group": "New",
+   "note": "After bringing it: puts the fish down in front of you.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "im_kreis_drehen": {
-   "label": "im kreis drehen",
+   "label": "spin",
    "frames": [
     "im_kreis_drehen_1",
     "im_kreis_drehen_2",
@@ -823,15 +823,15 @@
    ],
    "fps": 10,
    "loop": false,
-   "group": "Neu",
-   "note": "PreModelSwitch / PostModelSwitch: Modell wird gewechselt.",
+   "group": "New",
+   "note": "PreModelSwitch / PostModelSwitch: the model is being switched.",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "schuetteln": {
-   "label": "schütteln",
+   "label": "shake",
    "frames": [
     "schuetteln_1",
     "schuetteln_2",
@@ -844,15 +844,15 @@
    ],
    "fps": 12,
    "loop": false,
-   "group": "Neu",
-   "note": "PostCompact: nach dem Komprimieren wieder wach.",
+   "group": "New",
+   "note": "PostCompact: wide awake again after compacting.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "erschrecken": {
-   "label": "erschrecken",
+   "label": "startle",
    "frames": [
     "erschrecken_1",
     "erschrecken_2",
@@ -863,15 +863,15 @@
    ],
    "fps": 10,
    "loop": false,
-   "group": "Neu",
-   "note": "PermissionDenied: Auto-Modus hat etwas abgelehnt.",
+   "group": "New",
+   "note": "PermissionDenied: auto mode denied something.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "ohren_anlegen": {
-   "label": "ohren anlegen",
+   "label": "ears back",
    "frames": [
     "ohren_anlegen_1",
     "ohren_anlegen_2",
@@ -880,15 +880,15 @@
    ],
    "fps": 6,
    "loop": false,
-   "group": "Neu",
-   "note": "Du brichst mit Escape ab.",
+   "group": "New",
+   "note": "You cancel with Escape.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "pfoetchen_geben": {
-   "label": "pfötchen geben",
+   "label": "give paw",
    "frames": [
     "pfoetchen_geben_1",
     "pfoetchen_geben_2",
@@ -900,15 +900,15 @@
    ],
    "fps": 8,
    "loop": false,
-   "group": "Neu",
-   "note": "UserPromptExpansion: Slash-Befehl = Trick.",
+   "group": "New",
+   "note": "UserPromptExpansion: a slash command is a trick.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "ungeduldig": {
-   "label": "ungeduldig",
+   "label": "impatient",
    "frames": [
     "ungeduldig_1",
     "ungeduldig_2",
@@ -917,15 +917,15 @@
    ],
    "fps": 6,
    "loop": true,
-   "group": "Neu",
-   "note": "Lange Bash-Befehle, z. B. npm install.",
+   "group": "New",
+   "note": "Long Bash commands, e.g. npm install.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "gespannt": {
-   "label": "gespannt",
+   "label": "eager",
    "frames": [
     "gespannt_1",
     "gespannt_2",
@@ -934,15 +934,15 @@
    ],
    "fps": 4,
    "loop": true,
-   "group": "Neu",
-   "note": "Tests laufen.",
+   "group": "New",
+   "note": "Tests are running.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "mitlesen": {
-   "label": "mitlesen",
+   "label": "read along",
    "frames": [
     "mitlesen_1",
     "mitlesen_2",
@@ -953,15 +953,15 @@
    ],
    "fps": 5,
    "loop": true,
-   "group": "Neu",
-   "note": "MessageDisplay: Claude schreibt die Antwort.",
+   "group": "New",
+   "note": "MessageDisplay: Claude is writing the answer.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "nicken": {
-   "label": "nicken",
+   "label": "nod",
    "frames": [
     "nicken_1",
     "nicken_2",
@@ -971,15 +971,15 @@
    ],
    "fps": 6,
    "loop": false,
-   "group": "Neu",
-   "note": "InstructionsLoaded: CLAUDE.md gelesen – Hausregeln verstanden.",
+   "group": "New",
+   "note": "InstructionsLoaded: CLAUDE.md read – house rules understood.",
    "pose": [
     "sit",
     "sit"
    ]
   },
   "zuschuetten": {
-   "label": "zuschütten",
+   "label": "fill in",
    "frames": [
     "zuschuetten_1",
     "zuschuetten_2",
@@ -988,15 +988,15 @@
    ],
    "fps": 6,
    "loop": false,
-   "group": "Neu",
-   "note": "WorktreeRemove: Loch wieder zuschütten.",
+   "group": "New",
+   "note": "WorktreeRemove: fills the hole again.",
    "pose": [
     "stand",
     "stand"
    ]
   },
   "auf_den_ruecken_rollen": {
-   "label": "auf den rücken rollen",
+   "label": "roll over",
    "frames": [
     "auf_den_ruecken_rollen_1",
     "auf_den_ruecken_rollen_2",
@@ -1005,15 +1005,15 @@
    ],
    "fps": 8,
    "loop": false,
-   "group": "Interaktion",
-   "note": "Maus kreist über dem liegenden Hund: er dreht sich auf den Rücken. Rückwärts = wieder hinlegen.",
+   "group": "Interaction",
+   "note": "The mouse circles over the lying pet: it rolls onto its back. Backwards: lie down again.",
    "pose": [
     "lie",
     "belly"
    ]
   },
   "bauch_kraulen": {
-   "label": "bauch kraulen",
+   "label": "belly rub",
    "frames": [
     "bauch_kraulen_1",
     "bauch_kraulen_2",
@@ -1024,15 +1024,15 @@
    ],
    "fps": 8,
    "loop": true,
-   "group": "Interaktion",
-   "note": "Maus über dem Bauch hin und her bewegen. Strampelt vor Freude.",
+   "group": "Interaction",
+   "note": "Move the mouse over the belly. Wiggles with joy.",
    "pose": [
     "belly",
     "belly"
    ]
   },
   "zerrspiel": {
-   "label": "zerrspiel",
+   "label": "tug of war (feather wand)",
    "frames": [
     "zerrspiel_1",
     "zerrspiel_2",
@@ -1043,8 +1043,8 @@
    ],
    "fps": 8,
    "loop": true,
-   "group": "Interaktion",
-   "note": "Seil anklicken und festhalten, mit der Maus ziehen.",
+   "group": "Interaction",
+   "note": "Hold the feather wand and pull it with the mouse.",
    "pose": [
     "stand",
     "stand"
@@ -3265,48 +3265,48 @@
   "treat": {
    "x": 5,
    "y": 0,
-   "w": 3,
+   "w": 4,
    "h": 3
   },
   "item": {
-   "x": 9,
+   "x": 10,
    "y": 0,
-   "w": 4,
-   "h": 5
+   "w": 7,
+   "h": 4
   },
   "bowl_full": {
-   "x": 14,
+   "x": 18,
    "y": 0,
    "w": 7,
    "h": 3
   },
   "bowl_empty": {
-   "x": 22,
+   "x": 26,
    "y": 0,
    "w": 7,
    "h": 3
   },
   "heart": {
-   "x": 30,
+   "x": 34,
    "y": 0,
    "w": 5,
    "h": 4
   },
   "heart_small": {
-   "x": 36,
+   "x": 40,
    "y": 0,
    "w": 3,
    "h": 3
   },
   "rope_icon": {
-   "x": 40,
+   "x": 44,
    "y": 0,
    "w": 6,
    "h": 2
   },
   "rope_colors": [
-   "#f0be3c",
-   "#784828"
+   "#9696a0",
+   "#9696a0"
   ]
  }
 }
