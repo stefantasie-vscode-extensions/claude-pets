@@ -1,16 +1,18 @@
 # Claude Pets
 
+[![Support Claude Pets on Ko-fi – become a member](https://img.shields.io/badge/Support_Claude_Pets-Become_a_member_on_Ko--fi-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/stefantasie/tiers)
+
 ![Twelve pixel pets on the Claude Code prompt box](media/banner.gif)
+
+> **Free and open source – and it will stay that way.** Claude Pets is free software under the
+> MIT license. There is no paid tier and nothing to unlock: every feature is always available to
+> everyone. If you enjoy your pet and would like to support its development, you can
+> [become a member on Ko-fi](https://ko-fi.com/stefantasie/tiers) – a small monthly contribution
+> that keeps new pets and features coming. Thank you!
 
 A tiny pixel pet lives on top of the **Claude Code** prompt box in VS Code. It breathes, blinks,
 wags its tail and wanders around – and it reacts to what Claude is doing, to your typing and to
 your mouse.
-
-> **Free and open source – and it will stay that way.** Claude Pets is free software under the
-> MIT license. There is no paid tier and nothing to unlock: every feature is always available to
-> everyone. If you enjoy your pet and would like to support the project, you can do so on Ko-fi:
->
-> [![Support Claude Pets on Ko-fi](https://img.shields.io/badge/Support_Claude_Pets-Ko--fi-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/post/Claude-Pets-K0W32AIX6L)
 
 Twelve pets to choose from: dog, cat, fox, raccoon, panda, monkey, rabbit, frog, robot, crab,
 squirrel and turtle. All of them share the same 49 animations, each adapted to the animal – the cat
@@ -19,7 +21,7 @@ hides a fish instead of a bone, the frog snaps a fly, the robot hovers on a litt
 ## Installation
 
 1. Install the [Claude Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) extension.
-2. Install Claude Pets: `code --install-extension claude-pets-0.2.0.vsix`
+2. Install Claude Pets: `code --install-extension claude-pets-0.2.1.vsix`
 3. On first start Claude Pets sets everything up and shows
    *"Claude Pets is ready. Reload the window to let your pet appear."* → **Reload Window**.
 
