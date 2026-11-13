@@ -19,7 +19,7 @@ const STORAGE_KEY = 'claude-pets.species';
 
 const DEFAULT_CONFIG: PetConfig = {
   version: '0.0.0',
-  species: 'hund',
+  species: 'dog',
   scale: 2,
   showButtons: true,
   wander: true,
@@ -54,7 +54,7 @@ export class Pet {
   private occludedCheckAt = 0;
   private placed = false;
   occluded = false;
-  speciesId = 'hund';
+  speciesId = 'dog';
 
   constructor(cfg: PetConfig, all: EmbeddedSpecies[]) {
     this.cfg = cfg;
@@ -143,7 +143,7 @@ export class Pet {
 
   private initialSpecies(): string {
     const ids = this.lib.ids();
-    if (this.cfg.species === 'zufall') return ids[Math.floor(Math.random() * ids.length)] ?? 'hund';
+    if (isRandom(this.cfg.species)) return ids[Math.floor(Math.random() * ids.length)] ?? 'dog';
     let id = this.cfg.species;
     try {
       const saved = JSON.parse(localStorage.getItem(STORAGE_KEY) ?? 'null') as { species?: string; basedOn?: string } | null;
@@ -152,7 +152,7 @@ export class Pet {
     } catch {
       /* storage unavailable */
     }
-    return this.lib.has(id) ? id : 'hund';
+    return this.lib.has(id) ? id : 'dog';
   }
 
   /** Switch species. `fromMenu` remembers the choice and reports it to the extension. */
@@ -183,7 +183,7 @@ export class Pet {
     this.cfg = { ...next, bridge: prev.bridge };
     this.applySettings();
     if (next.species !== prev.species) {
-      const id = next.species === 'zufall' ? this.lib.ids()[Math.floor(Math.random() * this.lib.ids().length)] : next.species;
+      const id = isRandom(next.species) ? this.lib.ids()[Math.floor(Math.random() * this.lib.ids().length)] : next.species;
       try {
         localStorage.removeItem(STORAGE_KEY);
       } catch {
@@ -287,7 +287,7 @@ export class Pet {
         this.render(t);
       }
     } catch (err) {
-      this.log('Fehler im Animationsschritt', err);
+      this.log('Animation step failed', err);
     }
     this.raf = requestAnimationFrame(this.loop);
   };
@@ -366,6 +366,11 @@ export class Pet {
     c.getContext('2d')?.drawImage(this.assets.objects, r.x, r.y, r.w, r.h, 0, 0, r.w, r.h);
     return c;
   }
+}
+
+/** "random" (and the pre-0.2.0 value "zufall") pick a different pet on every start. */
+function isRandom(species: string): boolean {
+  return species === 'random' || species === 'zufall';
 }
 
 function loopFlags(a: SpeciesAssets): Record<string, boolean> {

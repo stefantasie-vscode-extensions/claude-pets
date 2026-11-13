@@ -13,8 +13,8 @@ import {
 import { tmpDir } from './helpers';
 
 const events = ['PreToolUse', 'Stop', 'Notification'];
-const cmd010 = hookCommand('/home/u/.vscode/extensions/kleywalker.claude-pets-0.1.0');
-const cmd020 = hookCommand('/home/u/.vscode/extensions/kleywalker.claude-pets-0.2.0');
+const cmd010 = hookCommand('/home/u/.vscode/extensions/stefantasie.claude-pets-0.1.0');
+const cmd020 = hookCommand('/home/u/.vscode/extensions/stefantasie.claude-pets-0.2.0');
 
 function read(file: string) {
   return JSON.parse(fs.readFileSync(file, 'utf8'));
@@ -105,7 +105,7 @@ describe('hooksInstaller', () => {
   });
 
   it('recognises own handlers by the claude-pets path component', () => {
-    expect(isOwnHandler({ command: 'node "C:\\Users\\x\\.vscode\\extensions\\kleywalker.claude-pets-0.1.0\\dist\\hook.js"' })).toBe(true);
+    expect(isOwnHandler({ command: 'node "C:\\Users\\x\\.vscode\\extensions\\stefantasie.claude-pets-0.1.0\\dist\\hook.js"' })).toBe(true);
     expect(isOwnHandler({ command: cmd010 })).toBe(true);
     expect(isOwnHandler({ command: 'node /opt/other/dist/hook.js' })).toBe(false);
     expect(isOwnHandler({ command: 'echo claude-pets' })).toBe(false);

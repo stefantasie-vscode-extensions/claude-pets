@@ -98,32 +98,51 @@ export function bridgePorts(): number[] {
 }
 
 export const SPECIES_IDS = [
-  'hund',
-  'katze',
-  'fuchs',
-  'waschbaer',
+  'dog',
+  'cat',
+  'fox',
+  'raccoon',
   'panda',
-  'affe',
-  'hase',
-  'frosch',
-  'roboter',
-  'krabbe',
-  'eichhoernchen',
-  'schildkroete',
+  'monkey',
+  'rabbit',
+  'frog',
+  'robot',
+  'crab',
+  'squirrel',
+  'turtle',
 ] as const;
 
+/** Setting value for "a different pet on every start". */
+export const RANDOM_SPECIES = 'random';
+
 export const SPECIES_LABELS: Record<string, string> = {
-  hund: 'Hund',
-  katze: 'Katze',
-  fuchs: 'Fuchs',
-  waschbaer: 'Waschbär',
+  dog: 'Dog',
+  cat: 'Cat',
+  fox: 'Fox',
+  raccoon: 'Raccoon',
   panda: 'Panda',
-  affe: 'Affe',
-  hase: 'Hase',
-  frosch: 'Frosch',
-  roboter: 'Roboter',
-  krabbe: 'Krabbe',
-  eichhoernchen: 'Eichhörnchen',
-  schildkroete: 'Schildkröte',
-  zufall: 'Zufall',
+  monkey: 'Monkey',
+  rabbit: 'Rabbit',
+  frog: 'Frog',
+  robot: 'Robot',
+  crab: 'Crab',
+  squirrel: 'Squirrel',
+  turtle: 'Turtle',
+  random: 'Random',
+};
+
+/** Setting values of versions before 0.2.0 (German ids) → current ids. */
+export const LEGACY_SPECIES: Record<string, string> = {
+  hund: 'dog',
+  katze: 'cat',
+  fuchs: 'fox',
+  waschbaer: 'raccoon',
+  affe: 'monkey',
+  hase: 'rabbit',
+  frosch: 'frog',
+  roboter: 'robot',
+  krabbe: 'crab',
+  eichhoernchen: 'squirrel',
+  schildkroete: 'turtle',
+  zufall: 'random',
 };

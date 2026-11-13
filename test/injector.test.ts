@@ -22,7 +22,7 @@ import { tmpDir } from './helpers';
 
 const config: PetConfig = {
   version: '0.1.0',
-  species: 'hund',
+  species: 'dog',
   scale: 2,
   showButtons: true,
   wander: true,

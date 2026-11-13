@@ -109,14 +109,14 @@ export class BridgeClient {
         const ev = JSON.parse((e as MessageEvent<string>).data) as PetEvent;
         if (!this.duplicate(ev)) this.h.event(ev);
       } catch (err) {
-        this.log('Ungültiges Ereignis', err);
+        this.log('Invalid event', err);
       }
     });
     es.addEventListener('config', (e) => {
       try {
         this.h.config(JSON.parse((e as MessageEvent<string>).data) as PetConfig);
       } catch (err) {
-        this.log('Ungültige Konfiguration', err);
+        this.log('Invalid configuration', err);
       }
     });
     es.onerror = () => {

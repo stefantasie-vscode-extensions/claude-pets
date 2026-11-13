@@ -80,7 +80,7 @@ export class Interactions {
       try {
         fn(e);
       } catch (err) {
-        this.pet.log('Interaktion fehlgeschlagen', err);
+        this.pet.log('Interaction failed', err);
       }
     };
     el.addEventListener(type, wrapped as EventListener, opts);
@@ -160,10 +160,10 @@ export class Interactions {
     this.toolbar.textContent = '';
     const sp = this.pet.assets.atlas.species;
     const buttons: { key: ObjectKey; title: string; down: (e: PointerEvent, b: HTMLButtonElement) => void }[] = [
-      { key: 'bowl_full', title: `Napf füllen`, down: () => this.feed() },
-      { key: 'treat', title: `Leckerli zuwerfen (${sp.item})`, down: () => this.treat() },
-      { key: 'toy', title: `${sp.toy} werfen – ziehen und loslassen`, down: (e, b) => this.grabToy(e, b) },
-      { key: 'rope_icon', title: `${sp.rope} – festhalten und zum Maul ziehen`, down: (e, b) => this.grabRope(e, b) },
+      { key: 'bowl_full', title: 'Fill the bowl', down: () => this.feed() },
+      { key: 'treat', title: `Toss a treat (${sp.item.toLowerCase()})`, down: () => this.treat() },
+      { key: 'toy', title: `Throw the ${sp.toy.toLowerCase()} – drag and let go`, down: (e, b) => this.grabToy(e, b) },
+      { key: 'rope_icon', title: `${sp.rope} – hold it and pull it to the mouth`, down: (e, b) => this.grabRope(e, b) },
     ];
     for (const def of buttons) {
       const b = document.createElement('button');
@@ -339,7 +339,7 @@ export class Interactions {
   }
 
   private feed(): void {
-    const rule = triggers.interactions.feedButton as { fresstDauerMs?: number } | undefined;
+    const rule = triggers.interactions.feedButton as { eatDurationMs?: number } | undefined;
     const r = this.pet.assets.objectRect('bowl_full');
     if (!r) return;
     const { min, max } = this.pet.bounds();
@@ -381,7 +381,7 @@ export class Interactions {
         {
           clip: 'fressen',
           mode: 'loop',
-          durationMs: rule?.fresstDauerMs ?? 4000,
+          durationMs: rule?.eatDurationMs ?? 4000,
           face: facing,
           onStart: () => {
             if (this.bowl) this.bowl.style.visibility = 'hidden';
@@ -755,7 +755,7 @@ export class Interactions {
     const sep = document.createElement('div');
     sep.className = 'cp-menu-sep';
     menu.appendChild(sep);
-    this.menuItem(menu, 'Ausblenden (bis Neuladen)', () => this.pet.hideUntilReload());
+    this.menuItem(menu, 'Hide (until reload)', () => this.pet.hideUntilReload());
 
     document.body.appendChild(menu);
     const r = menu.getBoundingClientRect();
@@ -800,7 +800,7 @@ export class Interactions {
         try {
           run();
         } catch (err) {
-          this.pet.log('Menübefehl fehlgeschlagen', err);
+          this.pet.log('Menu command failed', err);
         }
       });
     }
