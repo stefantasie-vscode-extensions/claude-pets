@@ -1,73 +1,75 @@
-# Manueller Testplan
+# Manual test plan
 
-Voraussetzungen: Claude Pets und Claude Code installiert, Fenster nach dem Hinweis „Claude
-Pets ist bereit“ neu geladen. Bei Problemen zuerst **Claude Pets: Diagnose** ausführen.
-Für Details im Webview: „Developer: Open Webview Developer Tools“, mit `claudePets.debug = true`
-steht dort `window.__claudePets` zur Verfügung.
+Prerequisites: Claude Pets and Claude Code are installed, and the window was reloaded after the
+notification "Claude Pets is ready". If anything looks wrong, run **Claude Pets: Show Diagnostics**
+first. For details inside the webview use "Developer: Open Webview Developer Tools"; with
+`claudePets.debug = true`, `window.__claudePets` is available there.
 
-## Erscheinen
+## Appearance
 
-- [ ] Der Hund sitzt auf der Oberkante der Claude-Promptbox (Füße genau auf der Linie).
-- [ ] Er atmet/wedelt (Leerlauf-Schleife) und blinzelt alle 3–6 s.
-- [ ] Gelegentlich läuft er zu einer anderen Stelle und setzt sich wieder.
-- [ ] Mehrzeiliger Text (Umschalt+Enter) lässt die Box wachsen – das Tier wandert mit nach oben.
-- [ ] Ein Warnbanner über der Box (z. B. Nutzungslimit) – das Tier sitzt oben auf dem Banner.
-- [ ] Panel schmaler/breiter ziehen – das Tier bleibt innerhalb der Box.
-- [ ] Slash-Menü (`/`) öffnen – das Tier blendet sich aus, solange das Menü darüber liegt.
-- [ ] Text in der Box ist nie verdeckt, Klicks ins Eingabefeld funktionieren überall.
+- [ ] The dog sits on the top edge of the Claude prompt box (feet exactly on the line).
+- [ ] It breathes and wags (idle loop) and blinks every 3–6 s.
+- [ ] Now and then it walks to another spot and sits down again.
+- [ ] Multi-line text (Shift+Enter) makes the box grow – the pet moves up with it.
+- [ ] A warning banner on top of the box (e.g. usage limit) – the pet sits on top of the banner.
+- [ ] Make the panel narrower/wider – the pet stays within the box.
+- [ ] Open the slash menu (`/`) – the pet hides while the menu covers it.
+- [ ] Text in the box is never covered; clicks into the input field work everywhere.
 
-## Claude-Ereignisse
+## Claude events
 
-- [ ] Tippen → `zuschauen`, 1,5 s nach dem letzten Tastendruck zurück in den Leerlauf.
-- [ ] Prompt senden → `aufmerksam`, dann `nachdenken`.
-- [ ] Claude liest Dateien (Read/Grep/Glob) → `schnueffeln` (läuft langsam).
-- [ ] Claude schreibt (Edit/Write) → `buddeln`.
-- [ ] Websuche/WebFetch → `lauschen`.
-- [ ] `npm test` → `gespannt`, danach `freuen` (grün) bzw. `traurig` (rot).
-- [ ] `npm install` → `ungeduldig`; `git commit` → `nachdenken`, danach `freuen`.
-- [ ] Sonstiger Bash-Befehl → `rennen`.
-- [ ] Freigabe-Dialog → Tier sitzt auf der Freigabekarte und `bellen`; nach der Antwort Ende.
-- [ ] Claude fertig → `freuen`, danach Leerlauf.
-- [ ] Werkzeugfehler → `traurig`.
-- [ ] Escape während Claude arbeitet → `ohren_anlegen`.
-- [ ] Ohne Hooks (`claudePets.hooks.enabled = false`, neu laden): „Claude arbeitet“ zeigt
-      trotzdem `nachdenken`, Freigabe-Dialog trotzdem `bellen`.
+- [ ] Typing → `zuschauen` (watch); back to idle 1.5 s after the last key press.
+- [ ] Sending a prompt → `aufmerksam` (attentive), then `nachdenken` (think).
+- [ ] Claude reads files (Read/Grep/Glob) → `schnueffeln` (sniff, walks slowly).
+- [ ] Claude writes (Edit/Write) → `buddeln` (dig).
+- [ ] Web search / WebFetch → `lauschen` (listen).
+- [ ] `npm test` → `gespannt` (eager), then `freuen` (happy, green) or `traurig` (sad, red).
+- [ ] `npm install` → `ungeduldig` (impatient); `git commit` → `nachdenken`, then `freuen`.
+- [ ] Any other Bash command → `rennen` (run).
+- [ ] Permission dialog → the pet sits on the permission card and `bellen` (barks); ends after the
+      answer.
+- [ ] Claude is done → `freuen`, then idle.
+- [ ] Tool error → `traurig`.
+- [ ] Escape while Claude is working → `ohren_anlegen` (ears back).
+- [ ] Without hooks (`claudePets.hooks.enabled = false`, reload): "Claude working" still shows
+      `nachdenken`, the permission dialog still `bellen`.
 
-## Interaktionen
+## Interactions
 
-- [ ] Streicheln: Maus schnell hin und her über dem Tier → `streicheln` mit Herzen.
-- [ ] Anstupsen: Klick → kurzes Erschrecken, dann `freuen`.
-- [ ] Ruhige Maus über dem Tier bei fokussierter Promptbox → Tier wird nach 0,6 s durchscheinend.
-- [ ] Knopfleiste erscheint beim Darüberfahren, verschwindet 2 s nach dem Verlassen;
-      Tooltips nennen die Dinge der Tierart (Katze: Fisch, Wollknäuel, Federangel).
-- [ ] Napf: Napf erscheint neben dem Tier, es läuft hin und frisst 4 s genau darüber,
-      danach 2 s leerer Napf.
-- [ ] Leckerli: `leckerli_fangen`.
-- [ ] Spielzeug: an der Maus ziehen und werfen → fliegt mit Schwerkraft, prallt ab, rollt
-      aus; das Tier lauert, rennt hinterher (überholt nie), nimmt es auf, bringt es zurück,
-      setzt sich 4 s damit hin, legt es ab.
-- [ ] Seil: festhalten, zum Maul ziehen → `zerrspiel` mit zweifarbiger Linie; Loslassen beendet.
-- [ ] Bauch kraulen: Kontextmenü „Platz“, dann mit der Maus über dem Tier kreisen →
-      rollt auf den Rücken und strampelt, solange die Maus sich bewegt; danach zurück.
-- [ ] Rufen: Doppelklick knapp über der Box-Oberkante → Tier läuft hin und setzt sich.
-- [ ] Kontextmenü (Rechtsklick): Sitz, Platz, Pfötchen, Drehen, Schlafen, Tier wechseln …,
-      Ausblenden (bis Neuladen). Escape/Klick daneben schließt es.
+- [ ] Petting: move the mouse quickly back and forth over the pet → `streicheln` with hearts.
+- [ ] Poking: click → a short startle, then `freuen`.
+- [ ] Resting mouse over the pet while the prompt box has focus → the pet becomes translucent after
+      0.6 s.
+- [ ] The toolbar appears on hover and disappears 2 s after leaving; tooltips name the pet's things
+      (cat: fish, yarn ball, feather wand).
+- [ ] Bowl: a bowl appears next to the pet, it walks over and eats exactly above it for 4 s, then an
+      empty bowl for 2 s.
+- [ ] Treat: `leckerli_fangen`.
+- [ ] Toy: drag and throw → flies with gravity, bounces, rolls out; the pet stalks, runs after it
+      (never overtakes it), picks it up, brings it back, sits with it for 4 s, puts it down.
+- [ ] Rope: hold it and pull it to the mouth → `zerrspiel` with a two-coloured line; letting go ends
+      it.
+- [ ] Belly rub: context menu *Lie down*, then circle with the mouse over the pet → rolls onto its
+      back and wiggles while the mouse moves; afterwards rolls back.
+- [ ] Calling: double-click just above the top edge of the box → the pet walks there and sits down.
+- [ ] Context menu (right-click): Sit, Lie down, Give paw, Spin, Sleep, Change pet …, Hide (until
+      reload). Escape or a click elsewhere closes it.
 
-## Tierwechsel
+## Changing the pet
 
-- [ ] Kontextmenü → „Tier wechseln …“ → jedes der 12 Tiere einmal wählen.
-- [ ] Die Einstellung `claudePets.species` folgt der Auswahl.
-- [ ] „Claude Pets: Tier wählen …“ bzw. Klick auf „🐾 …“ in der Statusleiste wechselt das
-      Tier sofort (ohne Neuladen, wenn die Bridge verbunden ist).
-- [ ] `zufall`: nach jedem Neuladen ein anderes Tier; die Statusleiste zeigt das aktuelle.
-- [ ] Hase, Frosch, Eichhörnchen hoppeln; die Krabbe wird nie gespiegelt.
+- [ ] Context menu → *Change pet …* → choose each of the 12 pets once.
+- [ ] The setting `claudePets.species` follows the choice.
+- [ ] "Claude Pets: Choose Pet…" or a click on "🐾 …" in the status bar switches the pet immediately
+      (without reload while the bridge is connected).
+- [ ] `random`: a different pet after every reload; the status bar shows the current one.
+- [ ] Rabbit, frog and squirrel hop; the crab is never mirrored; the robot hovers.
 
-## Deaktivieren und Deinstallation
+## Disabling and uninstalling
 
-- [ ] „Claude Pets: Deaktivieren“ → Hinweis zum Neuladen; danach kein Tier, in
-      `webview/index.js`, `webview/index.css` und `extension.js` von Claude Code kein
-      `claude-pets`-Text mehr, in `~/.claude/settings.json` keine Claude-Pets-Hooks.
-- [ ] „Claude Pets: Aktivieren“ stellt alles wieder her.
-- [ ] Extension deinstallieren, VS Code neu starten → wie oben rückstandslos, zusätzlich
-      `~/.claude-pets` gelöscht.
-- [ ] Claude Code aktualisieren → Claude Pets patcht die neue Version und bietet Neuladen an.
+- [ ] "Claude Pets: Disable" → reload hint; afterwards no pet, no `claude-pets` text left in
+      Claude Code's `webview/index.js`, `webview/index.css` and `extension.js`, and no Claude Pets
+      hooks in `~/.claude/settings.json`.
+- [ ] "Claude Pets: Enable" restores everything.
+- [ ] Uninstall the extension and restart VS Code → everything removed as above, plus
+      `~/.claude-pets`.
+- [ ] Update Claude Code → Claude Pets patches the new version and offers a reload.
