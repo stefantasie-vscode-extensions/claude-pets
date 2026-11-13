@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.2 – 2026-11-13
+
+- The Ko-fi badge is now Ko-fi blue instead of red.
+- The Ko-fi cup is part of the "become a member on Ko-fi" link in the README text.
+
 ## 0.2.1 – 2026-11-13
 
 - Ko-fi membership link at the top of the README and the extension details, with the Ko-fi logo.
