@@ -11,7 +11,7 @@ const OWN_COMMAND_RE = /claude-pets[^"'\s]*[\\/]+dist[\\/]+hook\.js/;
 
 export class SettingsParseError extends Error {
   constructor(file: string, cause: unknown) {
-    super(`${file} enthält kein gültiges JSON (${cause instanceof Error ? cause.message : String(cause)}). Die Datei wurde nicht verändert.`);
+    super(`${file} does not contain valid JSON (${cause instanceof Error ? cause.message : String(cause)}). The file was left unchanged.`);
     this.name = 'SettingsParseError';
   }
 }
@@ -33,7 +33,7 @@ export function defaultSettingsPath(): string {
   return path.join(os.homedir(), '.claude', 'settings.json');
 }
 
-/** The command line we register, e.g. node "/Users/x/.vscode/extensions/kleywalker.claude-pets-0.1.0/dist/hook.js". */
+/** The command line we register, e.g. node "/Users/x/.vscode/extensions/stefantasie.claude-pets-0.2.0/dist/hook.js". */
 export function hookCommand(extensionPath: string, nodeBinary = 'node'): string {
   const script = path.join(extensionPath, 'dist', 'hook.js');
   const node = /\s/.test(nodeBinary) ? `"${nodeBinary}"` : nodeBinary;
@@ -133,7 +133,7 @@ export function readSettings(file: string, io: FsLike = realFs): { data: Json; r
   } catch (err) {
     throw new SettingsParseError(file, err);
   }
-  if (!isObj(parsed)) throw new SettingsParseError(file, new Error('Wurzel ist kein Objekt'));
+  if (!isObj(parsed)) throw new SettingsParseError(file, new Error('the root is not an object'));
   return { data: parsed, raw };
 }
 

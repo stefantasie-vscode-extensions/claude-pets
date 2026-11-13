@@ -58,7 +58,7 @@ export class Bridge {
       if (ok) {
         this.server = server;
         this.port = (server.address() as AddressInfo).port;
-        server.on('error', (e) => this.opts.log?.(`Bridge-Fehler: ${e.message}`));
+        server.on('error', (e) => this.opts.log?.(`Bridge error: ${e.message}`));
         this.keepalive = setInterval(() => this.writeAll(': keepalive\n\n'), KEEPALIVE_MS);
         return this.port;
       }
@@ -229,7 +229,7 @@ export class Bridge {
 
       return this.send(res, 404, { ok: false });
     } catch (err) {
-      this.opts.log?.(`Bridge-Anfrage fehlgeschlagen: ${err instanceof Error ? err.message : String(err)}`);
+      this.opts.log?.(`Bridge request failed: ${err instanceof Error ? err.message : String(err)}`);
       try {
         this.send(res, 500, { ok: false });
       } catch {

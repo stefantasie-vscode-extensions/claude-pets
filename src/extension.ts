@@ -5,6 +5,7 @@ import * as path from 'node:path';
 import * as vscode from 'vscode';
 import { Bridge } from './bridge';
 import { CLAUDE_EXTENSION_ID, resolveClaudeFiles, type ClaudeFiles } from './claudeLocator';
+import { buildPetConfig, normalizeSpecies } from './config';
 import { applyCspPatch, cspStateOfFile, removeCspPatch, type CspState } from './csp';
 import {
   defaultSettingsPath,
@@ -16,11 +17,12 @@ import {
 import { applyInjection, blockPayload, buildCssBlock, buildJsBlock, currentBlock, injectionStatus, removeInjection } from './injector';
 import { cleanupOrphans, loadOrCreateToken, petsHome, removeInstance, writeInstance } from './instances';
 import { hookEventNames } from './shared/triggers';
-import { SPECIES_IDS, SPECIES_LABELS, bridgePorts, type PetConfig, type PetEvent, type ReduceMotion } from './shared/types';
+import { RANDOM_SPECIES, SPECIES_IDS, SPECIES_LABELS, type PetConfig, type PetEvent } from './shared/types';
 
 const TOKEN_KEY = 'claudePets.token';
 const HOOKS_OFFERED_KEY = 'claudePets.hooksInstalledOnce';
 const MARKETPLACE_ID = 'anthropic.claude-code';
+const RELOAD = 'Reload Window';
 
 let controller: Controller | null = null;
 
@@ -42,7 +44,7 @@ class Controller {
   private bridge: Bridge | null = null;
   private token = '';
   private version: string;
-  private cspState: CspState | 'deaktiviert' | 'unbekannt' = 'unbekannt';
+  private cspState: CspState | 'disabled' | 'unknown' = 'unknown';
   private lastPatch: { at: Date; outcome: ApplyOutcome; detail?: string } | null = null;
   private lastClaude: { path: string; version: string } | null = null;
   private reportedSpecies: string | null = null;
@@ -81,8 +83,12 @@ class Controller {
     return this.setting('debug', false);
   }
 
+  private get species(): string {
+    return normalizeSpecies(this.setting<string>('species', 'dog'));
+  }
+
   log(msg: string): void {
-    this.out.appendLine(`[${new Date().toLocaleTimeString('de-DE')}] ${msg}`);
+    this.out.appendLine(`[${new Date().toLocaleTimeString()}] ${msg}`);
   }
 
   private debugLog(msg: string): void {
@@ -97,19 +103,20 @@ class Controller {
   }
 
   private buildConfig(bridgeEnabled: boolean): PetConfig {
-    const scale = Number(this.setting('scale', 2));
-    return {
+    return buildPetConfig((key, fallback) => this.setting(key, fallback), {
       version: this.version,
-      species: this.setting<string>('species', 'hund'),
-      scale: Number.isFinite(scale) ? Math.min(4, Math.max(1, scale)) : 2,
-      showButtons: this.setting('showButtons', true),
-      wander: this.setting('idle.wander', true),
-      sleepAfterMs: Math.max(1, Number(this.setting('idle.sleepAfterMinutes', 4))) * 60000,
-      opacityOnHover: Math.min(1, Math.max(0, Number(this.setting('opacityOnHover', 0.35)))),
-      reduceMotion: this.setting<ReduceMotion>('reduceMotion', 'auto'),
-      debug: this.debug,
-      bridge: { enabled: bridgeEnabled, ports: bridgePorts(), token: this.token },
-    };
+      token: this.token,
+      bridgeEnabled,
+    });
+  }
+
+  /** Settings written by versions before 0.2.0 used German species ids. */
+  private async migrateSettings(): Promise<void> {
+    const stored = this.conf.inspect<string>('species')?.globalValue;
+    if (stored !== undefined && normalizeSpecies(stored) !== stored) {
+      await this.conf.update('species', normalizeSpecies(stored), vscode.ConfigurationTarget.Global);
+      this.log(`Migrated setting claudePets.species from "${stored}" to "${normalizeSpecies(stored)}".`);
+    }
   }
 
   // ----- lifecycle -----------------------------------------------------------------
@@ -120,14 +127,15 @@ class Controller {
     this.token = loadOrCreateToken(this.ctx.globalState.get<string>(TOKEN_KEY));
     if (this.ctx.globalState.get<string>(TOKEN_KEY) !== this.token) await this.ctx.globalState.update(TOKEN_KEY, this.token);
 
+    await this.migrateSettings();
     this.registerCommands();
     this.updateStatusBar();
 
     try {
       const removed = cleanupOrphans();
-      if (removed > 0) this.log(`${removed} verwaiste Instanz-Einträge entfernt.`);
+      if (removed > 0) this.log(`Removed ${removed} orphaned instance entries.`);
     } catch (err) {
-      this.log(`Aufräumen der Instanzen fehlgeschlagen: ${errText(err)}`);
+      this.log(`Cleaning up instances failed: ${errText(err)}`);
     }
     await this.startBridge();
 
@@ -138,18 +146,18 @@ class Controller {
           void this.syncHooks(false);
         }
         this.updateStatusBar();
-        this.scheduleApply('Einstellungen geändert');
+        this.scheduleApply('settings changed');
       }),
       vscode.extensions.onDidChange(() => {
         const ext = this.findClaude();
         const key = ext ? `${ext.extensionPath}` : '';
-        if (key !== (this.lastClaude?.path ?? '')) this.scheduleApply('Claude Code wurde aktualisiert');
+        if (key !== (this.lastClaude?.path ?? '')) this.scheduleApply('Claude Code was updated');
       }),
       vscode.workspace.onDidChangeWorkspaceFolders(() => this.registerInstance()),
     );
 
     await this.syncHooks(true);
-    await this.apply('Start');
+    await this.apply('startup');
   }
 
   async stop(): Promise<void> {
@@ -168,15 +176,15 @@ class Controller {
       version: this.version,
       workspaceFolders: () => this.workspaceFolders(),
       log: (m) => this.log(m),
-      onEvent: (ev: PetEvent) => this.debugLog(`Ereignis: ${JSON.stringify(ev)}`),
+      onEvent: (ev: PetEvent) => this.debugLog(`Event: ${JSON.stringify(ev)}`),
       onSpecies: (species, persist) => void this.onSpeciesFromWebview(species, persist),
     });
     const port = await this.bridge.start();
     if (port === null) {
-      this.log('Kein freier Port zwischen 47811 und 47830 – Hook-Ereignisse sind in diesem Fenster nicht verfügbar.');
+      this.log('No free port between 47811 and 47830 – hook events are not available in this window.');
       return;
     }
-    this.log(`Bridge läuft auf 127.0.0.1:${port}.`);
+    this.log(`Bridge listening on 127.0.0.1:${port}.`);
     this.registerInstance();
   }
 
@@ -192,7 +200,7 @@ class Controller {
         version: this.version,
       });
     } catch (err) {
-      this.log(`Instanz konnte nicht registriert werden: ${errText(err)}`);
+      this.log(`Could not register this window: ${errText(err)}`);
     }
   }
 
@@ -200,7 +208,7 @@ class Controller {
     if (!(SPECIES_IDS as readonly string[]).includes(species)) return;
     this.reportedSpecies = species;
     this.updateStatusBar();
-    if (persist && this.setting<string>('species', 'hund') !== species) {
+    if (persist && this.species !== species) {
       await this.conf.update('species', species, vscode.ConfigurationTarget.Global);
     }
   }
@@ -234,21 +242,21 @@ class Controller {
     if (!this.enabled) {
       const removed = files ? this.removePatches(files) : false;
       this.lastPatch = { at: new Date(), outcome: removed ? 'removed' : 'unchanged', detail: reason };
-      if (removed) void this.offerReload('Claude Pets wurde aus Claude Code entfernt. Fenster neu laden, damit das Haustier verschwindet.');
+      if (removed) void this.offerReload('Claude Pets was removed from Claude Code. Reload the window to make the pet disappear.');
       return this.lastPatch.outcome;
     }
     if (!files) {
       this.lastPatch = { at: new Date(), outcome: 'missing', detail: reason };
-      this.cspState = 'unbekannt';
+      this.cspState = 'unknown';
       if (!this.missingNotified) {
         this.missingNotified = true;
         const ext = this.findClaude();
         const msg = ext
-          ? 'Claude Pets: Die Webview-Dateien von Claude Code wurden nicht gefunden. Details unter „Claude Pets: Diagnose“.'
-          : 'Claude Pets braucht die Claude-Code-Extension.';
-        const action = ext ? undefined : 'Claude Code installieren';
+          ? 'Claude Pets: Could not find the webview files of Claude Code. See "Claude Pets: Show Diagnostics" for details.'
+          : 'Claude Pets needs the Claude Code extension.';
+        const action = ext ? undefined : 'Install Claude Code';
         const pick = await (action ? vscode.window.showWarningMessage(msg, action) : vscode.window.showWarningMessage(msg));
-        if (pick === 'Claude Code installieren') {
+        if (pick === 'Install Claude Code') {
           await vscode.commands.executeCommand('workbench.extensions.search', MARKETPLACE_ID);
         }
       }
@@ -261,12 +269,12 @@ class Controller {
       if (files.extensionJs) {
         if (this.setting('patchCsp', true)) {
           const r = applyCspPatch(files.extensionJs);
-          if (r === 'written') this.log(`CSP in ${files.extensionJs} um connect-src http://127.0.0.1:* erweitert.`);
+          if (r === 'written') this.log(`Extended the CSP in ${files.extensionJs} with connect-src http://127.0.0.1:*.`);
           this.cspState = cspStateOfFile(files.extensionJs);
         } else {
           removeCspPatch(files.extensionJs);
           this.cspState = cspStateOfFile(files.extensionJs);
-          if (this.cspState === 'patched') this.cspState = 'deaktiviert';
+          if (this.cspState === 'patched') this.cspState = 'disabled';
         }
       } else {
         this.cspState = 'not-found';
@@ -287,23 +295,23 @@ class Controller {
       // New code, assets or styles need a webview reload; settings alone arrive live.
       const codeChanged = !before || blockPayload(before) !== blockPayload(jsBlock) || res.css === 'written';
       this.lastPatch = { at: new Date(), outcome, detail: reason };
-      if (written) this.log(`Claude Code ${files.version} gepatcht (${reason}).`);
+      if (written) this.log(`Patched Claude Code ${files.version} (${reason}).`);
 
       // Live update for webviews that are already connected.
       this.bridge?.pushConfig(config);
 
       if (outcome === 'written-new') {
-        void this.offerReload('Claude Pets ist bereit. Fenster neu laden, damit das Haustier erscheint.');
+        void this.offerReload('Claude Pets is ready. Reload the window to let your pet appear.');
       } else if (outcome === 'written-update' && (codeChanged || (this.bridge?.clientCount ?? 0) === 0)) {
-        void this.offerReload('Claude Pets wurde aktualisiert. Fenster neu laden, um die Änderungen anzuwenden.');
+        void this.offerReload('Claude Pets was updated. Reload the window to apply the changes.');
       } else if (outcome === 'written-update') {
-        vscode.window.setStatusBarMessage('Claude Pets: Einstellungen übernommen', 3000);
+        vscode.window.setStatusBarMessage('Claude Pets: settings applied', 3000);
       }
       return outcome;
     } catch (err) {
       this.lastPatch = { at: new Date(), outcome: 'error', detail: errText(err) };
-      this.log(`Patchen fehlgeschlagen (${reason}): ${errText(err)}`);
-      void vscode.window.showErrorMessage('Claude Pets konnte Claude Code nicht patchen. Es wurde nichts verändert. Details im Ausgabekanal „Claude Pets“.');
+      this.log(`Patching failed (${reason}): ${errText(err)}`);
+      void vscode.window.showErrorMessage('Claude Pets could not patch Claude Code. Nothing was changed. See the "Claude Pets" output channel for details.');
       return 'error';
     }
   }
@@ -314,18 +322,18 @@ class Controller {
       const r = removeInjection({ jsPath: files.webviewJs, cssPath: files.webviewCss });
       changed = r.js === 'written' || r.css === 'written';
       if (files.extensionJs && removeCspPatch(files.extensionJs) === 'written') changed = true;
-      if (changed) this.log(`Injektion aus Claude Code ${files.version} entfernt.`);
+      if (changed) this.log(`Removed the injection from Claude Code ${files.version}.`);
       this.cspState = files.extensionJs ? cspStateOfFile(files.extensionJs) : 'not-found';
     } catch (err) {
-      this.log(`Entfernen fehlgeschlagen: ${errText(err)}`);
-      void vscode.window.showErrorMessage('Claude Pets konnte die Injektion nicht entfernen. Details im Ausgabekanal „Claude Pets“.');
+      this.log(`Removing failed: ${errText(err)}`);
+      void vscode.window.showErrorMessage('Claude Pets could not remove the injection. See the "Claude Pets" output channel for details.');
     }
     return changed;
   }
 
   private async offerReload(message: string): Promise<void> {
-    const pick = await vscode.window.showInformationMessage(message, 'Neu laden');
-    if (pick === 'Neu laden') await vscode.commands.executeCommand('workbench.action.reloadWindow');
+    const pick = await vscode.window.showInformationMessage(message, RELOAD);
+    if (pick === RELOAD) await vscode.commands.executeCommand('workbench.action.reloadWindow');
   }
 
   // ----- hooks ---------------------------------------------------------------------
@@ -339,11 +347,11 @@ class Controller {
     if (found) return 'node';
     for (const p of ['/opt/homebrew/bin/node', '/usr/local/bin/node', '/usr/bin/node']) {
       if (fs.existsSync(p)) {
-        this.log(`„node“ ist nicht im PATH, verwende ${p} für die Hooks.`);
+        this.log(`"node" is not on the PATH, using ${p} for the hooks.`);
         return p;
       }
     }
-    this.log('Warnung: „node“ wurde nicht gefunden. Hooks werden eingetragen, laufen aber erst, wenn Node.js im PATH ist.');
+    this.log('Warning: "node" was not found. The hooks are registered but only run once Node.js is on the PATH.');
     return 'node';
   }
 
@@ -356,23 +364,23 @@ class Controller {
     const file = defaultSettingsPath();
     try {
       if (!this.enabled || !this.hooksEnabled) {
-        if (uninstallHooks(file) === 'written') this.log(`Hooks aus ${file} entfernt.`);
+        if (uninstallHooks(file) === 'written') this.log(`Removed the hooks from ${file}.`);
         return;
       }
       const cmd = await this.hookCmd();
       const before = hookStatusOfFile(file, hookEventNames(), cmd);
       if (before.upToDate) return;
       const result = installHooks(file, hookEventNames(), cmd);
-      if (result === 'written') this.log(`Hooks in ${file} eingerichtet (${hookEventNames().length} Ereignisse).`);
+      if (result === 'written') this.log(`Registered the hooks in ${file} (${hookEventNames().length} events).`);
       const firstTime = !this.ctx.globalState.get<boolean>(HOOKS_OFFERED_KEY);
       if (result === 'written' && (firstTime || !startup) && !before.installed) {
         await this.ctx.globalState.update(HOOKS_OFFERED_KEY, true);
-        void vscode.window.showInformationMessage('Claude-Pets-Hooks wurden eingerichtet.', 'Rückgängig').then(async (pick) => {
-          if (pick === 'Rückgängig') await this.conf.update('hooks.enabled', false, vscode.ConfigurationTarget.Global);
+        void vscode.window.showInformationMessage('Claude Pets hooks have been set up.', 'Undo').then(async (pick) => {
+          if (pick === 'Undo') await this.conf.update('hooks.enabled', false, vscode.ConfigurationTarget.Global);
         });
       }
     } catch (err) {
-      this.log(`Hooks konnten nicht eingerichtet werden: ${errText(err)}`);
+      this.log(`Could not set up the hooks: ${errText(err)}`);
       void vscode.window.showWarningMessage(`Claude Pets: ${errText(err)}`);
     }
   }
@@ -383,41 +391,41 @@ class Controller {
     const reg = (id: string, fn: () => unknown) => this.ctx.subscriptions.push(vscode.commands.registerCommand(id, fn));
     const global = vscode.ConfigurationTarget.Global;
     reg('claudePets.enable', async () => {
-      if (this.enabled) await this.apply('Aktivieren');
+      if (this.enabled) await this.apply('enable');
       else await this.conf.update('enabled', true, global);
     });
     reg('claudePets.disable', async () => {
-      if (!this.enabled) await this.apply('Deaktivieren');
+      if (!this.enabled) await this.apply('disable');
       else await this.conf.update('enabled', false, global);
     });
     reg('claudePets.reapply', async () => {
-      const outcome = await this.apply('Neu anwenden');
+      const outcome = await this.apply('reapply');
       if (outcome === 'unchanged') {
-        void this.offerReload('Claude Pets ist bereits angewendet. Fenster neu laden, falls das Haustier fehlt.');
+        void this.offerReload('Claude Pets is already applied. Reload the window if the pet is missing.');
       }
     });
     reg('claudePets.chooseSpecies', () => this.chooseSpecies());
     reg('claudePets.installHooks', async () => {
       if (!this.hooksEnabled) await this.conf.update('hooks.enabled', true, global);
       else await this.syncHooks(false);
-      void vscode.window.showInformationMessage('Claude-Pets-Hooks sind eingerichtet.');
+      void vscode.window.showInformationMessage('Claude Pets hooks are set up.');
     });
     reg('claudePets.removeHooks', async () => {
       if (this.hooksEnabled) await this.conf.update('hooks.enabled', false, global);
       else await this.syncHooks(false);
-      void vscode.window.showInformationMessage('Claude-Pets-Hooks wurden entfernt.');
+      void vscode.window.showInformationMessage('Claude Pets hooks have been removed.');
     });
     reg('claudePets.diagnose', () => this.diagnose());
   }
 
   private async chooseSpecies(): Promise<void> {
-    const current = this.setting<string>('species', 'hund');
-    const items: (vscode.QuickPickItem & { id: string })[] = [...SPECIES_IDS, 'zufall'].map((id) => ({
+    const current = this.species;
+    const items: (vscode.QuickPickItem & { id: string })[] = [...SPECIES_IDS, RANDOM_SPECIES].map((id) => ({
       id,
       label: SPECIES_LABELS[id] ?? id,
-      description: id === current ? 'aktuell' : id === 'zufall' ? 'bei jedem Start ein anderes Tier' : undefined,
+      description: id === current ? 'current' : id === RANDOM_SPECIES ? 'a different pet on every start' : undefined,
     }));
-    const pick = await vscode.window.showQuickPick(items, { title: 'Claude Pets: Tier wählen', placeHolder: 'Welches Tier soll auf der Promptbox sitzen?' });
+    const pick = await vscode.window.showQuickPick(items, { title: 'Claude Pets: Choose Pet', placeHolder: 'Which pet should sit on the prompt box?' });
     if (pick && pick.id !== current) await this.conf.update('species', pick.id, vscode.ConfigurationTarget.Global);
   }
 
@@ -426,10 +434,10 @@ class Controller {
       this.status.hide();
       return;
     }
-    const setting = this.setting<string>('species', 'hund');
-    const shown = setting === 'zufall' && this.reportedSpecies ? this.reportedSpecies : setting;
+    const setting = this.species;
+    const shown = setting === RANDOM_SPECIES && this.reportedSpecies ? this.reportedSpecies : setting;
     this.status.text = `🐾 ${SPECIES_LABELS[shown] ?? shown}`;
-    this.status.tooltip = 'Claude Pets – Tier wählen';
+    this.status.tooltip = 'Claude Pets – choose pet';
     this.status.show();
   }
 
@@ -437,44 +445,44 @@ class Controller {
     const o = this.out;
     o.show(true);
     o.appendLine('');
-    o.appendLine(`===== Claude Pets ${this.version} – Diagnose (${new Date().toLocaleString('de-DE')}) =====`);
-    o.appendLine(`Aktiviert: ${this.enabled ? 'ja' : 'nein'} · Tier: ${this.setting<string>('species', 'hund')}${this.reportedSpecies ? ` (angezeigt: ${this.reportedSpecies})` : ''}`);
+    o.appendLine(`===== Claude Pets ${this.version} – Diagnostics (${new Date().toLocaleString()}) =====`);
+    o.appendLine(`Enabled: ${this.enabled ? 'yes' : 'no'} · Pet: ${this.species}${this.reportedSpecies ? ` (shown: ${this.reportedSpecies})` : ''}`);
     const ext = this.findClaude();
     if (!ext) {
-      o.appendLine('Claude Code: nicht installiert');
+      o.appendLine('Claude Code: not installed');
     } else {
       const files = resolveClaudeFiles(ext.extensionPath);
       o.appendLine(`Claude Code: ${String((ext.packageJSON as { version?: string }).version)} in ${ext.extensionPath}`);
       if (files) {
-        o.appendLine(`  Ermittlung der Webview-Dateien: ${files.method}`);
+        o.appendLine(`  Webview files found via: ${files.method}`);
         const st = injectionStatus({ jsPath: files.webviewJs, cssPath: files.webviewCss });
-        o.appendLine(`  ${files.webviewJs}: ${st.js.present ? `gepatcht (v${st.js.version})` : 'nicht gepatcht'}`);
-        o.appendLine(`  ${files.webviewCss}: ${st.css.present ? `gepatcht (v${st.css.version})` : 'nicht gepatcht'}`);
-        o.appendLine(`  ${files.extensionJs ?? 'extension.js'}: CSP ${files.extensionJs ? cspStateOfFile(files.extensionJs) : 'nicht gefunden'}`);
+        o.appendLine(`  ${files.webviewJs}: ${st.js.present ? `patched (v${st.js.version})` : 'not patched'}`);
+        o.appendLine(`  ${files.webviewCss}: ${st.css.present ? `patched (v${st.css.version})` : 'not patched'}`);
+        o.appendLine(`  ${files.extensionJs ?? 'extension.js'}: CSP ${files.extensionJs ? cspStateOfFile(files.extensionJs) : 'not found'}`);
       } else {
-        o.appendLine('  Webview-Dateien: nicht gefunden');
+        o.appendLine('  Webview files: not found');
       }
     }
     const cspText: Record<string, string> = {
-      allowed: 'Claude erlaubt die Verbindung bereits',
-      patched: 'Variante A – connect-src um http://127.0.0.1:* erweitert',
-      blocked: 'Variante B – blockiert, reiner DOM-Modus',
-      'not-found': 'keine CSP gefunden',
-      deaktiviert: 'Variante B – Erweiterung per Einstellung abgeschaltet, reiner DOM-Modus',
-      unbekannt: 'unbekannt',
+      allowed: 'Claude Code already allows the connection',
+      patched: 'variant A – connect-src extended with http://127.0.0.1:*',
+      blocked: 'variant B – blocked, DOM-only mode',
+      'not-found': 'no CSP found',
+      disabled: 'variant B – extension switched off in the settings, DOM-only mode',
+      unknown: 'unknown',
     };
     o.appendLine(`CSP: ${cspText[this.cspState] ?? this.cspState}`);
     if (this.lastPatch) {
-      o.appendLine(`Letzter Patch-Lauf: ${this.lastPatch.at.toLocaleTimeString('de-DE')} → ${this.lastPatch.outcome}${this.lastPatch.detail ? ` (${this.lastPatch.detail})` : ''}`);
+      o.appendLine(`Last patch run: ${this.lastPatch.at.toLocaleTimeString()} → ${this.lastPatch.outcome}${this.lastPatch.detail ? ` (${this.lastPatch.detail})` : ''}`);
     }
     const file = defaultSettingsPath();
     const hs = hookStatusOfFile(file, hookEventNames(), hookCommand(this.ctx.extensionPath));
-    o.appendLine(`Hooks (${file}): ${hs.error ? `Fehler: ${hs.error}` : hs.installed ? `${hs.events.length}/${hookEventNames().length} Ereignisse eingetragen` : 'nicht eingetragen'}`);
-    for (const c of hs.commands) o.appendLine(`  Befehl: ${c}`);
-    o.appendLine(`  Einstellung hooks.enabled: ${this.hooksEnabled ? 'an' : 'aus'}`);
-    o.appendLine(`Bridge: ${this.bridge?.port ? `127.0.0.1:${this.bridge.port}` : 'nicht gestartet'} · verbundene Webview-Clients: ${this.bridge?.clientCount ?? 0}`);
-    o.appendLine(`Empfangene Ereignisse: ${this.bridge?.eventCount ?? 0}${this.bridge?.lastEventAt ? ` (zuletzt ${new Date(this.bridge.lastEventAt).toLocaleTimeString('de-DE')})` : ''}`);
-    o.appendLine(`Instanz-Registrierung: ${path.join(petsHome(), 'instances', `${process.pid}.json`)}`);
+    o.appendLine(`Hooks (${file}): ${hs.error ? `error: ${hs.error}` : hs.installed ? `${hs.events.length}/${hookEventNames().length} events registered` : 'not registered'}`);
+    for (const c of hs.commands) o.appendLine(`  Command: ${c}`);
+    o.appendLine(`  Setting hooks.enabled: ${this.hooksEnabled ? 'on' : 'off'}`);
+    o.appendLine(`Bridge: ${this.bridge?.port ? `127.0.0.1:${this.bridge.port}` : 'not running'} · connected webview clients: ${this.bridge?.clientCount ?? 0}`);
+    o.appendLine(`Events received: ${this.bridge?.eventCount ?? 0}${this.bridge?.lastEventAt ? ` (last at ${new Date(this.bridge.lastEventAt).toLocaleTimeString()})` : ''}`);
+    o.appendLine(`Window registration: ${path.join(petsHome(), 'instances', `${process.pid}.json`)}`);
     o.appendLine('==========================================================');
   }
 }

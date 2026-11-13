@@ -129,7 +129,7 @@ function decode(dataUrl: string): Promise<HTMLImageElement> {
       if (typeof img.decode === 'function') img.decode().then(() => resolve(img), () => resolve(img));
       else resolve(img);
     };
-    img.onerror = () => reject(new Error('Atlas konnte nicht dekodiert werden'));
+    img.onerror = () => reject(new Error('Could not decode the sprite atlas'));
     img.src = dataUrl;
   });
 }
