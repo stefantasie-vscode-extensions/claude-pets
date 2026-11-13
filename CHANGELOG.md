@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.1 – 2026-11-13
+
+- Ko-fi membership link at the top of the README and the extension details, with the Ko-fi logo.
+- The "Sponsor" button in the extension details now leads to the membership page.
+
 ## 0.2.0 – 2026-11-13
 
 - The whole extension is now in English: commands, settings, context menu, tooltips,
