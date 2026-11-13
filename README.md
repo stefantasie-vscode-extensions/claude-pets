@@ -1,5 +1,9 @@
 # Claude Pets
 
+> ⚠️ **Important: coming soon to the Visual Studio Marketplace.** Claude Pets is not listed on the
+> Marketplace yet, but it will be published there very soon. Until then you can build and install
+> it yourself (see [Installation](#installation)). Thank you for your patience!
+
 [![Support Claude Pets on Ko-fi – become a member](https://img.shields.io/badge/Support_Claude_Pets-Become_a_member_on_Ko--fi-29ABE0?logo=kofi&logoColor=white)](https://ko-fi.com/stefantasie/tiers)
 
 ![Twelve pixel pets on the Claude Code prompt box](media/banner.gif)
