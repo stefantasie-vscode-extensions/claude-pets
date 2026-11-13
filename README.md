@@ -1,120 +1,138 @@
 # Claude Pets
 
-Ein kleines Pixel-Haustier wohnt auf der Oberkante der Eingabebox von **Claude Code** in VS Code.
-Es atmet, blinzelt, wedelt, läuft herum – und reagiert auf das, was Claude gerade tut, auf
-deine Eingaben und auf die Maus.
+![Twelve pixel pets on the Claude Code prompt box](media/banner.gif)
 
-Zwölf Tiere stehen zur Wahl: Hund, Katze, Fuchs, Waschbär, Panda, Affe, Hase, Frosch, Roboter,
-Krabbe, Eichhörnchen und Schildkröte. Jedes hat dieselben 49 Animationen, inhaltlich passend
-(die Katze versteckt einen Fisch statt eines Knochens, der Frosch hüpft herbei …).
+A tiny pixel pet lives on top of the **Claude Code** prompt box in VS Code. It breathes, blinks,
+wags its tail and wanders around – and it reacts to what Claude is doing, to your typing and to
+your mouse.
+
+> **Free and open source – and it will stay that way.** Claude Pets is free software under the
+> MIT license. There is no paid tier and nothing to unlock: every feature is always available to
+> everyone. If you enjoy your pet and would like to support the project, you can do so on Ko-fi:
+>
+> [![Support Claude Pets on Ko-fi](https://img.shields.io/badge/Support_Claude_Pets-Ko--fi-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/post/Claude-Pets-K0W32AIX6L)
+
+Twelve pets to choose from: dog, cat, fox, raccoon, panda, monkey, rabbit, frog, robot, crab,
+squirrel and turtle. All of them share the same 49 animations, each adapted to the animal – the cat
+hides a fish instead of a bone, the frog snaps a fly, the robot hovers on a little jet.
 
 ## Installation
 
-1. Die Extension [Claude Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) muss installiert sein.
-2. `claude-pets-0.1.1.vsix` installieren:
-   `code --install-extension claude-pets-0.1.1.vsix --force`
-3. Beim ersten Start richtet Claude Pets alles ein und meldet
-   „Claude Pets ist bereit. Fenster neu laden, damit das Haustier erscheint.“ → **Neu laden**.
+1. Install the [Claude Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) extension.
+2. Install Claude Pets: `code --install-extension claude-pets-0.2.0.vsix`
+3. On first start Claude Pets sets everything up and shows
+   *"Claude Pets is ready. Reload the window to let your pet appear."* → **Reload Window**.
 
-Aus dem Quellcode: `npm install`, `npm test`, `npm run build`, `npm run package`, dann `npm run install-local`.
+Building from source: `npm install`, `npm test`, `npm run build`, `npm run package`, then
+`npm run install-local`.
 
-### Wie kommt das Tier in Claude Code?
+### How does the pet get into Claude Code?
 
-VS Code erlaubt einer Extension nicht, in die Oberfläche einer anderen zu zeichnen. Claude Pets
-hängt deshalb – wie die Extension *Claude Maid* – einen klar markierten Block an die
-Webview-Dateien von Claude Code an (`webview/index.js`, `webview/index.css`) und erlaubt in der
-Content-Security-Policy von Claude Code (`extension.js`) Verbindungen zu `http://127.0.0.1`,
-damit Hook-Ereignisse das Tier erreichen. Vor der ersten Änderung entsteht je eine Sicherung
-`*.claude-pets.bak`. Nach einem Update von Claude Code wird automatisch neu gepatcht.
+VS Code does not let one extension draw into the user interface of another. Claude Pets therefore
+appends a clearly marked block to Claude Code's webview files (`webview/index.js`,
+`webview/index.css`) and allows connections to `http://127.0.0.1` in Claude Code's Content Security
+Policy (`extension.js`), so that hook events can reach the pet. Before the first change, a backup
+`*.claude-pets.bak` is created for each file. After an update of Claude Code, the new version is
+patched automatically.
 
-## Worauf das Tier reagiert
+## What your pet reacts to
 
-| Was passiert | Das Tier … |
+| What happens | Your pet … |
 | --- | --- |
-| du tippst | schaut zu |
-| du schickst einen Prompt ab | horcht auf, dann denkt es nach |
-| Claude liest/sucht Dateien | schnüffelt herum |
-| Claude schreibt Code | buddelt |
-| Websuche / Webseite laden | lauscht |
-| Tests laufen | ist gespannt – und freut sich oder ist traurig |
-| `npm install` & Co. | wird ungeduldig |
-| sonstige Befehle | rennt |
-| Freigabe nötig | bellt (bzw. miaut, quakt …) |
-| Claude ist fertig | freut sich |
-| Fehler | ist traurig |
-| du brichst mit Escape ab | legt die Ohren an |
-| lange nichts los | legt sich hin und schläft ein |
+| you type | watches |
+| you send a prompt | perks up, then thinks |
+| Claude reads or searches files | sniffs around |
+| Claude writes code | digs |
+| web search / fetching a page | listens |
+| tests are running | is eager – then happy or sad |
+| `npm install` and friends | gets impatient |
+| other commands | runs |
+| a permission is needed | barks (or meows, croaks, beeps …) |
+| Claude is done | is happy |
+| something went wrong | is sad |
+| you cancel with Escape | puts its ears back |
+| nothing happens for a while | lies down and falls asleep |
 
-Dazu Kleinigkeiten wie Gähnen beim Komprimieren, ein Knochen für jeden zurückkehrenden
-Subagenten oder ein Nicken, wenn die CLAUDE.md geladen wurde.
+Plus little extras: a yawn when the conversation is compacted, a bone for every returning
+subagent, a nod when CLAUDE.md has been read.
 
-## Interaktionen
+## Interactions
 
-- **Streicheln:** Maus schnell über dem Tier hin und her bewegen.
-- **Anstupsen:** einmal klicken.
-- **Knopfleiste:** Beim Darüberfahren erscheinen vier Knöpfe:
-  - **Napf** – das Tier läuft hin und frisst.
-  - **Leckerli** – wird zugeworfen und gefangen.
-  - **Spielzeug** – festhalten, ziehen und loslassen: es fliegt, das Tier holt es zurück.
-  - **Seil** – festhalten und zum Maul ziehen: Zerrspiel, solange du festhältst.
-- **Bauch kraulen:** Wenn das Tier liegt (Kontextmenü „Platz“), mit der Maus darüber kreisen.
-- **Rufen:** Doppelklick knapp über der Oberkante der Box – das Tier kommt.
-- **Kontextmenü** (Rechtsklick): Sitz, Platz, Pfötchen, Drehen, Schlafen, Tier wechseln …,
-  Ausblenden (bis Neuladen).
-- Ruht die Maus über dem Tier, während du tippst, wird es durchscheinend.
+- **Pet it:** move the mouse quickly back and forth over the pet.
+- **Poke it:** click once.
+- **Toolbar:** hovering over the pet shows four buttons:
+  - **Bowl** – the pet walks over and eats.
+  - **Treat** – tossed and caught.
+  - **Toy** – grab it, drag and let go: it flies, and the pet fetches it.
+  - **Rope** – hold it and pull it to the pet's mouth: tug of war for as long as you hold on.
+- **Belly rub:** when the pet is lying down (context menu → *Lie down*), circle the mouse over it.
+- **Call it:** double-click just above the top edge of the prompt box – the pet comes over.
+- **Context menu** (right-click): *Sit*, *Lie down*, *Give paw*, *Spin*, *Sleep*, *Change pet …*,
+  *Hide (until reload)*.
+- If the mouse rests on the pet while you are typing, the pet becomes translucent.
 
-Das Tier stört nie die Eingabe: Text in der Box wird nicht verdeckt, und Klicks ins Eingabefeld
-funktionieren immer.
+The pet never gets in the way of your input: text in the prompt box is never covered, and clicks
+into the input field always work. It follows the box when it grows (multi-line prompts, banners
+docked on top of it) and moves onto the permission card while Claude is asking for approval.
 
-## Einstellungen
+## Settings
 
-| Einstellung | Standard | Bedeutung |
+| Setting | Default | Meaning |
 | --- | --- | --- |
-| `claudePets.enabled` | `true` | Haustier anzeigen (aus = Injektion und Hooks entfernen) |
-| `claudePets.species` | `hund` | Tierart oder `zufall` (bei jedem Start zufällig) |
-| `claudePets.scale` | `2` | Pixelgröße 1–4 |
-| `claudePets.showButtons` | `true` | Knopfleiste beim Darüberfahren |
-| `claudePets.hooks.enabled` | `true` | Claude-Code-Hooks einrichten |
-| `claudePets.idle.wander` | `true` | frei herumlaufen |
-| `claudePets.idle.sleepAfterMinutes` | `4` | Einschlafen nach so vielen Minuten Ruhe |
-| `claudePets.opacityOnHover` | `0.35` | Deckkraft bei ruhender Maus über dem Tier |
-| `claudePets.reduceMotion` | `auto` | `auto` folgt dem System, `on`, `off` |
-| `claudePets.patchCsp` | `true` | CSP von Claude Code für die Hook-Ereignisse erweitern |
-| `claudePets.debug` | `false` | ausführliches Logging |
+| `claudePets.enabled` | `true` | Show the pet (off = remove the injection and the hooks) |
+| `claudePets.species` | `dog` | The pet, or `random` for a different one on every start |
+| `claudePets.scale` | `2` | Pixel size 1–4 |
+| `claudePets.showButtons` | `true` | Toolbar when hovering over the pet |
+| `claudePets.hooks.enabled` | `true` | Register Claude Code hooks |
+| `claudePets.idle.wander` | `true` | Wander around while idle |
+| `claudePets.idle.sleepAfterMinutes` | `4` | Fall asleep after this many quiet minutes |
+| `claudePets.opacityOnHover` | `0.35` | Opacity while the mouse rests over the pet |
+| `claudePets.reduceMotion` | `auto` | `auto` follows the system, `on`, `off` |
+| `claudePets.patchCsp` | `true` | Extend Claude Code's CSP for hook events |
+| `claudePets.debug` | `false` | Verbose logging |
 
-## Befehle
+## Commands
 
-Alle unter „Claude Pets: …“ in der Befehlspalette: **Aktivieren**, **Deaktivieren**,
-**Neu anwenden**, **Tier wählen …**, **Hooks installieren**, **Hooks entfernen**, **Diagnose**.
-In der Statusleiste zeigt „🐾 Hund“ das aktuelle Tier; ein Klick öffnet die Auswahl.
+All under "Claude Pets: …" in the Command Palette: **Enable**, **Disable**, **Reapply**,
+**Choose Pet…**, **Install Hooks**, **Remove Hooks**, **Show Diagnostics**.
+The status bar shows the current pet ("🐾 Dog"); click it to choose another one.
 
-## Datenschutz
+## Privacy
 
-- Claude Pets richtet in `~/.claude/settings.json` asynchrone Hooks ein. Sie laufen im
-  Hintergrund und bremsen Claude nicht. Das Hook-Script schreibt nichts in die Ausgabe und
-  endet immer erfolgreich.
-- Das Script schickt nur ein verschlanktes Ereignis an einen lokalen Server der Extension
-  (`127.0.0.1`, Ports 47811–47830, geschützt durch ein zufälliges Token). Prompts,
-  Dateiinhalte und Ausgaben von Befehlen verlassen den Hook-Prozess nicht.
-- Beim Tier kommen nur an: Name des Ereignisses, Werkzeugname, eine Befehlskategorie
-  (Test, Installation, Commit, sonstiges), Erfolg/Misserfolg, Benachrichtigungstyp und ein
-  kurzer, nicht umkehrbarer Hash der Sitzungs-ID (damit jedes Tier nur auf seine eigene
-  Sitzung reagiert).
-- Der Text in der Eingabebox wird nie gelesen – nur, *dass* getippt wird.
-- Es geht nichts ins Internet. Auf die Platte geschrieben wird nur bei `claudePets.debug`
-  (`~/.claude-pets/debug.log`), sonst lediglich die Instanzliste `~/.claude-pets/instances/`.
+- Claude Pets registers asynchronous hooks in `~/.claude/settings.json`. They run in the
+  background and never slow Claude down. The hook script prints nothing and always succeeds.
+- The script sends a slimmed-down event to a local server of the extension (`127.0.0.1`, ports
+  47811–47830, protected by a random token). Prompts, file contents and command output never leave
+  the hook process.
+- The pet only receives: the event name, the tool name, a command category (test, install, commit,
+  other), success or failure, the notification type and a short, non-reversible hash of the session
+  id (so that every pet only reacts to its own session).
+- The text in the prompt box is never read – only *that* you are typing.
+- Nothing is sent to the internet. Files are only written for `claudePets.debug`
+  (`~/.claude-pets/debug.log`); otherwise just the token and the window list in `~/.claude-pets/`.
 
-## Deinstallation
+## Uninstalling
 
-- **Vorübergehend:** „Claude Pets: Deaktivieren“ entfernt die Blöcke aus Claude Code, die
-  CSP-Ergänzung und die Hooks. Danach das Fenster neu laden.
-- **Vollständig:** Extension deinstallieren und VS Code neu starten. Das Deinstallations-Script
-  entfernt dann in allen installierten Claude-Code-Versionen die Änderungen, die Hooks und
-  `~/.claude-pets`. Es bleibt nur die Sicherung `~/.claude/settings.json.claude-pets.bak`.
+- **Temporarily:** "Claude Pets: Disable" removes the blocks from Claude Code, the CSP addition and
+  the hooks. Then reload the window.
+- **Completely:** uninstall the extension and restart VS Code. The uninstall script then removes the
+  changes from every installed Claude Code version, the hooks and `~/.claude-pets`. Only the backup
+  `~/.claude/settings.json.claude-pets.bak` is kept.
 
-Weitere Hintergründe: [docs/ENTSCHEIDUNGEN.md](https://git.kleywalker.de/vscode/claude-pets/src/branch/main/docs/ENTSCHEIDUNGEN.md),
-manuelle Prüfliste: [docs/TESTPLAN.md](https://git.kleywalker.de/vscode/claude-pets/src/branch/main/docs/TESTPLAN.md).
+## About the icon
 
-## Lizenz
+The icon shows the upper half of the Claude logo inside the prompt box the pet sits on, to make
+clear which extension the pet lives in. Claude Pets is an independent hobby project and is not
+affiliated with or endorsed by Anthropic. If Anthropic would prefer that the logo not be used, I
+apologise – I will remove it right away. Anthropic is welcome to get in touch with me at any time,
+for example by [opening an issue](https://github.com/stefantasie-vscode-extensions/claude-pets/issues).
+
+## More
+
+- Design decisions: [docs/DECISIONS.md](docs/DECISIONS.md)
+- Manual test plan: [docs/TEST_PLAN.md](docs/TEST_PLAN.md)
+- Changes: [CHANGELOG.md](CHANGELOG.md)
+
+## License
 
 MIT © Stefan Kley

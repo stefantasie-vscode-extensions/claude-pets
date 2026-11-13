@@ -1,221 +1,237 @@
-# Entscheidungen
+# Design decisions
 
-Dieses Dokument hält fest, was beim Bau von Claude Pets 0.1.0 vorgefunden wurde, wie die
-offenen Punkte aus `docs/PROMPT.md` gelöst sind und wo bewusst davon abgewichen wurde.
-Untersucht wurde Claude Code **2.1.322** (`anthropic.claude-code-2.1.322-darwin-x64`).
+This document records what was found while building Claude Pets, how the open points of the
+original brief (`docs/PROMPT.md`, in German) were resolved and where the implementation
+deliberately deviates from it. The analysis was done against Claude Code **2.1.322**
+(`anthropic.claude-code-2.1.322-darwin-x64`).
 
-## 1. Gefundene Pfade
+## 1. Paths found in Claude Code
 
-| Was | Pfad (relativ zum Extension-Ordner) | Ermittlung |
+| What | Path (relative to the extension folder) | How it was found |
 | --- | --- | --- |
-| Webview-Script | `webview/index.js` (≈ 6 MB, ES-Modul, `type="module"`) | Standardpfad vorhanden |
-| Webview-Stylesheet | `webview/index.css` | Standardpfad vorhanden |
-| HTML-Erzeugung + CSP | `extension.js` (`package.json` → `main`), Methode `getHtmlForWebview()` | Suche nach `Content-Security-Policy` |
+| Webview script | `webview/index.js` (≈ 6 MB, ES module, `type="module"`) | standard path exists |
+| Webview stylesheet | `webview/index.css` | standard path exists |
+| HTML builder + CSP | `extension.js` (`package.json` → `main`), method `getHtmlForWebview()` | search for `Content-Security-Policy` |
 
-`extension.js` baut die Pfade selbst mit
-`He.Uri.joinPath(this.extensionUri,"webview","index.js")` bzw. `…"index.css"`. Der Locator
-(`src/claudeLocator.ts`) prüft deshalb in dieser Reihenfolge: Standardpfade → die per
-`joinPath(…"webview","*.js|css")` im HTML-Erzeuger genannten Dateien → größte `.js`/`.css`
-im `webview`-Ordner. Die Diagnose zeigt, welcher Weg gegriffen hat.
+`extension.js` builds the paths itself with
+`He.Uri.joinPath(this.extensionUri,"webview","index.js")` and `…"index.css"`. The locator
+(`src/claudeLocator.ts`) therefore checks, in this order: the standard paths → the files named
+via `joinPath(…"webview","*.js|css")` in the HTML builder → the largest `.js`/`.css` in the
+`webview` folder. The diagnostics show which way was used.
 
-Die Extension wird über `vscode.extensions.all` gesucht (ID ohne Beachtung der
-Groß-/Kleinschreibung). Das Deinstallations-Script kennt die VS-Code-API nicht und durchsucht
-`~/.vscode/extensions`, `~/.vscode-insiders/extensions`, `~/.vscode-oss/extensions`,
-`~/.vscode-server*/extensions` sowie `$VSCODE_EXTENSIONS` nach `anthropic.claude-code-*`.
+The extension is looked up via `vscode.extensions.all` (id compared case-insensitively). The
+uninstall script has no VS Code API and scans `~/.vscode/extensions`,
+`~/.vscode-insiders/extensions`, `~/.vscode-oss/extensions`, `~/.vscode-server*/extensions` and
+`$VSCODE_EXTENSIONS` for `anthropic.claude-code-*`.
 
-## 2. Content-Security-Policy: Variante A
+## 2. Content Security Policy: variant A
 
-Claude Code setzt für seinen Webview:
+Claude Code sets this policy for its webview:
 
 ```text
 default-src 'none'; style-src <cspSource> 'unsafe-inline'; font-src <cspSource>;
 img-src <cspSource> data:; script-src 'nonce-…'; worker-src <cspSource>;
 ```
 
-Es gibt kein `connect-src`, also greift `default-src 'none'` – `fetch`/`EventSource` zu
-`http://127.0.0.1` wären blockiert. Gewählt ist **Variante A**: In `extension.js` wird in die
-Template-Zeichenkette ein einziger Ausdruck eingefügt:
+There is no `connect-src`, so `default-src 'none'` applies – `fetch`/`EventSource` to
+`http://127.0.0.1` would be blocked. **Variant A** was chosen: a single expression is inserted into
+the template string in `extension.js`:
 
 ```js
 … script-src 'nonce-${d}'; ${v}; ${' connect-src http://127.0.0.1:* http://localhost:*;'/*claude-pets:csp*/}">
 ```
 
-Begründung:
+Reasons:
 
-- Der JS-Kommentar im Template-Ausdruck ist die Markierung; das gerenderte HTML enthält ihn
-  nicht. Entfernen heißt, genau diesen Ausdruck herauszuschneiden – das Original ist danach
-  byteweise wiederhergestellt (getestet).
-- Vor dem Schreiben wird die geänderte `extension.js` mit `vm.Script` kompiliert; ist sie
-  syntaktisch kaputt, wird nichts geschrieben. Sicherung `extension.js.claude-pets.bak`,
-  atomares Schreiben, idempotent.
-- Nur CSPs mit `script-src 'nonce-${…}'` werden angefasst (der Webview von Claude); die
-  zweite, statische CSP der Plan-Vorschau bleibt unberührt.
-- Gibt es bereits ein `connect-src`, werden die Quellen dort ergänzt statt eine zweite
-  Direktive anzuhängen (die zweite würde ignoriert).
+- The JS comment inside the template expression is the marker; the rendered HTML does not contain
+  it. Removing means cutting out exactly this expression – the original is restored byte for byte
+  (tested).
+- Before writing, the modified `extension.js` is compiled with `vm.Script`; if it is syntactically
+  broken, nothing is written. Backup `extension.js.claude-pets.bak`, atomic write, idempotent.
+- Only policies with `script-src 'nonce-${…}'` are touched (Claude's webview); the second, static
+  policy of the plan preview stays as it is.
+- If a `connect-src` already exists, the sources are added there instead of appending a second
+  directive (which would be ignored).
 
-Damit wird – abweichend von „nur diese zwei Dateien anfassen“ – eine dritte Datei verändert.
-Das ist die in Abschnitt 4.3 vorgesehene Variante A. Mit `claudePets.patchCsp = false` wird
-der Eingriff zurückgenommen; dann läuft **Variante B** (reiner DOM-Modus, Hooks erreichen das
-Tier nicht). Die Diagnose zeigt die aktive Variante.
+This touches a third file, beyond the two webview files the brief allowed – it is the variant A
+the brief foresaw for this case. `claudePets.patchCsp = false` reverts it; then **variant B** runs
+(DOM-only mode, hooks do not reach the pet). The diagnostics show the active variant.
 
-Da `extension.js` beim Start von VS Code geladen wird, wirkt die CSP-Änderung erst nach
-„Fenster neu laden“ – dieselbe Aktion, die auch das Webview-Script braucht.
+Since `extension.js` is loaded when VS Code starts, the CSP change only takes effect after a window
+reload – the same action the webview script needs anyway. In practice the webview of a reloaded
+window keeps a permanent connection to the bridge, so variant A works.
 
-## 3. Selektoren (`src/webview/selectors.ts`)
+## 3. Selectors (`src/webview/selectors.ts`)
 
-Claude Code verwendet CSS-Module (`inputContainer_cKsPxg`); der Hash-Anteil ändert sich
-zwischen Builds, deshalb wird nur der Präfix gematcht (`[class*="inputContainer_"]`). Wo
-möglich, gehen ARIA-Attribute vor.
+Claude Code uses CSS modules (`inputContainer_cKsPxg`); the hash part changes between builds, so
+only the prefix is matched (`[class*="inputContainer_"]`). ARIA attributes are preferred where
+possible.
 
-| Zweck | Selektoren (Reihenfolge = Priorität) |
+| Purpose | Selectors (order = priority) |
 | --- | --- |
-| Eingabefeld | `[role="textbox"][aria-label="Message input"]` · `[class*="messageInput_"][contenteditable]` · `[contenteditable][data-placeholder]` · `fieldset [contenteditable="plaintext-only"]` · `form textarea` |
-| umrandete Box | `fieldset[class*="inputContainer_"]` · `[class*="inputContainer_"]` · `fieldset` · `form` · sonst nächster Vorfahr mit sichtbarer oberer Umrandung |
-| Freigabe-Karte | `[class*="permissionRequestContainer_"]` · `[class*="permissionsContainer_"] > *` |
-| Claude arbeitet | `button[type="submit"][aria-label="Stop"]` · `[class*="sendButton_"] [class*="stopIcon_"]` · `[class*="stopIcon_"]` |
-| Senden-Knopf | `button[type="submit"][class*="sendButton_"]` · `form button[type="submit"]` |
-| schwebende UI | `[role="menu"]`, `[role="listbox"]`, `[role="dialog"]`, `[role="tooltip"]`, `[role="alertdialog"]` |
-| Sitzungs-ID | `#root[data-initial-session]` |
+| prompt field | `[role="textbox"][aria-label="Message input"]` · `[class*="messageInput_"][contenteditable]` · `[contenteditable][data-placeholder]` · `fieldset [contenteditable="plaintext-only"]` · `form textarea` |
+| bordered box | `fieldset[class*="inputContainer_"]` · `[class*="inputContainer_"]` · `fieldset` · `form` · otherwise the nearest ancestor with a visible top border |
+| permission card | `[class*="permissionRequestContainer_"]` · `[class*="permissionsContainer_"] > *` |
+| Claude working | `button[type="submit"][aria-label="Stop"]` · `[class*="sendButton_"] [class*="stopIcon_"]` · `[class*="stopIcon_"]` |
+| send button | `button[type="submit"][class*="sendButton_"]` · `form button[type="submit"]` |
+| floating UI | `[role="menu"]`, `[role="listbox"]`, `[role="dialog"]`, `[role="tooltip"]`, `[role="alertdialog"]` |
+| session id | `#root[data-initial-session]` |
 
-Wichtige Befunde zur Struktur:
+Important findings about the structure:
 
-- Warnungen wie „You've used 94 % of your weekly limit“ sind **Geschwister** über dem
-  Formular (`div.banner_*`, `border-radius: 8px 8px 0 0`, `margin-bottom: -8px`) und docken
-  optisch an die Box an. `mount.ts` sammelt solche angedockten Elemente (sichtbar, im
-  normalen Fluss, berühren/überlappen die Oberkante, ≥ 60 % der Boxbreite) und setzt das Tier
-  auf die Oberkante des ganzen Stapels.
-- Während einer Freigabe-Anfrage bekommt der Eingabebereich `display: none`, und die
-  Freigabekarte erscheint an seiner Stelle. Das Tier zieht dann auf die Karte um.
-- Fehlt ein Selektor, fällt das jeweilige Merkmal still weg.
+- Warnings such as "You've used 94% of your weekly limit" are **siblings** above the form
+  (`div.banner_*`, `border-radius: 8px 8px 0 0`, `margin-bottom: -8px`) that visually dock onto the
+  box. `mount.ts` collects such docked elements (visible, in normal flow, touching or overlapping
+  the top edge, ≥ 60% of the box width) and puts the pet on the top edge of the whole stack.
+- While a permission request is shown, the prompt area gets `display: none` and the permission card
+  takes its place. The pet then moves onto the card.
+- If a selector is not found, the feature silently falls away.
 
-## 4. Abweichungen und Präzisierungen
+## 4. Deviations and clarifications
+
+### Language and naming (0.2.0)
+
+- The brief asked for a German UI. Since 0.2.0 everything is in English at Stefan's request:
+  commands, settings, context menu, tooltips, notifications, diagnostics, README, CHANGELOG and
+  these docs. Folder and file names are English as well (`assets/01_dog`, `docs/DECISIONS.md`, …).
+- Pet ids are English (`dog`, `cat`, …, `random`). `atlas.json` got English species data, poses,
+  groups, labels and notes; `triggers.json` got English context menu entries and comments
+  (`feedButton.fresstDauerMs` is now `eatDurationMs`). The **canonical animation ids and frame
+  names** (`sitzen`, `knochen_vergraben`, `sitzen_1` …) are unchanged: they are keys shared by all
+  atlases, `triggers.json` and the code, not visible text.
+- Settings saved by earlier versions (`hund`, `katze`, …, `zufall`) are migrated on activation
+  (`normalizeSpecies()` in `src/config.ts`).
+- The extension identifier changed from `kleywalker.claude-pets` to `stefantasie.claude-pets`;
+  the author is "Stefan Kley". For a locally installed VSIX, VS Code shows the publisher **id** in
+  the extension list: it only takes the publisher display name from Marketplace metadata, which a
+  VSIX cannot carry. Once published, the display name comes from the publisher profile on the
+  Marketplace.
+- `package.json` points to the public GitHub mirror (`stefantasie-vscode-extensions/claude-pets`);
+  `vsce` uses it to turn the relative links and the banner image in the README into absolute URLs.
+  The primary repository stays on Gitea.
 
 ### Icon
 
-- Auf ausdrücklichen Wunsch von Stefan zeigt `assets/icon.png` in der Box die obere Hälfte
-  des orangefarbenen Claude-Sterns (aus `resources/claude-logo.svg` der Claude-Code-
-  Extension, im 1-px-Raster der Boxecken gerastert). Das Original aus dem Paket liegt im
-  ersten Commit. Hinweis: Der Stern ist ein Markenzeichen von Anthropic; für eine
-  Veröffentlichung im Marketplace sollte das geprüft werden.
+- At Stefan's explicit request, `assets/icon.png` shows the upper half of the orange Claude logo
+  inside the box (taken from `resources/claude-logo.svg` of the Claude Code extension, rasterised to
+  the 1-px grid of the box corners). The original icon from the brief is in the first commit. The
+  README explains this and offers to remove the logo should Anthropic object.
 
-### Positionierung
+### Positioning
 
-- Das Overlay `#claude-pets-root` hängt mit `position: fixed` an `document.body`, nicht im
-  React-Baum von Claude. React kann es so nie entfernen; die Position wird **in jedem Frame**
-  aus dem gemessenen Rechteck der Box (plus angedockte Banner) übernommen. Damit folgen
-  Tier, Napf und Spielzeug jeder Höhen- und Breitenänderung (mehrzeiliger Text, Banner,
-  schmaleres Panel). `MutationObserver` und `ResizeObserver` stoßen zusätzlich eine neue
-  Suche an.
-- Klickfläche ist nicht das ganze 24×24-Feld, sondern die deckenden Pixel der aktuellen
-  Animation, höchstens bis Reihe 22 – so wird über der Box möglichst wenig verdeckt und nie
-  etwas in der Box.
-- Liegt schwebende UI (Slash-Menü, Popups, Tooltips, Dialoge) über dem Tier, wird es
-  ausgeblendet und klickdurchlässig, bis die UI wieder verschwindet. Eigene Elemente
-  (Kontextmenü, Seil) zählen nicht.
+- The overlay `#claude-pets-root` is attached to `document.body` with `position: fixed`, not inside
+  Claude's React tree. React can never remove it; its position is taken **every frame** from the
+  measured rectangle of the box (plus docked banners). Pet, bowl and toy therefore follow every
+  change in height and width (multi-line text, banners, a narrower panel). `MutationObserver` and
+  `ResizeObserver` additionally trigger a new search.
+- The clickable area is not the whole 24×24 frame but the opaque pixels of the current animation,
+  at most down to row 22 – so as little as possible above the box is covered, and nothing inside it.
+- When floating UI (slash menu, pop-ups, tooltips, dialogs) covers the pet, the pet is hidden and
+  lets clicks through until the UI disappears. Its own elements (context menu, rope) do not count.
 
-### Bridge und Datenschutz
+### Bridge and privacy
 
-- **Sitzungsbindung:** Der Webview kann nicht erkennen, zu welchem VS-Code-Fenster er gehört,
-  und verbindet sich daher mit allen erreichbaren Bridges (Ports aufsteigend ab 47811,
-  Abbruch nach zwei Fehlversuchen). Damit ein Tier nur auf seine eigene Claude-Sitzung
-  reagiert, bekommt jedes Ereignis zusätzlich `sid`, einen 8-stelligen FNV-1a-Hash der
-  `session_id` (nicht umkehrbar, keine Inhalte). Gebunden wird über `data-initial-session`
-  (fortgesetzte Sitzung) oder über das erste `UserPromptSubmit` innerhalb von 4 s nach einem
-  im eigenen Webview abgeschickten Prompt. Ungebundene Tiere reagieren auf alle Sitzungen.
-- `dist/hook.js` schickt bereits ein **verschlanktes** Payload (Event-Name, Session-ID, `cwd`,
-  Tool-Name, Bash-Befehl für die Tag-Erkennung, Statusfelder aus `tool_response` ohne
-  Inhalte). Prompts, Dateiinhalte und Tool-Ausgaben verlassen den Hook-Prozess nicht. Der
-  Host filtert danach wie gefordert auf Event, Tool, Bash-Tag, Erfolg, Notification-Typ.
-- **Token:** Maßgeblich ist `~/.claude-pets/token` (Rechte 0600); `globalState` spiegelt es
-  nur. Grund: Bei der Erstinstallation aktivierten sich zwei offene Fenster gleichzeitig,
-  `globalState` ist zwischen Fenstern nicht atomar, und beide erzeugten verschiedene Tokens –
-  eines davon passte nicht zum eingebetteten. Die Datei wird per `link()` angelegt (atomar,
-  scheitert, wenn sie existiert), sodass genau ein Token gewinnt.
-- Die Bridge prüft zusätzlich den `Host`-Header (Schutz vor DNS-Rebinding) und beantwortet
-  CORS-Preflights inklusive `Access-Control-Allow-Private-Network`.
-- Erfolg von `PostToolUse`: Laut Doku landet ein Bash-Befehl mit Exit-Code ≠ 0 als
-  `PostToolUseFailure` („Exit code N“). `freuen` gibt es daher nur, wenn `PostToolUse` für
-  Bash die bekannte Form `{stdout, stderr, interrupted: false}` hat (oder ein Exit-Code 0
-  explizit vorliegt). Hintergrundbefehle, Zeichenketten und Unbekanntes ergeben „unbekannt“
-  (keine Reaktion außer dem Folgezustand).
+- **Session binding:** the webview cannot tell which VS Code window it belongs to and therefore
+  connects to every reachable bridge (ports upwards from 47811, stopping after two misses). So that
+  a pet only reacts to its own Claude session, every event carries `sid`, an 8-digit FNV-1a hash of
+  the `session_id` (not reversible, no content). The pet binds via `data-initial-session` (resumed
+  session) or via the first `UserPromptSubmit` within 4 s after a prompt was sent from its own
+  webview. Unbound pets react to all sessions.
+- `dist/hook.js` already sends a **slimmed** payload (event name, session id, `cwd`, tool name, the
+  Bash command for the tag detection, status fields of `tool_response` without content). Prompts,
+  file contents and tool output never leave the hook process. The host then filters down to event,
+  tool, Bash tag, outcome and notification type, as required.
+- **Token:** the source of truth is `~/.claude-pets/token` (mode 0600); `globalState` only mirrors
+  it. Reason: during the first installation two open windows activated at the same moment,
+  `globalState` is not atomic between windows, and they created different tokens – one of them did
+  not match the embedded one. The file is created via `link()` (atomic, fails if it exists), so
+  exactly one token wins.
+- The bridge also checks the `Host` header (protection against DNS rebinding) and answers CORS
+  preflights including `Access-Control-Allow-Private-Network`.
+- Outcome of `PostToolUse`: according to the docs, a Bash command with a non-zero exit code arrives
+  as `PostToolUseFailure` ("Exit code N"). `freuen` (happy) is therefore only played when a Bash
+  `PostToolUse` has the known shape `{stdout, stderr, interrupted: false}` (or an explicit exit code
+  0). Background commands, strings and anything unknown count as "unknown" (no reaction besides the
+  follow-up state).
 
-### Verhalten
+### Behaviour
 
-- **Prioritäten:** Ein `while`-Zustand eines Hooks endet mit dem nächsten Hook-Ereignis
-  (außer eine `until`-Liste verbietet es), DOM-Signale folgen strikt den Prioritäten.
-  Einmal-Animationen laufen zu Ende; währenddessen eintreffende Hooks werden gemerkt (das
-  neueste gewinnt) und folgen direkt danach. Folgezustände (`then`) haben die Priorität
-  `min(eigene, thinking)`, damit z. B. Escape (`error`) sie unterbrechen kann.
-- **Prompt senden:** Enter im Eingabefeld (nur, wenn es nicht leer ist – geprüft über das
-  Vorhandensein von Kindknoten, nie über den Text), Klick auf „Senden“ oder – als Rückfall –
-  das Erscheinen des Stopp-Knopfs spielen sofort `aufmerksam` → `nachdenken`. Das kurz danach
-  eintreffende `UserPromptSubmit` dient nur noch der Sitzungsbindung (keine Doppelung).
-- **Übergänge:** Explizit genannte Übergangsanimationen (`umdrehen`, `hinlegen`,
-  `auf_den_ruecken_rollen`, auch `:reverse`) werden übersprungen, wenn das Tier nicht in ihrer
-  Start-Pose ist; den Rest erledigt der Posen-Graph. Die Kanten des Graphen stammen aus dem
-  Atlas der jeweiligen Tierart (die Krabbe rollt z. B. direkt von `sit` nach `belly`).
-- **Aufwachen:** `aufwachen` wird nur gespielt, wenn das Tier wirklich schläft (bei
-  `SessionStart` und beim Wecken aus dem bloßen Liegen entfällt es).
-- **Liegen/Schlafen:** Hinlegen nach `min(90 s, 37,5 % der Einschlafzeit)`, Einschlafen nach
-  `claudePets.idle.sleepAfterMinutes` – beides gemessen ab der letzten echten Aktivität.
-- **Maus am liegenden Tier:** Darüberfahren weckt ein liegendes Tier nicht, und
-  Hin-und-her-Streicheln wird dort nicht ausgewertet – sonst wäre Kreisen → Bauchkraulen
-  nie erreichbar (ein Kreis enthält selbst Richtungswechsel). Klicken, Knöpfe und Menü
-  wecken es.
-- `knochen_bringen` läuft bei `SubagentStop` 1,5 s (Hinweis in `triggers.json`),
-  `WorktreeCreate` nutzt `duration_ms`. Andere Schleifenanimationen in `play`-Listen spielen
-  genau einen Durchlauf.
-- Laufgeschwindigkeiten exakt nach Vorgabe (`gehen` 1 px/Frame bei 10 fps ≈ 20 CSS-px/s bei
-  Skalierung 2). Rufen über die ganze Box kann deshalb 10–25 s dauern.
-- Hoppelnde Tiere bewegen sich nur in Frames, deren unterste deckende Pixelreihe über der
-  Fußlinie (Reihe 22) liegt – das wird beim Laden aus dem Atlas ermittelt. Hat eine
-  Animation keinen solchen Frame, bewegt sie sich gleichmäßig.
+- **Priorities:** a hook's `while` state ends with the next hook event (unless an `until` list
+  forbids it); DOM signals strictly follow the priorities. One-shot animations play to the end;
+  hooks arriving meanwhile are queued (the newest wins) and follow right after. Follow-up states
+  (`then`) get the priority `min(own, thinking)`, so that e.g. Escape (`error`) can interrupt them.
+- **Sending a prompt:** Enter in the prompt field (only if it is not empty – checked by the
+  presence of child nodes, never by reading the text), a click on "Send" or – as a fallback – the
+  appearance of the stop button immediately play `aufmerksam` → `nachdenken`. The `UserPromptSubmit`
+  arriving shortly afterwards is only used for session binding (no double reaction).
+- **Transitions:** explicitly listed transition animations (`umdrehen`, `hinlegen`,
+  `auf_den_ruecken_rollen`, also `:reverse`) are skipped when the pet is not in their start pose; the
+  pose graph does the rest. The graph's edges come from each pet's atlas (the crab, for example,
+  rolls directly from `sit` to `belly`).
+- **Waking up:** `aufwachen` is only played when the pet actually sleeps (it is dropped for
+  `SessionStart` and when waking from merely lying).
+- **Lying and sleeping:** lying down after `min(90 s, 37.5% of the sleep time)`, falling asleep
+  after `claudePets.idle.sleepAfterMinutes` – both measured from the last real activity.
+- **Mouse over a lying pet:** hovering does not wake a lying pet, and back-and-forth petting is not
+  evaluated there – otherwise circling → belly rub could never be reached (a circle contains
+  direction changes itself). Clicks, buttons and the menu wake it.
+- `knochen_bringen` runs for 1.5 s on `SubagentStop` (note in `triggers.json`), `WorktreeCreate`
+  uses `duration_ms`. Other looping animations in `play` lists play exactly one pass.
+- Walking speeds exactly as specified (`gehen` 1 px per frame at 10 fps ≈ 20 CSS px/s at scale 2).
+  Calling the pet across the whole box can therefore take 10–25 s.
+- Hopping pets only move in frames whose lowest opaque row lies above the foot line (row 22) – this
+  is determined from the atlas when it is loaded. If an animation has no such frame, it moves evenly.
 
-### Einstellungen und Befehle
+### Settings and commands
 
-- Alle Einstellungen haben `"scope": "application"`: Die Injektion ist global; abweichende
-  Arbeitsbereichswerte würden sich zwischen Fenstern gegenseitig „umpatchen“.
-- „Deaktivieren“ entfernt Injektion, CSP-Ergänzung **und** Hooks (Abschnitt 12 verlangt
-  rückstandsloses Entfernen); „Aktivieren“ richtet alles wieder ein.
-- „Hooks entfernen“ setzt `claudePets.hooks.enabled = false`, „Hooks installieren“ setzt es
-  auf `true` – sonst kämen entfernte Hooks beim nächsten Start automatisch zurück.
-- Einstellungsänderungen werden sofort neu gepatcht **und** live über die Bridge an
-  verbundene Webviews geschickt (Tier, Skalierung, Knöpfe, Bewegung …). Ein Neuladen wird nur
-  angeboten, wenn kein Webview verbunden ist oder die Injektion neu ist.
-- Bei `zufall` zeigt die Statusleiste das tatsächlich gewählte Tier (der Webview meldet es
-  per `POST /species` mit `persist: false`).
+- All settings have `"scope": "application"`: the injection is global, and differing workspace
+  values would make windows re-patch each other back and forth.
+- "Disable" removes the injection, the CSP addition **and** the hooks (the brief asks for complete
+  removal); "Enable" sets everything up again.
+- "Remove Hooks" sets `claudePets.hooks.enabled = false`, "Install Hooks" sets it to `true` –
+  otherwise removed hooks would come back automatically on the next start.
+- Settings changes are re-patched immediately **and** pushed live over the bridge to connected
+  webviews (pet, scale, buttons, motion …).
+- With `random`, the status bar shows the pet actually chosen (the webview reports it via
+  `POST /species` with `persist: false`).
 
-### Deinstallation
+### Reloading after updates
 
-- `vscode:uninstall` entfernt Blöcke und CSP-Ergänzung in allen gefundenen Claude-Code-
-  Versionen, die Hooks und `~/.claude-pets`. Sicherungen in Claudes Ordnern werden gelöscht,
-  wenn sie byteweise der wiederhergestellten Datei entsprechen.
-  `~/.claude/settings.json.claude-pets.bak` bleibt absichtlich als Sicherheitsnetz liegen.
-- VS Code führt `vscode:uninstall` erst beim nächsten Start nach der Deinstallation aus.
+- Settings travel live over the bridge; code, artwork and stylesheet live inside the injected block
+  and only take effect after the webview reloads. `blockPayload()` therefore compares the block
+  without the embedded configuration: if that part (or the CSS) changes, a reload is always offered.
 
-### Roboter (Paket 2, Version 0.1.1)
+### Uninstalling
 
-- `assets/09_roboter/atlas.png` stammt aus `claude-pets-paket-2.zip`; alle 363 Frames sind
-  neu gezeichnet (schwebender Roboter mit Düsenflamme), `atlas.json` und `objects.png` sind
-  byteidentisch geblieben. Das Icon aus Paket 2 ist das ursprüngliche und wurde nicht
-  übernommen (siehe „Icon“).
-- In 98 Frames reicht die Flamme bis in Reihe 23, also eine Reihe unter die Fußlinie: Sie
-  setzt sichtbar auf dem Rand der Box auf. Das ist Teil der Grafik und bleibt so. Die
-  Klickfläche endet weiterhin bei Reihe 22, Klicks in die Box sind nicht betroffen.
-- Da `v0.1.0` bereits veröffentlicht war, erscheint die Änderung als Version 0.1.1 statt
-  eines nachträglich verschobenen Tags.
+- `vscode:uninstall` removes the blocks and the CSP addition in every Claude Code version found,
+  the hooks and `~/.claude-pets`. Backups in Claude's folders are deleted when they are
+  byte-identical to the restored file. `~/.claude/settings.json.claude-pets.bak` is deliberately
+  kept as a safety net.
+- It does nothing while another Claude Pets installation is still registered (`extensions.json`,
+  ignoring entries listed in `.obsolete`). Otherwise removing the old `kleywalker.claude-pets` would
+  wipe the patches and hooks of the new `stefantasie.claude-pets`.
+- VS Code only runs `vscode:uninstall` on the next start after the uninstallation.
 
-### Neuladen nach Updates
+### Robot (package 2, version 0.1.1)
 
-- Einstellungen werden live über die Bridge übertragen; Code, Grafiken und Stylesheet stecken
-  dagegen im eingeschleusten Block und wirken erst nach dem Neuladen des Webviews.
-  `blockPayload()` vergleicht deshalb den Block ohne die eingebettete Konfiguration: Ändert
-  sich dieser Teil (oder das CSS), wird immer ein Neuladen angeboten.
+- The robot's `atlas.png` comes from the second asset package; all 363 frames were redrawn
+  (hovering robot with a jet flame), `atlas.json` and `objects.png` stayed byte-identical. The icon
+  in package 2 was the original one and was not taken over (see "Icon").
+- In 98 frames the flame reaches row 23, one row below the foot line: it visibly touches the edge
+  of the box. That is part of the artwork. The clickable area still ends at row 22.
+- Since `v0.1.0` had already been published, the change was released as 0.1.1 rather than moving
+  the tag.
 
-### Werkzeuge
+### Banner
 
-- TypeScript 5.9 statt 7.x (der native Compiler ist noch neu; 5.9 ist für `--noEmit` mit
-  esbuild bewährt). `@types/vscode` ist auf 1.90.0 festgelegt, passend zu `engines.vscode`.
-- Debug-Modus (`claudePets.debug`): Ereignisse im Ausgabekanal und in
-  `~/.claude-pets/debug.log`; im Webview steht `window.__claudePets` für die Webview-DevTools
-  bereit.
+- `media/banner.gif` (840 × 64 px, 6 s loop) is rendered from the atlases by
+  `scripts/make-banner.mjs` (`npm run make-banner`; `--preview out.png` writes three still frames).
+  It uses an exact palette and integer 2× scaling so the pixel art stays crisp at README widths.
+  It is not part of the VSIX; the README links it via the GitHub mirror.
+
+### Tools
+
+- TypeScript 5.9 instead of 7.x (the native compiler is still new; 5.9 is proven for `--noEmit`
+  together with esbuild). `@types/vscode` is pinned to 1.90.0 to match `engines.vscode`.
+- Debug mode (`claudePets.debug`): events in the output channel and in `~/.claude-pets/debug.log`;
+  in the webview, `window.__claudePets` is available for the webview developer tools.

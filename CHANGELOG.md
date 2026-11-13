@@ -1,26 +1,37 @@
 # Changelog
 
+## 0.2.0 – 2026-11-13
+
+- The whole extension is now in English: commands, settings, context menu, tooltips,
+  notifications, diagnostics, README and docs.
+- New extension identifier `stefantasie.claude-pets` (previously `kleywalker.claude-pets`);
+  author: Stefan Kley.
+- English pet ids and folder names (`dog`, `cat`, …). Settings saved by earlier versions
+  (`hund`, `katze`, …, `zufall`) are migrated automatically.
+- New README with an animated banner of all twelve pets, a Ko-fi link and a note about the icon.
+- Sponsor link in the extension details.
+- The uninstall script leaves patches and hooks alone while another Claude Pets installation is
+  still present (e.g. when switching from the old identifier).
+
 ## 0.1.1 – 2026-11-12
 
-- Neue Grafik für den Roboter: ein schwebender Roboter mit Visier und Düsenflamme
-  (Paket 2; `atlas.json` und `objects.png` sind unverändert).
-- Nach einem Update mit neuem Code oder neuen Grafiken bietet Claude Pets jetzt immer an,
-  das Fenster neu zu laden – auch wenn das Tier gerade mit der Bridge verbunden ist. Reine
-  Einstellungsänderungen kommen weiterhin ohne Neuladen an.
-- Das Bridge-Token wird zwischen allen VS-Code-Fenstern atomar geteilt
-  (`~/.claude-pets/token`).
+- New artwork for the robot: a hovering robot with a visor and a jet flame
+  (`atlas.json` and `objects.png` are unchanged).
+- After an update with new code or new artwork, Claude Pets now always offers to reload the
+  window – even while the pet is connected to the bridge. Settings changes still arrive without
+  a reload.
+- The bridge token is shared atomically between all VS Code windows (`~/.claude-pets/token`).
 
 ## 0.1.0 – 2026-11-12
 
-Erste Version.
+First release.
 
-- Pixel-Haustier auf der Oberkante der Claude-Code-Promptbox, folgt Höhen- und
-  Breitenänderungen der Box, angedockten Bannern und der Freigabekarte.
-- 12 Tierarten mit je 49 Animationen, Wechsel per Kontextmenü, Befehl oder Einstellung.
-- Animations-Engine mit Prioritäten, Posen-Graph, Blinzeln, Laufen und Hoppeln.
-- Leerlauf mit Herumlaufen, Zufallsaktionen, Hinlegen und Einschlafen.
-- Reaktionen auf Claude-Code-Hooks über eine lokale Bridge (HTTP/SSE) sowie auf die
-  Oberfläche (Tippen, Escape, Claude arbeitet, Freigabe-Dialog).
-- Interaktionen: Streicheln, Anstupsen, Napf, Leckerli, Spielzeug werfen, Seil,
-  Bauch kraulen, Rufen, Kontextmenü.
-- Befehle, Statusleiste, Diagnose, rückstandsloses Deaktivieren und Deinstallieren.
+- Pixel pet on the top edge of the Claude Code prompt box; follows changes in height and width of
+  the box, banners docked on top of it and the permission card.
+- 12 pets with 49 animations each; switch via context menu, command or setting.
+- Animation engine with priorities, pose graph, blinking, walking and hopping.
+- Idle life: wandering, random actions, lying down and falling asleep.
+- Reactions to Claude Code hooks via a local bridge (HTTP/SSE) and to the UI (typing, Escape,
+  Claude working, permission dialog).
+- Interactions: petting, poking, bowl, treat, throwing a toy, rope, belly rub, calling, context menu.
+- Commands, status bar item, diagnostics, clean disable and uninstall.
