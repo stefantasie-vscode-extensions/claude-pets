@@ -1,14 +1,14 @@
 # Claude Pets
 
-[![Support Claude Pets on Ko-fi – become a member](https://img.shields.io/badge/Support_Claude_Pets-Become_a_member_on_Ko--fi-FF5E5B?logo=kofi&logoColor=white)](https://ko-fi.com/stefantasie/tiers)
+[![Support Claude Pets on Ko-fi – become a member](https://img.shields.io/badge/Support_Claude_Pets-Become_a_member_on_Ko--fi-29ABE0?logo=kofi&logoColor=white)](https://ko-fi.com/stefantasie/tiers)
 
 ![Twelve pixel pets on the Claude Code prompt box](media/banner.gif)
 
 > **Free and open source – and it will stay that way.** Claude Pets is free software under the
 > MIT license. There is no paid tier and nothing to unlock: every feature is always available to
 > everyone. If you enjoy your pet and would like to support its development, you can
-> [become a member on Ko-fi](https://ko-fi.com/stefantasie/tiers) – a small monthly contribution
-> that keeps new pets and features coming. Thank you!
+> <a href="https://ko-fi.com/stefantasie/tiers"><img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="Ko-fi" height="14">&nbsp;become&nbsp;a&nbsp;member&nbsp;on&nbsp;Ko-fi</a>
+> – a small monthly contribution that keeps new pets and features coming. Thank you!
 
 A tiny pixel pet lives on top of the **Claude Code** prompt box in VS Code. It breathes, blinks,
 wags its tail and wanders around – and it reacts to what Claude is doing, to your typing and to
@@ -21,7 +21,7 @@ hides a fish instead of a bone, the frog snaps a fly, the robot hovers on a litt
 ## Installation
 
 1. Install the [Claude Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) extension.
-2. Install Claude Pets: `code --install-extension claude-pets-0.2.1.vsix`
+2. Install Claude Pets: `code --install-extension claude-pets-0.2.2.vsix`
 3. On first start Claude Pets sets everything up and shows
    *"Claude Pets is ready. Reload the window to let your pet appear."* → **Reload Window**.
 
