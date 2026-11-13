@@ -89,4 +89,4 @@ for (const f of ['webview.js', 'webview.css']) {
   }
 }
 writeFileSync(join(dist, 'build-info.json'), JSON.stringify({ builtAt: new Date().toISOString() }) + '\n');
-console.log('Build fertig.');
+console.log('Build complete.');
