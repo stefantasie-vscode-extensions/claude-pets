@@ -1,6 +1,8 @@
 # Claude Pets
 
-**[Install from the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=stefantasie.claude-pets)**
+<!-- github-only -->
+<a href="https://marketplace.visualstudio.com/items?itemName=stefantasie.claude-pets"><img src="media/install-from-marketplace.png" alt="Install from the VS Code Marketplace" width="297" height="30"></a>
+<!-- /github-only -->
 
 <a href="https://ko-fi.com/stefantasie/tiers"><img src="https://raw.githubusercontent.com/stefantasie-vscode-extensions/claude-pets/main/media/support-me-on-ko-fi.png" alt="Support me on Ko-fi" width="223" height="30"></a>
 
@@ -23,8 +25,7 @@ hides a fish instead of a bone, the frog snaps a fly, the robot hovers on a litt
 ## Installation
 
 1. Install the [Claude Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) extension.
-2. Install [Claude Pets](https://marketplace.visualstudio.com/items?itemName=stefantasie.claude-pets):
-   search for "Claude Pets" in the Extensions view, or run
+2. Install Claude Pets: search for "Claude Pets" in the Extensions view, or run
    `code --install-extension stefantasie.claude-pets`.
 3. On first start Claude Pets sets everything up and shows
    *"Claude Pets is ready. Reload the window to let your pet appear."* → **Reload Window**.
@@ -139,7 +140,6 @@ for example by [opening an issue](https://github.com/stefantasie-vscode-extensio
 
 ## More
 
-- Visual Studio Marketplace: [stefantasie.claude-pets](https://marketplace.visualstudio.com/items?itemName=stefantasie.claude-pets)
 - Design decisions: [docs/DECISIONS.md](docs/DECISIONS.md)
 - Manual test plan: [docs/TEST_PLAN.md](docs/TEST_PLAN.md)
 - Release process: [docs/RELEASING.md](docs/RELEASING.md)

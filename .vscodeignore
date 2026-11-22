@@ -1,8 +1,9 @@
-# Nur dist/, assets/icon.png, README, CHANGELOG, LICENSE und package.json gehören ins Paket.
+# Only dist/, assets/icon.png, CHANGELOG, LICENSE and package.json go into the package.
+# The README is added by `vsce package --readme-path README.marketplace.md`, generated from
+# README.md without its GitHub-only blocks (scripts/marketplace-readme.mjs).
 **
 !dist/**
 !assets/icon.png
-!README.md
 !CHANGELOG.md
 !LICENSE
 !package.json

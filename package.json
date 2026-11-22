@@ -230,7 +230,7 @@
     "build": "node scripts/build.mjs",
     "typecheck": "tsc --noEmit -p .",
     "test": "vitest run",
-    "package": "vsce package --no-dependencies",
+    "package": "node scripts/marketplace-readme.mjs && vsce package --no-dependencies --readme-path README.marketplace.md",
     "install-local": "code --install-extension claude-pets-0.2.4.vsix --force",
     "vscode:prepublish": "npm run build",
     "vscode:uninstall": "node ./dist/uninstall.js",

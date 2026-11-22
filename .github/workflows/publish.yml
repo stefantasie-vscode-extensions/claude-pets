@@ -48,7 +48,7 @@ jobs:
           fi
 
       - name: Package
-        run: npx vsce package --no-dependencies --out "claude-pets-${{ steps.version.outputs.version }}.vsix"
+        run: npm run package -- --out "claude-pets-${{ steps.version.outputs.version }}.vsix"
 
       - uses: actions/upload-artifact@v7
         with:

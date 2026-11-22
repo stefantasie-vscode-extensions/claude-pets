@@ -46,6 +46,12 @@ remains for GitHub Actions. Delete the secret once Trusted Publishing works.
    (`git push git@github.com:stefantasie-vscode-extensions/claude-pets.git main v1.2.3`).
 5. Watch the run under **Actions** on GitHub.
 
+## README on GitHub and in the Marketplace
+
+Content that should only appear on GitHub (for example the Marketplace button) goes between
+`<!-- github-only -->` and `<!-- /github-only -->` in `README.md`. `npm run package` strips these
+blocks for the packaged description.
+
 ## Manual fallback
 
 `npm run package` creates `claude-pets-<version>.vsix`. On the publisher page choose

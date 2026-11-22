@@ -229,6 +229,18 @@ Important findings about the structure:
   It uses an exact palette and integer 2× scaling so the pixel art stays crisp at README widths.
   It is not part of the VSIX; the README links it via the GitHub mirror.
 
+### One README for GitHub and the Marketplace
+
+- GitHub and the Marketplace render the same `README.md`, and Markdown has no conditionals. Blocks
+  between `<!-- github-only -->` and `<!-- /github-only -->` (invisible HTML comments) are therefore
+  removed by `scripts/marketplace-readme.mjs`, which writes `README.marketplace.md` (git-ignored).
+  `npm run package` – also used by the release workflow – packages that file via
+  `vsce package --readme-path`; `README.md` itself is excluded in `.vscodeignore`, otherwise both
+  would end up as `extension/readme.md`.
+- Used for the "Install from the VS Code Marketplace" button (`media/install-from-marketplace.png`,
+  same height as the Ko-fi button, with the pet icon instead of Microsoft's VS Code logo). shields.io
+  has retired its Marketplace badges.
+
 ### Tools
 
 - TypeScript 5.9 instead of 7.x (the native compiler is still new; 5.9 is proven for `--noEmit`
