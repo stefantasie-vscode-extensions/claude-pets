@@ -1,18 +1,18 @@
 # Claude Pets
 
-> ⚠️ **Important: coming soon to the Visual Studio Marketplace.** Claude Pets is not listed on the
-> Marketplace yet, but it will be published there very soon. Until then you can build and install
-> it yourself (see [Installation](#installation)). Thank you for your patience!
+**[Install from the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=stefantasie.claude-pets)**
+· [Source code on GitHub](https://github.com/stefantasie-vscode-extensions/claude-pets)
+· [Issues](https://github.com/stefantasie-vscode-extensions/claude-pets/issues)
 
-<a href="https://ko-fi.com/stefantasie/tiers"><img src="media/support-me-on-ko-fi.png" alt="Support me on Ko-fi" width="223" height="30"></a>
+<a href="https://ko-fi.com/stefantasie/tiers"><img src="https://raw.githubusercontent.com/stefantasie-vscode-extensions/claude-pets/main/media/support-me-on-ko-fi.png" alt="Support me on Ko-fi" width="223" height="30"></a>
 
-![Twelve pixel pets on the Claude Code prompt box](media/banner.gif)
+![Twelve pixel pets on the Claude Code prompt box](https://raw.githubusercontent.com/stefantasie-vscode-extensions/claude-pets/main/media/banner.gif)
 
 > **Free and open source – and it will stay that way.** Claude Pets is free software under the
 > MIT license. There is no paid tier and nothing to unlock: every feature is always available to
-> everyone. If you enjoy your pet and would like to support its development, you can
-> <a href="https://ko-fi.com/stefantasie/tiers"><img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="Ko-fi" height="14">&nbsp;become&nbsp;a&nbsp;member&nbsp;on&nbsp;Ko-fi</a>
-> – a small monthly contribution that keeps new pets and features coming. Thank you!
+> everyone. If you enjoy your pet and would like to support my work, you can
+> <a href="https://ko-fi.com/stefantasie/tiers"><img src="https://storage.ko-fi.com/cdn/cup-border.png" alt="Ko-fi" height="14">&nbsp;become&nbsp;a&nbsp;member&nbsp;on&nbsp;Ko-fi</a>.
+> Thank you!
 
 A tiny pixel pet lives on top of the **Claude Code** prompt box in VS Code. It breathes, blinks,
 wags its tail and wanders around – and it reacts to what Claude is doing, to your typing and to
@@ -25,9 +25,15 @@ hides a fish instead of a bone, the frog snaps a fly, the robot hovers on a litt
 ## Installation
 
 1. Install the [Claude Code](https://marketplace.visualstudio.com/items?itemName=anthropic.claude-code) extension.
-2. Install Claude Pets: `code --install-extension claude-pets-0.2.3.vsix`
+2. Install [Claude Pets](https://marketplace.visualstudio.com/items?itemName=stefantasie.claude-pets):
+   search for "Claude Pets" in the Extensions view, or run
+   `code --install-extension stefantasie.claude-pets`.
 3. On first start Claude Pets sets everything up and shows
    *"Claude Pets is ready. Reload the window to let your pet appear."* → **Reload Window**.
+
+Each release is also available as a `.vsix` file on
+[GitHub Releases](https://github.com/stefantasie-vscode-extensions/claude-pets/releases)
+(`code --install-extension claude-pets-<version>.vsix`).
 
 Building from source: `npm install`, `npm test`, `npm run build`, `npm run package`, then
 `npm run install-local`.
@@ -135,8 +141,12 @@ for example by [opening an issue](https://github.com/stefantasie-vscode-extensio
 
 ## More
 
+- Visual Studio Marketplace: [stefantasie.claude-pets](https://marketplace.visualstudio.com/items?itemName=stefantasie.claude-pets)
+- Source code: [github.com/stefantasie-vscode-extensions/claude-pets](https://github.com/stefantasie-vscode-extensions/claude-pets)
+- Questions and bug reports: [GitHub Issues](https://github.com/stefantasie-vscode-extensions/claude-pets/issues)
 - Design decisions: [docs/DECISIONS.md](docs/DECISIONS.md)
 - Manual test plan: [docs/TEST_PLAN.md](docs/TEST_PLAN.md)
+- Release process: [docs/RELEASING.md](docs/RELEASING.md)
 - Changes: [CHANGELOG.md](CHANGELOG.md)
 
 ## License
