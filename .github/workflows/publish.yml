@@ -1,0 +1,83 @@
+# Builds, tests and packages Claude Pets. For a version tag (v1.2.3) it also attaches the .vsix
+# to a GitHub release and publishes it to the Visual Studio Marketplace.
+#
+# Marketplace authentication, in this order:
+#   1. Repository secret VSCE_PAT (Azure DevOps token, scope "Marketplace: Manage").
+#      Microsoft retires these global tokens; see docs/RELEASING.md.
+#   2. Otherwise Trusted Publishing via OpenID Connect (`vsce publish --oidc`). Needs a
+#      Trusted Publishing policy for this repository and this workflow file on the
+#      Marketplace publisher page.
+name: Publish
+
+on:
+  push:
+    tags:
+      - 'v*'
+  workflow_dispatch:
+
+jobs:
+  publish:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write # create the GitHub release
+      id-token: write # Marketplace Trusted Publishing (OIDC)
+    steps:
+      - uses: actions/checkout@v7
+
+      - uses: actions/setup-node@v7
+        with:
+          node-version: 22
+          cache: npm
+
+      - name: Install
+        run: npm ci
+
+      - name: Test
+        run: npm test
+
+      - name: Read version
+        id: version
+        run: echo "version=$(node -p "require('./package.json').version")" >> "$GITHUB_OUTPUT"
+
+      - name: Check that the tag matches package.json
+        if: startsWith(github.ref, 'refs/tags/')
+        run: |
+          if [ "$GITHUB_REF_NAME" != "v${{ steps.version.outputs.version }}" ]; then
+            echo "::error::Tag $GITHUB_REF_NAME does not match package.json version ${{ steps.version.outputs.version }}"
+            exit 1
+          fi
+
+      - name: Package
+        run: npx vsce package --no-dependencies --out "claude-pets-${{ steps.version.outputs.version }}.vsix"
+
+      - uses: actions/upload-artifact@v7
+        with:
+          name: claude-pets-${{ steps.version.outputs.version }}
+          path: claude-pets-${{ steps.version.outputs.version }}.vsix
+
+      - name: GitHub release
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          GH_TOKEN: ${{ github.token }}
+          VERSION: ${{ steps.version.outputs.version }}
+        run: |
+          # Release notes: the section of CHANGELOG.md for this version.
+          awk -v v="$VERSION" 'index($0, "## " v " ") == 1 {f = 1; next} /^## / && f {exit} f' CHANGELOG.md > release-notes.md
+          if ! gh release view "$GITHUB_REF_NAME" > /dev/null 2>&1; then
+            gh release create "$GITHUB_REF_NAME" --title "Claude Pets $VERSION" --notes-file release-notes.md --verify-tag
+          fi
+          gh release upload "$GITHUB_REF_NAME" "claude-pets-$VERSION.vsix" --clobber
+
+      - name: Publish to the Visual Studio Marketplace
+        if: startsWith(github.ref, 'refs/tags/')
+        env:
+          VSCE_PAT: ${{ secrets.VSCE_PAT }}
+          VSIX: claude-pets-${{ steps.version.outputs.version }}.vsix
+        run: |
+          if [ -n "$VSCE_PAT" ]; then
+            echo "Publishing with the VSCE_PAT secret"
+            npx vsce publish --packagePath "$VSIX" --skip-duplicate
+          else
+            echo "Publishing with Trusted Publishing (OIDC)"
+            npx vsce publish --oidc --packagePath "$VSIX" --skip-duplicate
+          fi
