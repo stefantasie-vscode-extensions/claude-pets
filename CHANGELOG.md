@@ -1,5 +1,10 @@
 # Changelog
 
+## 0.2.5 – 2026-11-22
+
+- The extension description in the Marketplace and in VS Code no longer links to the Marketplace
+  itself. On GitHub, the README shows an "Install from the VS Code Marketplace" button instead.
+
 ## 0.2.4 – 2026-11-22
 
 - The README links the Visual Studio Marketplace listing; its images use absolute GitHub URLs.
