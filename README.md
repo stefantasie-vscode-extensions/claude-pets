@@ -1,8 +1,6 @@
 # Claude Pets
 
 **[Install from the Visual Studio Marketplace](https://marketplace.visualstudio.com/items?itemName=stefantasie.claude-pets)**
-· [Source code on GitHub](https://github.com/stefantasie-vscode-extensions/claude-pets)
-· [Issues](https://github.com/stefantasie-vscode-extensions/claude-pets/issues)
 
 <a href="https://ko-fi.com/stefantasie/tiers"><img src="https://raw.githubusercontent.com/stefantasie-vscode-extensions/claude-pets/main/media/support-me-on-ko-fi.png" alt="Support me on Ko-fi" width="223" height="30"></a>
 
@@ -142,8 +140,6 @@ for example by [opening an issue](https://github.com/stefantasie-vscode-extensio
 ## More
 
 - Visual Studio Marketplace: [stefantasie.claude-pets](https://marketplace.visualstudio.com/items?itemName=stefantasie.claude-pets)
-- Source code: [github.com/stefantasie-vscode-extensions/claude-pets](https://github.com/stefantasie-vscode-extensions/claude-pets)
-- Questions and bug reports: [GitHub Issues](https://github.com/stefantasie-vscode-extensions/claude-pets/issues)
 - Design decisions: [docs/DECISIONS.md](docs/DECISIONS.md)
 - Manual test plan: [docs/TEST_PLAN.md](docs/TEST_PLAN.md)
 - Release process: [docs/RELEASING.md](docs/RELEASING.md)

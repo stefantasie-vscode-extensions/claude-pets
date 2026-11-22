@@ -6,6 +6,7 @@
   "description": "A pixel pet that lives on the Claude Code prompt box and reacts to what Claude is doing. Free and open source.",
   "icon": "assets/icon.png",
   "license": "MIT",
+  "pricing": "Free",
   "author": {
     "name": "Stefantasie"
   },

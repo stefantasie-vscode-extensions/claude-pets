@@ -2,8 +2,9 @@
 
 ## 0.2.4 – 2026-11-22
 
-- The README links the Visual Studio Marketplace listing, the GitHub repository and the issue
-  tracker; its images use absolute GitHub URLs.
+- The README links the Visual Studio Marketplace listing; its images use absolute GitHub URLs.
+- The Marketplace page shows the pricing label "Free"; repository, issues and homepage are listed
+  under Resources.
 - Releases are packaged by a GitHub Actions workflow when a version tag is pushed: the `.vsix` is
   attached to a GitHub release and published to the Visual Studio Marketplace.
 
